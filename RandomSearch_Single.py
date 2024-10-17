@@ -115,7 +115,7 @@ def plot_results(stimuli,penalties):
 if __name__ == '__main__':
 
     trials = 5
-    num_stimuli = 4
+    num_stimuli = 8
     direction_range = [0,1,2]
     kernel_step = (2000//num_stimuli)
     iterations = 5
