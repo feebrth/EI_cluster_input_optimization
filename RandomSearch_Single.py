@@ -119,6 +119,7 @@ if __name__ == '__main__':
     direction_range = [0,1,2]
     kernel_step = (2000//num_stimuli)
     iterations = 5
+    Simulation_per_worker = 20
 
 
     #results, stimuli, best_stimulus = random_search_parallel(iterations = iterations, trials = trials, direction_range = direction_range, kernel_step = kernel_step)
@@ -128,7 +129,7 @@ if __name__ == '__main__':
     study = optuna.create_study(study_name= "RandomSearch", storage= storage_url, load_if_exists = True,
                                 direction = 'minimize', sampler = optuna.samplers.RandomSampler())
 
-    study.optimize(objective, n_trials = 5, n_jobs = 1)
+    study.optimize(objective, n_trials = Simulation_per_worker, n_jobs = 1)
 
     print(f"Best Trial: {study.best_trial.params}")
     print(f"Best Penalty: {study.best_value}")
