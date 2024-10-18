@@ -78,7 +78,7 @@ def objective(trial):
 
     stimuli = [stim1, stim2, stim3, stim4]
 
-    penalty = simulate_model(experimental_trials= 15, direction_range = [0, 1, 2], stim_kernel = stimuli, kernel_step= 500, plot = False)
+    penalty = simulate_model(experimental_trials= 15, direction_range = [0, 1, 2], stim_kernel = stimuli, kernel_step= 2000/(len(stimuli)))
 #hier Anzahl experimental trials ändern
 
 
@@ -116,14 +116,12 @@ if __name__ == '__main__':
 
     print(f"Process ID: {os.getpid()}")
 
-    trials = 5
-    num_stimuli = 4
-    direction_range = [0,1,2]
-    kernel_step = (2000//num_stimuli)
-    iterations = 5
+
+
+
     Simulation_per_worker = 5
 
-
+    # iterations = 5
     #results, stimuli, best_stimulus = random_search_parallel(iterations = iterations, trials = trials, direction_range = direction_range, kernel_step = kernel_step)
 
     #simulate_model(trials, direction_range, best_stimulus, kernel_step, plot=True)
@@ -137,10 +135,5 @@ if __name__ == '__main__':
     print(f"Best Trial: {study.best_trial.params}")
     print(f"Best Penalty: {study.best_value}")
 
-    best_params = study.best_trial.params
-    stimuli2 = [best_params['stimulus1'], best_params['stimulus2'], best_params['stimulus3'], best_params['stimulus4']]
 
-    simulate_model(trials, direction_range, stimuli2, kernel_step, plot= True)
-
-    #run_server(storage_url)
 
