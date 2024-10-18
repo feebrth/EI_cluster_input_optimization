@@ -139,9 +139,9 @@ def align_and_trim(time_line1, firing_rate1, time_line2, firing_rate2):
 
 
 
-def simulate_model(trials, direction_range, stim_kernel, kernel_step, plot = False):
+def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_step, plot = False):
     #generate timepoints and direction
-    timepoints, direction = generate_trials(trials, direction_range)
+    timepoints, direction = generate_trials(experimental_trials, direction_range)
 
     # Return timepoints and direction
     print("Timepoints:", timepoints)
@@ -274,16 +274,16 @@ def simulate_model(trials, direction_range, stim_kernel, kernel_step, plot = Fal
 
     penalty = 0
     for i,j in zip(average_firing_rate, experimental_avg_firing_rate1):
-        penalty += (i - j)**2
+        penalty += (i - j)**2 # quadratische Abweichung (square deviation) zwischen beiden Avg. fire rates
 
-    return penalty
+    return penalty # ein Wert pro Simulation
 
 
 if __name__ == "__main__":
 
 
     loss = simulate_model(
-            trials=5,  # number of trials
+            experimental_trials=5,  # number of trials
             direction_range=[0,1,2],  # direction range
             stim_kernel= np.array([0.25, 0.58374569, 0.37466387, 0.6289583]),  # Stimulus-Kernel
             kernel_step= 500, # kernel step

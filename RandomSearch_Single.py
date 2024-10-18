@@ -1,5 +1,5 @@
 import random
-
+import os
 import numpy as np
 import multiprocessing
 import matplotlib.pyplot as plt
@@ -78,8 +78,8 @@ def objective(trial):
 
     stimuli = [stim1, stim2, 0.5, 0.5]
 
-    penalty = simulate_model(trials = 5, direction_range = [0,1,2], stim_kernel = stimuli, kernel_step= 500, plot = False)
-
+    penalty = simulate_model(experimental_trials= 15, direction_range = [0, 1, 2], stim_kernel = stimuli, kernel_step= 500, plot = False)
+#hier Anzahl experimental trials ändern
 
 
     return penalty #optuna minimizes this value
@@ -114,6 +114,8 @@ def plot_results(stimuli,penalties):
 
 if __name__ == '__main__':
 
+    print(f"Process ID: {os.getpid()}")
+
     trials = 5
     num_stimuli = 8
     direction_range = [0,1,2]
@@ -125,11 +127,11 @@ if __name__ == '__main__':
     #results, stimuli, best_stimulus = random_search_parallel(iterations = iterations, trials = trials, direction_range = direction_range, kernel_step = kernel_step)
 
     #simulate_model(trials, direction_range, best_stimulus, kernel_step, plot=True)
-    storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
-    study = optuna.create_study(study_name= "RandomSearch", storage= storage_url, load_if_exists = True,
-                                direction = 'minimize', sampler = optuna.samplers.RandomSampler())
+    storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db" #brauche ich für plot skript
+    study = optuna.create_study(study_name= "RandomSearch2", storage= storage_url, load_if_exists = True,
+                                direction = 'minimize', sampler = optuna.samplers.RandomSampler()) # erstellt studie und verbindet mit sql datenbank, erstellt objekt mit dem ich mit optuna studie interagieren kann
 
-    study.optimize(objective, n_trials = Simulation_per_worker, n_jobs = 1)
+    study.optimize(objective, n_trials = Simulation_per_worker, n_jobs = 1) # nicht für plot skript
 
     print(f"Best Trial: {study.best_trial.params}")
     print(f"Best Penalty: {study.best_value}")
