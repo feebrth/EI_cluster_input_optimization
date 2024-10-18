@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 def get_exp_data(condition):
-    with open('Result_dict.pkl', 'rb') as f:
+    with open('Result_dict_extended.pkl', 'rb') as f:
         experimentally_observed = pickle.load(f)
 
     time = experimentally_observed['time_rate']
