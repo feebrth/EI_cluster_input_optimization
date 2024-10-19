@@ -44,6 +44,21 @@ from Exp_data import get_exp_data
 
 
 def generate_trials(num_trials, direction_range, start=2000, step= 3000, variation= 200):
+    """ generates a series of time points and associated directional values over a given number of trials.
+        The timepoints are spaced by a random interval that varies around a given step size. The directions are chosen
+        randomly from a provided range of values.
+
+        Input:
+        num_trials: The total number of trials to generate
+        direction_range: list of possible direction values
+        start: the starting time for the first trial in ms
+        step: the base time interval between trials in ms
+        variation: the amount of variation in ms added to the step to create random time intervals
+
+        Output:
+        timepoints: list of time points when each trial occurs
+        direction: list of randomly chosen direction values for each trial
+    """
     timepoints = []
     direction = []
 
@@ -64,7 +79,26 @@ def generate_trials(num_trials, direction_range, start=2000, step= 3000, variati
 #direction_range = [0,1,2] #nur direction 0,1 und 2
 #timepoints, direction = generate_trials(num_trials, direction_range
 
+
+
+
 def stim_amplitudes(timepoints: object, direction: object, kernel: object, kernel_step: object) -> object:
+    """ Generates timepoints for the different stimulus amplitudes for each direction based on the provided (trial start) time points and
+        directions from the generates_trials function and kernel.
+        For each unique direction, it creates a series of stimulus times and corresponding amplitudes using a predefined
+        kernel (a list of amplitude values) and a kernel step (the time difference between successive points in the kernel).
+
+        Input:
+        timepoints: list of time points when trials occur (from generate_trials function)
+        direction: list of direction values for each trial (from generate_trials function)
+        kernel: list of amplitude values to be applied for each trial
+        kernel_step: the time step in ms between each value in the kernel
+
+        Output:
+        stim_dicts: a dictionary where each key is a unique direction value, and the value is another dictionary with:
+            - 'stim_time': list of stimulus times for that direction
+            - 'stim_amps': list of corresponding stimulus amplitudes based on the kernel values and 0 after the kernel ends
+    """
     stim_dicts = {}
 
     for dir_value in set(direction):
@@ -96,6 +130,22 @@ def stim_amplitudes(timepoints: object, direction: object, kernel: object, kerne
 
 
 def trial_firing_rates(spiketimes, timepoints, kernel, dt=1):
+    """ Generates trial-specific firing rates using spike times and a kernel for smoothing.
+        For each trial, the function extracts spike times within a window around the trial timepoints
+        and applies a kernel to calculate the firing rate.
+
+        Input:
+        spiketimes: numpy array of shape (n_spikes, 2), where:
+                    - column 0 contains the spike times
+                    - column 1 contains neuron IDs (for selecting specific neurons)
+        timepoints: list of trial time points where each trial starts
+        kernel: array of values representing the kernel used for smoothing spike data
+        dt: time step in ms for generating the timeline (default is 1 ms)
+
+        Output:
+        firing_rates_array: numpy array of firing rates for each trial
+        timeline: numpy array of time values corresponding to the firing rates, centered on the trial start time
+        """
 
     firing_rates = []
 
@@ -123,6 +173,19 @@ def trial_firing_rates(spiketimes, timepoints, kernel, dt=1):
 
 
 def align_and_trim(time_line1, firing_rate1, time_line2, firing_rate2):
+    """ Aligns two timelines by their zero point and trims the firing rate arrays to have matching time windows.
+
+            Input:
+            time_line1: numpy array of time points for the first set of firing rates
+            firing_rate1: numpy array of firing rates corresponding to time_line1
+            time_line2: numpy array of time points for the second set of firing rates
+            firing_rate2: numpy array of firing rates corresponding to time_line2
+
+            Output:
+            trimmed_time_1: aligned and trimmed time points (common time window around 0)
+            trimmed_firing_rate1: firing rates for the first set, trimmed to match the common time window
+            trimmed_firing_rate2: firing rates for the second set, trimmed to match the common time window
+        """
     idx1_zero = (np.abs(time_line1 - 0)).argmin()
     idx2_zero = (np.abs(time_line2 - 0)).argmin()
 
