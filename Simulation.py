@@ -262,7 +262,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
     #Calculation of firing rates per trial
     #returns array with fire rate for each trial and corresponding timeline
 
-    firing_rates_array, time = trial_firing_rates(spiketimes, timepoints, kernel)
+    firing_rates_array, timeline = trial_firing_rates(spiketimes, timepoints, kernel)
 
     for i, rates in enumerate(firing_rates_array):
         print(f"Trial {i} has {len(rates)} firing rate points")
@@ -271,7 +271,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
     print(firing_rates_array)
 
     print("timeline:")
-    print(time)
+    print(timeline)
 
     #Average over all trials
 
@@ -281,7 +281,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
     print(average_firing_rate)
 
     print("Timeline:")
-    print(time)
+    print(timeline)
 
     #plt.plot(time, average_firing_rate, label='Average firing rate')
 
@@ -293,14 +293,20 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
     #
     # plt.show()
 
-    fi_rate, timeline = trial_firing_rates(spiketimes, timepoints, kernel)
+
     time, experimental_avg_firing_rate1 = get_exp_data(1)
 
 
     #Retrieval of experimental and simulated firing rate
     aligned_time1, aligned_firing_rate1, aligned_firing_rate2 = align_and_trim(timeline, average_firing_rate, time, experimental_avg_firing_rate1)
 
+    def calculate_penalty(aligned_firing_rate1, aligned_firing_rate2):
 
+        penalty = np.sum((aligned_firing_rate1 - aligned_firing_rate2)**2) # quadratische Abweichung (square deviation) zwischen beiden Avg. fire rates
+        return penalty  # ein Wert pro Simulation
+
+
+    penalty = calculate_penalty(aligned_firing_rate1, aligned_firing_rate2)
 
     if plot:
 
@@ -335,20 +341,16 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
         plt.show()
 
 
-    penalty = 0
-    for i,j in zip(average_firing_rate, experimental_avg_firing_rate1):
-        penalty += (i - j)**2 # quadratische Abweichung (square deviation) zwischen beiden Avg. fire rates
-
-    return penalty # ein Wert pro Simulation
+    return penalty
 
 
 if __name__ == "__main__":
 
 
     loss = simulate_model(
-            experimental_trials=5,  # number of trials
+            experimental_trials=3,  # number of trials
             direction_range=[0,1,2],  # direction range
-            stim_kernel= np.array([0.25, 0.58374569, 0.37466387, 0.6289583]),  # Stimulus-Kernel
+            stim_kernel= np.array([0.5, 0.4, 0.3, 0.2]),  # Stimulus-Kernel
             kernel_step= 500, # kernel step
             plot = True
         )
