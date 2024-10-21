@@ -341,7 +341,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
         plt.show()
 
 
-    return penalty
+   # return penalty
 
 
 if __name__ == "__main__":

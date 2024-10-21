@@ -7,7 +7,7 @@ import optuna
 import optuna
 from optuna_dashboard import run_server
 
-from Simulation import simulate_model
+from Simulation_final import simulate_model
 
 
 # def model(a):
@@ -78,9 +78,8 @@ def objective(trial):
 
     stimuli = [stim1, stim2, stim3, stim4]
 
-    penalty = simulate_model(experimental_trials= 15, direction_range = [0, 1, 2], stim_kernel = stimuli, kernel_step= 2000/(len(stimuli)))
-#hier Anzahl experimental trials ändern
-
+    penalty = simulate_model(experimental_trials= 5, direction_range = [0, 1, 2], stim_kernel = stimuli, kernel_step= 2000/(len(stimuli)))
+    #hier Anzahl experimental trials ändern
 
     return penalty #optuna minimizes this value
 
@@ -91,31 +90,30 @@ def objective(trial):
 
 
 # Code for plotting the results with stimuli and penalty values
-def plot_results(stimuli,penalties):
-
-    stimuli = np.array(stimuli)
-    penalties = np.array(results)
-
-
-    plt.scatter(stimuli[:, 0], stimuli[:, 1], c=penalties, cmap='viridis', s=20)
-
-    plt.colorbar(label="Penalty")
-    plt.xlim(0,1)
-    plt.ylim(0,1)
-
-
-    plt.xlabel('Stimulus 1')
-    plt.ylabel('Stimulus 2')
-    plt.title('Stimuli vs Penalty')
-
-
-    plt.show()
+# def plot_results(stimuli,penalties):
+#
+#     stimuli = np.array(stimuli)
+#     penalties = np.array(results)
+#
+#
+#     plt.scatter(stimuli[:, 0], stimuli[:, 1], c=penalties, cmap='viridis', s=20)
+#
+#     plt.colorbar(label="Penalty")
+#     plt.xlim(0,1)
+#     plt.ylim(0,1)
+#
+#
+#     plt.xlabel('Stimulus 1')
+#     plt.ylabel('Stimulus 2')
+#     plt.title('Stimuli vs Penalty')
+#
+#
+#     plt.show()
 
 
 if __name__ == '__main__':
 
     print(f"Process ID: {os.getpid()}")
-
 
 
 
@@ -128,7 +126,7 @@ if __name__ == '__main__':
     storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
     study = optuna.create_study(study_name= "RandomSearch3", storage= storage_url, load_if_exists = True,
                                 direction = 'minimize', sampler = optuna.samplers.RandomSampler())
- # erstellt studie und verbindet mit sql datenbank, erstellt objekt mit dem ich mit optuna studie interagieren kann
+    # erstellt studie und verbindet mit sql datenbank, erstellt objekt mit dem ich mit optuna studie interagieren kann
 
     study.optimize(objective, n_trials = Simulation_per_worker, n_jobs = 1)
 
