@@ -7,8 +7,8 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
-#SBATCH --mem=2G
-#SBATCH --time=02:00:00
+#SBATCH --mem=3G
+#SBATCH --time=03:00:00
 
 # Load necessary modules
 module load python3/anaconda3-2024.06-py3.12
