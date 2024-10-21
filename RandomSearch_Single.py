@@ -128,7 +128,7 @@ if __name__ == '__main__':
                                 direction = 'minimize', sampler = optuna.samplers.RandomSampler())
     # erstellt studie und verbindet mit sql datenbank, erstellt objekt mit dem ich mit optuna studie interagieren kann
 
-    RS_4.optimize(objective, n_trials = Simulation_per_worker, n_jobs = 1)
+    study.optimize(objective, n_trials = Simulation_per_worker, n_jobs = 1)
 
     print(f"Best Trial: {study.best_trial.params}")
     print(f"Best Penalty: {study.best_value}")
