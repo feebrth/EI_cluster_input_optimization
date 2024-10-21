@@ -1,4 +1,4 @@
-from Simulation import simulate_model
+from Simulation_final import simulate_model
 import optuna
 
 trials = 5

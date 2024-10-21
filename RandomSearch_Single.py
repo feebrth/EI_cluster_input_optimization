@@ -78,7 +78,7 @@ def objective(trial):
 
     stimuli = [stim1, stim2, stim3, stim4]
 
-    penalty = simulate_model(experimental_trials= 5, direction_range = [0, 1, 2], stim_kernel = stimuli, kernel_step= 2000/(len(stimuli)))
+    penalty = simulate_model(experimental_trials= 60, direction_range = [0, 1, 2], stim_kernel = stimuli, kernel_step= 2000/(len(stimuli)))
     #hier Anzahl experimental trials ändern
 
     return penalty #optuna minimizes this value
@@ -117,18 +117,18 @@ if __name__ == '__main__':
 
 
 
-    Simulation_per_worker = 5
+    Simulation_per_worker = 20
 
     # iterations = 5
     #results, stimuli, best_stimulus = random_search_parallel(iterations = iterations, trials = trials, direction_range = direction_range, kernel_step = kernel_step)
 
     #simulate_model(trials, direction_range, best_stimulus, kernel_step, plot=True)
     storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
-    study = optuna.create_study(study_name= "RandomSearch3", storage= storage_url, load_if_exists = True,
+    RS_4 = optuna.create_study(study_name= "RandomSearch_4_Stimuli", storage= storage_url, load_if_exists = True,
                                 direction = 'minimize', sampler = optuna.samplers.RandomSampler())
     # erstellt studie und verbindet mit sql datenbank, erstellt objekt mit dem ich mit optuna studie interagieren kann
 
-    study.optimize(objective, n_trials = Simulation_per_worker, n_jobs = 1)
+    RS_4.optimize(objective, n_trials = Simulation_per_worker, n_jobs = 1)
 
     print(f"Best Trial: {study.best_trial.params}")
     print(f"Best Penalty: {study.best_value}")
