@@ -246,7 +246,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
         plt.ylabel('Firing Rate (spikes/s)')
         plt.title(f'Stimulus: {stim_kernel}')
         plt.legend()
-        plt.savefig("Optimized_Stimulus")
+        plt.savefig("Optimized_Stimulus_GP4")
 
     return penalty
 
