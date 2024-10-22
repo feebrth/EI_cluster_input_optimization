@@ -8,7 +8,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=3G
-#SBATCH --time=02:59:00
+#SBATCH --time=05:00:00
 
 # Load necessary modules
 module load python3/anaconda3-2024.06-py3.12
@@ -18,4 +18,4 @@ conda activate Nest3
 
 
 # Run the Python script
-python RandomSearch_Single.py
+python Optuna_8_Stimuli.py
