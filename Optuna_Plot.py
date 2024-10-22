@@ -8,7 +8,7 @@ kernel_step = (2000 // num_stimuli)
 
 
 storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
-study = optuna.create_study(study_name="CmaEs_8", storage=storage_url, load_if_exists=True,
+study = optuna.create_study(study_name="GP_8", storage=storage_url, load_if_exists=True,
                             direction='minimize',
                             sampler=optuna.samplers.RandomSampler())  # erstellt studie und verbindet mit sql datenbank, erstellt objekt mit dem ich mit optuna studie interagieren kann
 
