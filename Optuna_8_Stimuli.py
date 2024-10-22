@@ -44,10 +44,12 @@ if __name__ == '__main__':
     #simulate_model(trials, direction_range, best_stimulus, kernel_step, plot=True)
     storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
     study = optuna.create_study(study_name= "CmaEs_8", storage= storage_url, load_if_exists = True,
-                                direction = 'minimize', sampler = optuna.samplers.CmaEsSampler())
+                                direction = 'minimize', sampler = optuna.samplers.GPSampler())
     # erstellt studie und verbindet mit sql datenbank, erstellt objekt mit dem ich mit optuna studie interagieren kann
 
     study.optimize(objective, n_trials = Simulation_per_worker, n_jobs = 1)
 
     print(f"Best Trial: {study.best_trial.params}")
     print(f"Best Penalty: {study.best_value}")
+
+#optuna.samplers.CmaEsSampler()
