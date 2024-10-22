@@ -316,7 +316,7 @@ def lv(spiketimes,min_vals=20):
     else:
         return np.nan
     
-def gaussian_kernel(sigma,dt = 0.1.,nstd=3.):
+def gaussian_kernel(sigma,dt = 1.,nstd=3.):
     """ returns a gaussian kernel with standard deviation sigma.
         sigma:  standard deviation of the kernel
         dt:     time resolution
