@@ -42,6 +42,7 @@ from stimulus_params_EI import stim_dict
 from Exp_data import get_exp_data
 
 
+
 # Section 1: Data Generation Functions
 def generate_trials(num_trials, direction_range, start=2000, step=3000, variation=200):
     """
@@ -183,7 +184,8 @@ def calculate_penalty(average_firing_rate, experimental_avg_firing_rate1):
 
 
 # Section 4: Main Simulation Function
-def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_step, plot=False):
+def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_step,
+                   plot=False, num_stimuli = 12, best_penalty = None):
     """
     Runs the simulation model, calculates firing rates, compares to experimental data, and plots results if enabled.
 
@@ -244,8 +246,12 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
         plt.plot(aligned_time1, aligned_firing_rate2, color='red', label='Experimental Firing Rate')
         plt.xlabel('Time (ms)')
         plt.ylabel('Firing Rate (spikes/s)')
+
+        if best_penalty is None:
+            best_penalty = penalty
+
         plt.title(f"Optimization: CMA-ES, Tested Stimuli: {num_stimuli}, Best value: {best_penalty:.4f}")
-        plt.figtext(0.99, 0.01, f"Stimuli: {stimuli2}", horizontalalignment='right', fontsize=8)
+        plt.figtext(0.99, 0.01, f"Stimuli: {stim_kernel}", horizontalalignment='right', fontsize=8)
         plt.legend()
         plt.savefig(f"Optimized_CmaEs_{num_stimuli}_value_{best_penalty:.4f}.png")
 
