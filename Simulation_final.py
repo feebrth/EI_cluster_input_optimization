@@ -251,7 +251,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
             best_penalty = penalty
 
         plt.title(f"Optimization: CMA-ES, Tested Stimuli: {num_stimuli}, Best value: {best_penalty:.4f}")
-        plt.figtext(0.99, 0.01, f"Stimuli: {stim_kernel}", horizontalalignment='right', fontsize=8)
+
         plt.legend()
         plt.savefig(f"Optimized_CmaEs_{num_stimuli}_value_{best_penalty:.4f}.png")
 
