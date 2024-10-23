@@ -244,9 +244,11 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
         plt.plot(aligned_time1, aligned_firing_rate2, color='red', label='Experimental Firing Rate')
         plt.xlabel('Time (ms)')
         plt.ylabel('Firing Rate (spikes/s)')
-        plt.title(f'Stimulus: {stim_kernel}')
+        plt.title(f"Optimization: CMA-ES, Tested Stimuli: {num_stimuli}, Best value: {best_penalty:.4f}")
+        plt.figtext(0.99, 0.01, f"Stimuli: {stimuli2}", horizontalalignment='right', fontsize=8)
         plt.legend()
-        plt.savefig("Optimized_CmaEs_12")
+        plt.savefig(f"Optimized_CmaEs_{num_stimuli}_value_{best_penalty:.4f}.png")
+
 
     return penalty
 
