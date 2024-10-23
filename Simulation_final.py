@@ -253,7 +253,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
         plt.title(f"Optimization: GP, Tested Stimuli: {num_stimuli}, Best value: {best_penalty:.4f}")
 
         plt.legend()
-        plt.savefig(f"Optimized_CmaEs_{num_stimuli}_value_{best_penalty:.4f}.png")
+        plt.savefig(f"Optimized_GP_50sim_{num_stimuli}_value_{best_penalty:.4f}.png")
 
 
     return penalty
