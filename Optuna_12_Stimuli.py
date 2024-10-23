@@ -27,8 +27,9 @@ def objective(trial):
     stim12 = trial.suggest_uniform('stimulus12', 0, 1)
 
     stimuli = [stim1, stim2, stim3, stim4,stim5,stim6,stim7,stim8,stim9,stim10,stim11,stim12]
+    num_stimuli = len(stimuli)
 
-    penalty = simulate_model(experimental_trials= 60, direction_range = [0, 1, 2], stim_kernel = stimuli, kernel_step= round(2000/(len(stimuli))))
+    penalty = simulate_model(experimental_trials= 60, direction_range = [0, 1, 2], stim_kernel = stimuli, kernel_step= round(2000/(len(stimuli))), num_stimuli = len(stimuli))
     #hier Anzahl experimental trials ändern
 
     return penalty #optuna minimizes this value
