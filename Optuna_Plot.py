@@ -3,12 +3,12 @@ import optuna
 
 trials = 60
 direction_range = [0,1,2]
-num_stimuli = 8
+num_stimuli = 12
 kernel_step = (2000 // num_stimuli)
 
 
 storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
-study = optuna.create_study(study_name="GP_8", storage=storage_url, load_if_exists=True,
+study = optuna.create_study(study_name="GP_12", storage=storage_url, load_if_exists=True,
                             direction='minimize',
                             sampler=optuna.samplers.GPSampler())  # erstellt studie und verbindet mit sql datenbank, erstellt objekt mit dem ich mit optuna studie interagieren kann
 

@@ -8,7 +8,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=4G
-#SBATCH --time=12:00:00
+#SBATCH --time=20:00:00
 
 # Load necessary modules
 module load python3/anaconda3-2024.06-py3.12
@@ -18,4 +18,4 @@ conda activate Nest3
 
 
 # Run the Python script
-python Optuna_8_Stimuli.py
+python Optuna_12_Stimuli.py

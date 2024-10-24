@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
 
 
-    Simulation_per_worker = 50
+    Simulation_per_worker = 100
 
     # iterations = 5
     #results, stimuli, best_stimulus = random_search_parallel(iterations = iterations, trials = trials, direction_range = direction_range, kernel_step = kernel_step)
