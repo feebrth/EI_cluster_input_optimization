@@ -119,7 +119,7 @@ def plot_fano_factors(avg_fano_factor_curve, time_axis):
     plt.ylabel("Average Fano Factor")
     plt.title("Average Fano Factor over Time")
     plt.legend()
-    plt.show()
+    plt.savefig(f"FF_opti.png")
 
 
 
