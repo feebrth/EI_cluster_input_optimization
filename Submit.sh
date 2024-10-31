@@ -18,4 +18,4 @@ conda activate Nest3
 
 
 # Run the Python script
-python Optuna_12_Stimuli.py
+python Optuna_24_Stimuli.py
