@@ -209,7 +209,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
 
     # Create and run the EI clustered network
     ei_network = network.ClusteredNetwork(sim_dict, net_dict, stim_dict)
-    result = ei_network.get_simulation()
+    result = ei_network.get_simulation() #get_simulation calculates spike-tiemes and neuron IDs
 
     # Calculate firing rates per trial
     spiketimes = result["spiketimes"].T
@@ -253,7 +253,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
         plt.title(f"Optimization: GP, Tested Stimuli: {num_stimuli}, Best value: {best_penalty:.4f}")
 
         plt.legend()
-        plt.savefig(f"Optimized_GP_2200sim_{num_stimuli}_value_{best_penalty:.4f}.png")
+        plt.savefig(f"Optimized_GP_{num_stimuli}_value_{best_penalty:.4f}.png")
 
 
     return penalty
