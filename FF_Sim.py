@@ -135,7 +135,7 @@ def plot_fano_factors(avg_fano_factor_curve, time_axis, exp_time, exp_ff):
     plt.title("Fano Factor Comparison: Simulation vs Experiment")
     plt.legend()
     plt.savefig("FF_comparison.png")
-    plt.show()
+
 
 
 def plot_stimulus_kernel(stim_kernel, kernel_step):
@@ -147,7 +147,7 @@ def plot_stimulus_kernel(stim_kernel, kernel_step):
     plt.xlabel("Time (ms)")
     plt.ylabel("Stimulus Amplitude")
     plt.title("Stimulus Kernel Amplitudes Over Time")
-    plt.show()
+    plt.savefig("Stim_amplitudes")
 
 
 
