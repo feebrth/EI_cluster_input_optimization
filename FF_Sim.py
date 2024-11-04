@@ -122,6 +122,17 @@ def plot_fano_factors(avg_fano_factor_curve, time_axis):
     plt.savefig(f"FF_opti_24.png")
 
 
+def plot_stimulus_kernel(stim_kernel, kernel_step):
+    """Plots the given stimulus kernel as a bar chart with a time axis."""
+    time_points = np.arange(0, len(stim_kernel) * kernel_step, kernel_step)  # Zeitpunkte in ms für jeden Stimulus
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(time_points, stim_kernel, width=kernel_step, color='skyblue', align='edge')
+    plt.xlabel("Time (ms)")
+    plt.ylabel("Stimulus Amplitude")
+    plt.title("Stimulus Kernel Amplitudes Over Time")
+    plt.show()
+
 
 
 
@@ -248,16 +259,24 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
 
 # Run the simulation
 if __name__ == "__main__":
+    stim_kernel = np.array([0.21799755524146394, 0.7465940659178374, 0.5445673349710587, 0.3233604287043149,
+                            0.33339708690904063, 0.3076231945321583, 0.3261545541369318, 0.2763110424131106,
+                            0.3722823914045572, 0.40977055757756575, 0.36313810569091065, 0.38629283567642636,
+                            0.3540581714914624, 0.21577296619757869, 0.18168249273716844, 0.0,
+                            0.0, 0.0, 0.32404642647104503, 0.5332587489610445, 0.9032086833422716, 1.0,
+                            0.9999999999999999, 1.0
+                            ]),  # Stimulus-Kernel
+    kernel_step = 2000 // len(stim_kernel)  # kernel step 167 ms pro stimulus
+
+
     simulate_model(
         experimental_trials= 5,  # number of trials
         direction_range=[0, 1, 2],  # direction range
-        stim_kernel=np.array([0.21799755524146394, 0.7465940659178374, 0.5445673349710587, 0.3233604287043149,
-                              0.33339708690904063, 0.3076231945321583, 0.3261545541369318, 0.2763110424131106,
-                              0.3722823914045572, 0.40977055757756575, 0.36313810569091065, 0.38629283567642636,
-                              0.3540581714914624, 0.21577296619757869, 0.18168249273716844, 0.0,
-                              0.0, 0.0, 0.32404642647104503, 0.5332587489610445, 0.9032086833422716, 1.0,
-                              0.9999999999999999, 1.0
-                              ]),  # Stimulus-Kernel
-        kernel_step= 2000//24,  # kernel step 167 ms pro stimulus
+        stim_kernel= stim_kernel,
+        kernel_step= kernel_step,  # kernel step 167 ms pro stimulus
         plot=True
     )
+
+
+    plot_stimulus_kernel(stim_kernel)
+
