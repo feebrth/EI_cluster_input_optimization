@@ -119,7 +119,7 @@ def plot_fano_factors(avg_fano_factor_curve, time_axis):
     plt.ylabel("Average Fano Factor")
     plt.title("Average Fano Factor over Time")
     plt.legend()
-    plt.savefig(f"FF_opti.png")
+    plt.savefig(f"FF_opti_24.png")
 
 
 
@@ -251,9 +251,13 @@ if __name__ == "__main__":
     simulate_model(
         experimental_trials= 5,  # number of trials
         direction_range=[0, 1, 2],  # direction range
-        stim_kernel=np.array([0.4000331873740433, 0.4721548317794393, 0.2862214498669786, 0.26492405767086835,
-                              0.3643699894838586, 0.4197222604716706, 0.26557664779830137, 0.058329996453807736,
-                              0.0, 0.42674567043483264, 1.0, 1.0]),  # Stimulus-Kernel
-        kernel_step= 2000//12,  # kernel step 167 ms pro stimulus
+        stim_kernel=np.array([0.21799755524146394, 0.7465940659178374, 0.5445673349710587, 0.3233604287043149,
+                              0.33339708690904063, 0.3076231945321583, 0.3261545541369318, 0.2763110424131106,
+                              0.3722823914045572, 0.40977055757756575, 0.36313810569091065, 0.38629283567642636,
+                              0.3540581714914624, 0.21577296619757869, 0.18168249273716844, 0.0,
+                              0.0, 0.0, 0.32404642647104503, 0.5332587489610445, 0.9032086833422716, 1.0,
+                              0.9999999999999999, 1.0
+                              ]),  # Stimulus-Kernel
+        kernel_step= 2000//24,  # kernel step 167 ms pro stimulus
         plot=True
     )
