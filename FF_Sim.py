@@ -124,7 +124,7 @@ def plot_fano_factors(avg_fano_factor_curve, time_axis, exp_time, exp_ff):
     plt.title("Fano Factor Comparison: Simulation vs Experiment")
     plt.legend()
     plt.savefig("FF_comparison.png")
-    plt.show()
+
 
 
 
@@ -137,7 +137,7 @@ def plot_stimulus_kernel(stim_kernel, kernel_step):
     plt.xlabel("Time (ms)")
     plt.ylabel("Stimulus Amplitude")
     plt.title("Stimulus Kernel Amplitudes Over Time")
-    plt.show()
+
 
 
 
@@ -167,16 +167,15 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
 # Run the simulation
 if __name__ == "__main__":
 
-    stim_kernel = np.array([0.21799755524146394, 0.7465940659178374, 0.5445673349710587, 0.3233604287043149,
-                            0.33339708690904063, 0.3076231945321583, 0.3261545541369318, 0.2763110424131106,
-                            0.3722823914045572, 0.40977055757756575, 0.36313810569091065, 0.38629283567642636,
-                            0.3540581714914624, 0.21577296619757869, 0.18168249273716844, 0.0,
-                            0.0, 0.0, 0.32404642647104503, 0.5332587489610445, 0.9032086833422716, 1.0,
-                            0.9999999999999999, 1.0])
+    stim_kernel = np.array([0.17312816364086267, 0.8259290941384977, 0.44182977675232843,  0.3558826809260373,
+                            0.2856217738814025,  0.3040297739070603,  0.2366001890107655,  0.2472914682618193,
+                            0.3150498635199546, 0.3790337694745662, 0.36722502142689295, 0.39463791746376475,
+                            0.2633404217765265,  0.32753879091207094,  0.12843437450070974,  0.0,  0.0,  0.0,
+                            0.3216556491748419,  0.49706313013206366,  1.0,  1.0,  1.0,  1.0])
     kernel_step = 2000 // len(stim_kernel)  # 167 ms pro Stimulus
 
     simulate_model(
-        experimental_trials= 5,  # Anzahl der Trials
+        experimental_trials= 60,  # Anzahl der Trials
         direction_range=[0, 1, 2],
         stim_kernel=stim_kernel,
         kernel_step=kernel_step,
