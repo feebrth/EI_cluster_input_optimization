@@ -10,8 +10,21 @@ from helper_EI import raster_plot
 from network_params_EI import net_dict
 from sim_params_EI import sim_dict
 from stimulus_params_EI import stim_dict
-from Exp_data import get_exp_data_ff  # Funktion zum Laden der experimentellen Daten importieren
+from Exp_data import get_exp_data_ff
+import optuna
 
+
+# Zugriff auf die Optuna-Studie
+storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
+study_name = "GP_24"
+study = optuna.load_study(study_name=study_name, storage=storage_url)
+
+# Hole die besten Parameter aus der Datenbank
+best_trial = study.best_trial
+best_params = best_trial.params
+num_stimuli = 24
+stim_kernel = [best_params[f'stimulus{i+1}'] for i in range(num_stimuli)]
+kernel_step = 2000 // num_stimuli  # Zeitabstand zwischen Stimuli in ms
 
 
 
@@ -28,8 +41,6 @@ def generate_trials(num_trials, direction_range, start=2000, step=3000, variatio
         time += random_step
 
     return timepoints, direction
-
-
 
 def stim_amplitudes(timepoints, direction, kernel, kernel_step):
     stim_dicts = {}
@@ -50,6 +61,7 @@ def stim_amplitudes(timepoints, direction, kernel, kernel_step):
     return stim_dicts
 
 
+import numpy as np
 
 def FF_across_all_directions_and_neurons(spiketimes, timepoints, directions, direction_range, window_size=400, step_size=100):
     fano_factors_across_all_windows = []  # Speichert den Durchschnitt des Fano-Faktors für jedes Zeitfenster
@@ -115,6 +127,7 @@ def FF_across_all_directions_and_neurons(spiketimes, timepoints, directions, dir
 
 
 
+
 def plot_fano_factors(avg_fano_factor_curve, time_axis, exp_time, exp_ff):
     plt.figure()
     plt.plot(time_axis, avg_fano_factor_curve, label='Simulated Fano Factor')
@@ -124,7 +137,6 @@ def plot_fano_factors(avg_fano_factor_curve, time_axis, exp_time, exp_ff):
     plt.title("Fano Factor Comparison: Simulation vs Experiment")
     plt.legend()
     plt.savefig("FF_comparison.png")
-    plt.show()
 
 
 
@@ -137,7 +149,8 @@ def plot_stimulus_kernel(stim_kernel, kernel_step):
     plt.xlabel("Time (ms)")
     plt.ylabel("Stimulus Amplitude")
     plt.title("Stimulus Kernel Amplitudes Over Time")
-    plt.show()
+    plt.savefig("Stim_amplitudes")
+
 
 
 
@@ -162,19 +175,15 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
 
     return None
 
+    # Get experimental Fano Factors
+   # time, exp_fano_factors = get_exp_data_ff(1)  # Ensure this returns a dictionary of Fano factors
+
 
 
 # Run the simulation
+
+# Run the simulation
 if __name__ == "__main__":
-
-    stim_kernel = np.array([0.21799755524146394, 0.7465940659178374, 0.5445673349710587, 0.3233604287043149,
-                            0.33339708690904063, 0.3076231945321583, 0.3261545541369318, 0.2763110424131106,
-                            0.3722823914045572, 0.40977055757756575, 0.36313810569091065, 0.38629283567642636,
-                            0.3540581714914624, 0.21577296619757869, 0.18168249273716844, 0.0,
-                            0.0, 0.0, 0.32404642647104503, 0.5332587489610445, 0.9032086833422716, 1.0,
-                            0.9999999999999999, 1.0])
-    kernel_step = 2000 // len(stim_kernel)  # 167 ms pro Stimulus
-
     simulate_model(
         experimental_trials= 60,  # Anzahl der Trials
         direction_range=[0, 1, 2],
@@ -185,5 +194,3 @@ if __name__ == "__main__":
 
     # Stimulus-Kernel plotten
     plot_stimulus_kernel(stim_kernel, kernel_step)
-
-
