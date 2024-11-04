@@ -35,8 +35,6 @@ if __name__ == "__main__":
     print(get_exp_data(1))
 
     plt.plot(get_exp_data_ff(1)[1])
-    plt.plot(get_exp_data_ff(2)[1])
-    plt.plot(get_exp_data_ff(3)[1])
     plt.show()
     # time = experimentally_observed['time_rate']
     # firing_rate_1 = experimentally_observed[1]['rate']

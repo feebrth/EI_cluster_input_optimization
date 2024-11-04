@@ -11,6 +11,20 @@ from network_params_EI import net_dict
 from sim_params_EI import sim_dict
 from stimulus_params_EI import stim_dict
 from Exp_data import get_exp_data_ff
+import optuna
+
+
+# Zugriff auf die Optuna-Studie
+storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
+study_name = "GP_24"
+study = optuna.load_study(study_name=study_name, storage=storage_url)
+
+# Hole die besten Parameter aus der Datenbank
+best_trial = study.best_trial
+best_params = best_trial.params
+num_stimuli = 24
+stim_kernel = [best_params[f'stimulus{i+1}'] for i in range(num_stimuli)]
+kernel_step = 2000 // num_stimuli  # Zeitabstand zwischen Stimuli in ms
 
 # Section 1: Data Generation Functions
 def generate_trials(num_trials, direction_range, start=2000, step=3000, variation=200):
@@ -112,14 +126,16 @@ def FF_across_all_directions_and_neurons(spiketimes, timepoints, directions, dir
 
 
 
-def plot_fano_factors(avg_fano_factor_curve, time_axis):
+def plot_fano_factors(avg_fano_factor_curve, time_axis, exp_time, exp_ff):
     plt.figure()
-    plt.plot(time_axis, avg_fano_factor_curve, label='Average Fano Factor across all directions')
+    plt.plot(time_axis, avg_fano_factor_curve, label='Simulated Fano Factor')
+    plt.plot(exp_time, exp_ff, label='Experimental Fano Factor', linestyle='--')
     plt.xlabel("Time (ms)")
-    plt.ylabel("Average Fano Factor")
-    plt.title("Average Fano Factor over Time")
+    plt.ylabel("Fano Factor")
+    plt.title("Fano Factor Comparison: Simulation vs Experiment")
     plt.legend()
-    plt.savefig(f"FF_opti_24.png")
+    plt.savefig("FF_comparison.png")
+    plt.show()
 
 
 def plot_stimulus_kernel(stim_kernel, kernel_step):
@@ -136,68 +152,7 @@ def plot_stimulus_kernel(stim_kernel, kernel_step):
 
 
 
-# Example usage
-# avg_fano_factors_over_time, time_axis = FF_per_direction(spiketimes, timepoints, directions, direction_range)
-# plot_fano_factors(avg_fano_factors_over_time, time_axis)
-
-
-# def align_and_trim(time_line1, ff_1, time_line2, ff_2):
-#     """
-#     Aligns two timelines by their zero point and trims the firing rate arrays to have matching time windows.
-#
-#     Inputs:
-#         time_line1: Time points for the first set of firing rates
-#         firing_rate1: Simulated FFs corresponding to time_line1
-#         time_line2: Time points for the experimental set of FFs
-#         firing_rate2: Experimental FFs corresponding to time_line2
-#
-#     Returns:
-#         trimmed_time_1: Aligned and trimmed time points
-#         trimmed_ff_1: FF for the first set, trimmed to match the common time window
-#         trimmed_ff_2: FF for the second set, trimmed to match the common time window
-#     """
-#     idx1_zero = (np.abs(time_line1 - 0)).argmin()
-#     idx2_zero = (np.abs(time_line2 - 0)).argmin()
-#
-#     max_left = min(idx1_zero, idx2_zero)
-#     max_right = min(len(time_line1) - idx1_zero, len(time_line2) - idx2_zero)
-#
-#     trimmed_time_1 = time_line1[idx1_zero - max_left: idx1_zero + max_right]
-#     trimmed_ff_1 = ff_1[idx1_zero - max_left: idx1_zero + max_right]
-#     trimmed_ff_2 = ff_2[idx2_zero - max_left: idx2_zero + max_right]
-#
-#     return trimmed_time_1, trimmed_ff_1, trimmed_ff_2
-#
-# # Section 3: Penalty Calculation
-# def calculate_penalty(avg_fano_factors_per_direction, experimental_avg_firing_rate1):
-#     """
-#     Calculates the penalty as the squared deviation between the simulated and experimental average firing rates.
-#
-#     Inputs:
-#         average_firing_rate: Simulated average firing rate
-#         experimental_avg_firing_rate1: Experimental average firing rate
-#
-#     Returns:
-#         penalty: Squared deviation between the two firing rates
-#     """
-#     penalty = np.sum((average_firing_rate - experimental_avg_firing_rate1) ** 2)
-#     return penalty
-#
-#
-#
-# def compare_fano_factors(sim_fano_factors, exp_fano_factors):
-#     common_directions = set(sim_fano_factors.keys()).intersection(exp_fano_factors.keys())
-#     sim_fano_list = [sim_fano_factors[direction] for direction in common_directions]
-#     exp_fano_list = [exp_fano_factors[direction] for direction in common_directions]
-#
-#     min_len = min(len(sim_fano_list), len(exp_fano_list))
-#     sim_fano_list = sim_fano_list[:min_len]
-#     exp_fano_list = exp_fano_list[:min_len]
-#
-#     penalty = np.sum((np.array(sim_fano_list) - np.array(exp_fano_list)) ** 2)
-#     return penalty
-
-def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_step, plot=False, num_stimuli=12, best_penalty=None):
+def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_step, plot=False):
     timepoints, direction = generate_trials(experimental_trials, direction_range)
     stim_dicts = stim_amplitudes(timepoints, direction, stim_kernel, kernel_step)
     stim_dict['experiment_stim'] = stim_dicts
@@ -207,76 +162,56 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
     result = ei_network.get_simulation()
 
     spiketimes = result["spiketimes"].T
-    window_size = 400  # Size of the window for Fano Factor calculation
+    window_size = 400
 
-    # Berechnung des durchschnittlichen Fano-Faktors über alle Neuronen und Richtungen
+    # Fano-Faktor berechnen
     avg_fano_factor_curve, time_axis = FF_across_all_directions_and_neurons(spiketimes, timepoints, direction, direction_range)
 
-    # Plotten
-    plot_fano_factors(avg_fano_factor_curve, time_axis)
+    # Experimentelle Daten laden und plotten
+    exp_time, exp_ff = get_exp_data_ff(1)
+    plot_fano_factors(avg_fano_factor_curve, time_axis, exp_time, exp_ff)
 
     return None
-
-
 
     # Get experimental Fano Factors
    # time, exp_fano_factors = get_exp_data_ff(1)  # Ensure this returns a dictionary of Fano factors
 
-    # Compare Fano Factors
-    #penalty = compare_fano_factors(sim_fano_factors_per_direction, exp_fano_factors)
-    #print(f"Penalty for stimulus {stim_kernel} is: {penalty}")
-
-    # Plot results if needed
-    # if plot:
-    #     ax = raster_plot(
-    #         result["spiketimes"],
-    #         tlim=(0, sim_dict["simtime"]),
-    #         colorgroups=[
-    #             ("k", 0, net_dict["N_E"]),
-    #             ("darkred", net_dict["N_E"], net_dict["N_E"] + net_dict["N_I"]),
-    #         ],
-    #     )
-    #     plt.figure()
-    #     for direction, fano_value in sim_fano_factors_per_direction.items():
-    #         plt.bar(direction, fano_value, color='blue', alpha=0.6,
-    #                 label='Simulated Fano Factor' if direction == list(sim_fano_factors_per_direction.keys())[0] else "")
-    #     for direction, fano_value in exp_fano_factors.items():
-    #         plt.bar(direction, fano_value, color='red', alpha=0.6,
-    #                 label='Experimental Fano Factor' if direction == list(exp_fano_factors.keys())[0] else "")
-    #
-    #     plt.xlabel('Direction')
-    #     plt.ylabel('Fano Factor')
-    #
-    #     if best_penalty is None:
-    #         best_penalty = penalty
-    #     plt.title(f"Optimization: GP, Tested Stimuli: {num_stimuli}, Best value: {best_penalty:.4f}")
-    #
-    #     plt.legend()
-    #     plt.savefig(f"Optimized_GP_Fano_Factor_{num_stimuli}_value_{best_penalty:.4f}.png")
-    #
-    # return None
 
 
 # Run the simulation
+
+# Run the simulation
 if __name__ == "__main__":
-    stim_kernel = np.array([0.21799755524146394, 0.7465940659178374, 0.5445673349710587, 0.3233604287043149,
-                            0.33339708690904063, 0.3076231945321583, 0.3261545541369318, 0.2763110424131106,
-                            0.3722823914045572, 0.40977055757756575, 0.36313810569091065, 0.38629283567642636,
-                            0.3540581714914624, 0.21577296619757869, 0.18168249273716844, 0.0,
-                            0.0, 0.0, 0.32404642647104503, 0.5332587489610445, 0.9032086833422716, 1.0,
-                            0.9999999999999999, 1.0
-                            ]),  # Stimulus-Kernel
-    kernel_step = 2000 // len(stim_kernel)  # kernel step 167 ms pro stimulus
-
-
     simulate_model(
-        experimental_trials= 5,  # number of trials
-        direction_range=[0, 1, 2],  # direction range
-        stim_kernel= stim_kernel,
-        kernel_step= kernel_step,  # kernel step 167 ms pro stimulus
+        experimental_trials=5,  # Anzahl der Trials
+        direction_range=[0, 1, 2],
+        stim_kernel=stim_kernel,
+        kernel_step=kernel_step,
         plot=True
     )
 
+    # Stimulus-Kernel plotten
+    plot_stimulus_kernel(stim_kernel, kernel_step)
 
-    plot_stimulus_kernel(stim_kernel)
+# if __name__ == "__main__":
+#     stim_kernel = np.array([0.20057990385790678, 0.766933870273806, 0.49299924316434895, 0.3968231136117629,
+#                             0.2984023020766158, 0.3255900448286049, 0.2895529113368749, 0.29148661480151017,
+#                             0.2867259576433298, 0.379504862391904, 0.40067351679593494, 0.37607478912404085,
+#                             0.3298238546973764, 0.2556063284235182, 0.13796165170789665, 0.0,
+#                             0.0, 0.0, 0.2337690564303392, 0.6298543832914619, 0.9425219928526359, 1.0,
+#                             1.0, 1.0
+#                             ])  # Stimulus-Kernel
+#     kernel_step = 2000 // len(stim_kernel)  # kernel step 167 ms pro stimulus
+#
+#
+#     simulate_model(
+#         experimental_trials= 5,  # number of trials
+#         direction_range=[0, 1, 2],  # direction range
+#         stim_kernel= stim_kernel,
+#         kernel_step= kernel_step,  # kernel step 167 ms pro stimulus
+#         plot=True
+#     )
+#
+#
+#     plot_stimulus_kernel(stim_kernel, kernel_step)
 
