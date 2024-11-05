@@ -154,7 +154,7 @@ if __name__ == "__main__":
     kernel_step = 2000 // len(stim_kernel)  # 167 ms pro Stimulus
 
     simulate_model(
-        experimental_trials= 5,  # Anzahl der Trials
+        experimental_trials= 60,  # Anzahl der Trials
         direction_range=[0, 1, 2],
         stim_kernel=stim_kernel,
         kernel_step=kernel_step,
