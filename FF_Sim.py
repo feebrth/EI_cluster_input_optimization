@@ -50,69 +50,48 @@ def stim_amplitudes(timepoints, direction, kernel, kernel_step):
     return stim_dicts
 
 
+def FF_across_all_directions_and_neurons_optimized(spiketimes, timepoints, directions, direction_range, window_size=400,
+                                                   step_size=100):
+    fano_factors_across_all_windows = []
+    time_axis = np.arange(-500 + window_size / 2, 2500 - window_size / 2 + 1, step_size)
 
-def FF_across_all_directions_and_neurons(spiketimes, timepoints, directions, direction_range, window_size=400, step_size=100):
-    fano_factors_across_all_windows = []  # Speichert den Durchschnitt des Fano-Faktors für jedes Zeitfenster
-    time_axis = None  # Initialize to None; will be set only once
-
-    # Define offsets for each trial start and end
     trial_start_offset = -500
     trial_end_offset = 2500
-
-    # Precompute unique neuron IDs outside the loop for efficiency
     unique_neurons = np.unique(spiketimes[:, 1])
 
-    for window_start in np.arange(trial_start_offset, trial_end_offset - window_size + 1, step_size):
-        fano_factors_for_all_directions = []  # Speichert Fano-Faktoren für alle Richtungen in diesem Fenster
+    # Organisiere Zeitfenster-Indizes
+    windows = np.arange(trial_start_offset, trial_end_offset - window_size + 1, step_size)
+
+    # Precompute spike counts for each neuron and direction in each window
+    for window_start in windows:
+        fano_factors_for_all_directions = []
 
         for dir_value in direction_range:
-            # Retrieve start times of trials for the current direction
             relevant_trials = [timepoints[i] for i, d in enumerate(directions) if d == dir_value]
-
-            # Für jedes Neuron, sammeln wir die Spike-Zählungen über alle Trials
             spike_counts_per_neuron = {neuron: [] for neuron in unique_neurons}
 
-            for trial_start in relevant_trials:
-                # Define actual window start and end for each trial
-                trial_window_start = trial_start + window_start
-                trial_window_end = trial_window_start + window_size
+            # Berechne Spike-Zählungen für jedes Neuron und trial
+            for neuron in unique_neurons:
+                neuron_spikes = spiketimes[spiketimes[:, 1] == neuron][:, 0]
 
-                for neuron in unique_neurons:
-                    # Calculate spike count in the window for the current neuron and trial
-                    spike_count = np.histogram(
-                        spiketimes[(spiketimes[:, 1] == neuron) &
-                                   (spiketimes[:, 0] >= trial_window_start) &
-                                   (spiketimes[:, 0] < trial_window_end)],
-                        bins=1, range=(trial_window_start, trial_window_end)
-                    )[0][0]
+                for trial_start in relevant_trials:
+                    trial_window_start = trial_start + window_start
+                    trial_window_end = trial_window_start + window_size
+
+                    spike_count = np.sum((neuron_spikes >= trial_window_start) & (neuron_spikes < trial_window_end))
                     spike_counts_per_neuron[neuron].append(spike_count)
 
-            # Berechne den Fano-Faktor für jedes Neuron in diesem Fenster über alle Trials dieser Richtung
-            fano_factors_for_window = []
-            for neuron, counts in spike_counts_per_neuron.items():
-                # Berechne nur den Fano-Faktor, wenn Daten für mehrere Trials vorhanden sind
-                if len(counts) > 1:
-                    mean_spike_count = np.mean(counts)
-                    var_spike_count = np.var(counts)
-                    fano_factor = var_spike_count / mean_spike_count if mean_spike_count > 0 else 0
-                    fano_factors_for_window.append(fano_factor)
-                else:
-                    fano_factors_for_window.append(0)  # Keine Spikes oder nur ein Trial
+            # Berechnung der Fano-Faktoren pro Fenster und Richtung
+            fano_factors_for_window = [
+                np.var(counts) / np.mean(counts) if len(counts) > 1 and np.mean(counts) > 0 else 0
+                for counts in spike_counts_per_neuron.values()
+            ]
+            fano_factors_for_all_directions.append(np.mean(fano_factors_for_window))
 
-            # Durchschnitt der Fano-Faktoren über alle Neuronen in diesem Fenster und dieser Richtung
-            if fano_factors_for_window:
-                fano_factors_for_all_directions.append(np.mean(fano_factors_for_window))
-
-        # Durchschnitt der Fano-Faktoren über alle Richtungen für dieses Fenster
-        if fano_factors_for_all_directions:
-            fano_factors_across_all_windows.append(np.mean(fano_factors_for_all_directions))
-
-        # Set time_axis on the first pass only, using midpoints of windows
-        if time_axis is None:
-            time_axis = np.arange(trial_start_offset, trial_end_offset - window_size + 1, step_size) + (window_size / 2)
+        # Durchschnitt der Fano-Faktoren über alle Richtungen
+        fano_factors_across_all_windows.append(np.mean(fano_factors_for_all_directions))
 
     return fano_factors_across_all_windows, time_axis
-
 
 
 def plot_fano_factors(avg_fano_factor_curve, time_axis, exp_time, exp_ff):
@@ -154,7 +133,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
     window_size = 400
 
     # Fano-Faktor berechnen
-    avg_fano_factor_curve, time_axis = FF_across_all_directions_and_neurons(spiketimes, timepoints, direction, direction_range)
+    avg_fano_factor_curve, time_axis = FF_across_all_directions_and_neurons_optimized(spiketimes, timepoints, direction, direction_range)
 
     # Experimentelle Daten laden und plotten
     exp_time, exp_ff = get_exp_data_ff(1)
