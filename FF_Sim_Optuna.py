@@ -185,7 +185,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
 # Run the simulation
 if __name__ == "__main__":
     simulate_model(
-        experimental_trials= 60,  # Anzahl der Trials
+        experimental_trials= 5,  # Anzahl der Trials
         direction_range=[0, 1, 2],
         stim_kernel=stim_kernel,
         kernel_step=kernel_step,
