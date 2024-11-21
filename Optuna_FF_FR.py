@@ -32,7 +32,7 @@ if __name__ == '__main__':
     Simulation_per_worker = 50
 
 
-    storage_url = "mysql://optuna:optuna@192.168.1.10:3307/optuna_Fee"
+    storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
     sampler = optuna.samplers.TPESampler()
     study = optuna.create_study(study_name= f"{num_stimuli}_FR_FF", storage= storage_url, load_if_exists = True,
                                 directions = ['minimize', 'minimize'], sampler = sampler)
