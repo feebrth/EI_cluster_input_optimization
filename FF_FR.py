@@ -1,5 +1,4 @@
 
-
 import sys
 import random
 import numpy as np
@@ -56,7 +55,7 @@ def preprocess_spiketimes(spiketimes):
     return neurons_dict
 
 
-def organize_spikes_by_trial(spiketimes, timepoints,trial_start_offset, trial_end_offset):
+def organize_spikes_by_trial(spiketimes, timepoints ,trial_start_offset, trial_end_offset):
     spike_times = []
     trial_indices = []
     neuron_ids = []
@@ -64,7 +63,8 @@ def organize_spikes_by_trial(spiketimes, timepoints,trial_start_offset, trial_en
     for trial_idx, trial_start in enumerate(timepoints):
         trial_end = timepoints[trial_idx + 1] if trial_idx < len(timepoints) - 1 else trial_start + trial_end_offset
         # Filter Spikes, die in den aktuellen Trial fallen
-        spikes_in_trial = spiketimes[(spiketimes[:, 0] >= trial_start + trial_start_offset) & (spiketimes[:, 0] < trial_end)]
+        spikes_in_trial = spiketimes
+            [(spiketimes[:, 0] >= trial_start + trial_start_offset) & (spiketimes[:, 0] < trial_end)]
 
         if len(spikes_in_trial) > 0:
             spike_times.extend(spikes_in_trial[:, 0] - trial_start)  # relative Spikezeiten
@@ -207,38 +207,10 @@ def align_and_trim(time_line1, firing_rate1, time_line2, firing_rate2):
 
 
 
-def calculate_penalty(
-    simulated_ff, exp_ff, simulated_rates, exp_rates,
-    time_axis_ff, exp_time_ff, time_axis_rates, exp_time_rates,
-    use_delta=False
-):
-    # Baselines und Deltas vor dem Alignment berechnen, falls notwendig
-    if use_delta:
-        # Berechnung der Baselines und Deltas
-        sim_delta_ff, exp_delta_ff, sim_delta_rates, exp_delta_rates = calculate_baseline_and_delta(
-            time_axis_ff, simulated_ff, exp_time_ff, exp_ff,
-            time_axis_rates, simulated_rates, exp_time_rates, exp_rates
-        )
-    else:
-        # Wenn keine Deltas verwendet werden, direkt die Originaldaten verwenden
-        sim_delta_ff, exp_delta_ff = simulated_ff, exp_ff
-        sim_delta_rates, exp_delta_rates = simulated_rates, exp_rates
+def calculate_penalty(average_firing_rate, experimental_avg_firing_rate1):
 
-    # Daten anpassen (align and trim) nach Baseline-Berechnung
-    aligned_time_ff, aligned_sim_ff, aligned_exp_ff = align_and_trim(
-        time_axis_ff, sim_delta_ff, exp_time_ff, exp_delta_ff
-    )
-    aligned_time_rates, aligned_sim_rates, aligned_exp_rates = align_and_trim(
-        time_axis_rates, sim_delta_rates, exp_time_rates, exp_delta_rates
-    )
-
-    # Berechne die Penalty (z. B. mittlere quadrierte Differenz)
-    ff_penalty = np.mean((aligned_sim_ff - aligned_exp_ff) ** 2)
-    rates_penalty = np.mean((aligned_sim_rates - aligned_exp_rates) ** 2)
-
-
-    return ff_penalty, rates_penalty
-
+    penalty = np.sum((average_firing_rate - experimental_avg_firing_rate1) ** 2)
+    return penalty
 
 
 
@@ -298,112 +270,60 @@ def plot_stimulus_kernel(stim_kernel, kernel_step):
     plt.ylabel("Stimulus Amplitude")
     plt.title("Stimulus Kernel Amplitudes Over Time")
 
-def calculate_baseline_and_delta(
-    time_axis_ff, simulated_ff, exp_time_ff, exp_ff,
-    time_axis_rates, simulated_rates, exp_time_rates, exp_rates,
-    sim_ff_baseline_range=(-700, -300), exp_ff_baseline_range=(-250, 0),
-    sim_rate_baseline_range=(-750, -300), exp_rate_baseline_range=(-300, 0)
-):
-    # Arrays sicherstellen
-    simulated_ff = np.array(simulated_ff)
-    exp_ff = np.array(exp_ff)
-    simulated_rates = np.array(simulated_rates)
-    exp_rates = np.array(exp_rates)
-
-    # Baseline für Fano Faktoren
-    sim_ff_baseline_idx = np.where((time_axis_ff >= sim_ff_baseline_range[0]) & (time_axis_ff <= sim_ff_baseline_range[1]))[0]
-    exp_ff_baseline_idx = np.where((exp_time_ff >= exp_ff_baseline_range[0]) & (exp_time_ff <= exp_ff_baseline_range[1]))[0]
-
-
-    sim_ff_baseline = np.mean(simulated_ff[sim_ff_baseline_idx])
-    exp_ff_baseline = np.mean(exp_ff[exp_ff_baseline_idx])
-
-    # Delta Fano Faktoren
-    sim_delta_ff = simulated_ff - sim_ff_baseline
-    exp_delta_ff = exp_ff - exp_ff_baseline
-
-    # Baseline für Feuerraten
-    sim_rate_baseline_idx = np.where((time_axis_rates >= sim_rate_baseline_range[0]) & (time_axis_rates <= sim_rate_baseline_range[1]))[0]
-    exp_rate_baseline_idx = np.where((exp_time_rates >= exp_rate_baseline_range[0]) & (exp_time_rates <= exp_rate_baseline_range[1]))[0]
-
-    sim_rate_baseline = np.mean(simulated_rates[sim_rate_baseline_idx])
-    exp_rate_baseline = np.mean(exp_rates[exp_rate_baseline_idx])
-
-    # Delta Feuerraten
-    sim_delta_rates = simulated_rates - sim_rate_baseline
-    exp_delta_rates = exp_rates - exp_rate_baseline
-
-    return sim_delta_ff, exp_delta_ff, sim_delta_rates, exp_delta_rates
 
 
 
-
-
-def simulate_model(
-    experimental_trials, direction_range, stim_kernel, kernel_step, plot=False, use_delta=False
-):
-    # Generiere Trials und Richtungen
+def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_step, plot=False):
     timepoints, directions = generate_trials(experimental_trials, direction_range)
-
-    # Stimuli erzeugen
     stim_dicts = stim_amplitudes(timepoints, directions, stim_kernel, kernel_step)
     stim_dict['experiment_stim'] = stim_dicts
     sim_dict['simtime'] = max(timepoints) + 3000
 
-    # Netzwerk erstellen und Simulation ausführen
     ei_network = network.ClusteredNetwork(sim_dict, net_dict, stim_dict)
     result = ei_network.get_simulation()
 
-    # Spiketimes extrahieren
     spiketimes = result["spiketimes"].T
-    kernel = spiketools.gaussian_kernel(50)  # Beispiel-Kernel
+    kernel = spiketools.gaussian_kernel(50)  # Beispiel Kernel
 
-    # Fano-Faktoren und Feuerraten berechnen
     fano_factors, firing_rates, time_axis_ff, time_axis_rates = calculate_ff(
         spiketimes=spiketimes,
         timepoints=timepoints,
         directions=directions,
         direction_range=direction_range,
-        kernel=kernel,
         window_size=400,
-        step_size=1
+        step_size=1,
+        kernel=kernel
     )
 
-    # Experimentelle Daten laden
-    exp_time_ff, exp_ff = get_exp_data_ff(1)
-    exp_time_rates, exp_rates = get_exp_data(1)
+    exp_time_ff_local, exp_ff_local = get_exp_data_ff(1)
+    exp_time_rates_local, exp_rates_local = get_exp_data(1)
 
-    # Berechnung der Penalty
-    penalty_ff, penalty_rates = calculate_penalty(
-        simulated_ff=fano_factors,
-        exp_ff=exp_ff,
-        simulated_rates=firing_rates,
-        exp_rates=exp_rates,
-        time_axis_ff=time_axis_ff,
-        exp_time_ff=exp_time_ff,
-        time_axis_rates=time_axis_rates,
-        exp_time_rates=exp_time_rates,
-        use_delta=use_delta
-    )
-    print(f"Loss FF: {penalty_ff}, Loss Rates: {penalty_rates}")
+    aligned_time_rate, aligned_sim_rate, aligned_exp_rate = align_and_trim(time_axis_rates, firing_rates, exp_time_rates_local,
+                                                                           exp_rates_local)
+    aligned_time_ff, aligned_sim_ff, aligned_exp_ff = align_and_trim(time_axis_ff, fano_factors,
+                                                                     exp_time_ff_local,
+                                                                     exp_rates_local)
 
 
 
-    # Plotten der Ergebnisse
+    penalty_ff = calculate_penalty(aligned_sim_ff, aligned_exp_ff)
+    penalty_rates = calculate_penalty(aligned_sim_rate, aligned_exp_rate)
+    print(f"Penalty for fano factors is: {penalty_ff}")
+    print(f"Penalty for firing rates is: {penalty_rates}")
+
     if plot:
         plot_simulated_and_experimental_data(
             simulated_ff=fano_factors,
             simulated_rates=firing_rates,
             time_axis_ff=time_axis_ff,
             time_axis_rates=time_axis_rates,
-            exp_time_ff=exp_time_ff,
-            exp_ff=exp_ff,
-            exp_time_rates=exp_time_rates,
-            exp_rates=exp_rates,
-            plot_delta=use_delta
+            exp_time_ff=exp_time_ff_local,
+            exp_ff=exp_ff_local,
+            exp_time_rates=exp_time_rates_local,
+            exp_rates=exp_rates_local
         )
 
-    return fano_factors, firing_rates, time_axis_ff, time_axis_rates, exp_time_ff, exp_ff, exp_time_rates, exp_rates, penalty_ff, penalty_rates
+    return fano_factors, firing_rates, time_axis_ff, time_axis_rates, exp_time_ff_local, exp_ff_local, exp_time_rates_local, exp_rates_local, penalty_ff, penalty_rates
 
 
 def plot_fano_factors(simulated_ff, time_axis, exp_time, exp_ff):
@@ -423,20 +343,15 @@ def plot_fano_factors(simulated_ff, time_axis, exp_time, exp_ff):
 
 
 def plot_simulated_and_experimental_data(
-    simulated_ff, simulated_rates, time_axis_ff, time_axis_rates,
-    exp_time_ff, exp_ff, exp_time_rates, exp_rates,
-    plot_delta=True  # Delta der Fano-Faktoren und Feuerraten plotten
+        simulated_ff, simulated_rates, time_axis_ff, time_axis_rates,
+        exp_time_ff, exp_ff, exp_time_rates, exp_rates,
+        plot_delta=True  # Delta der Fano-Faktoren und Feuerraten plotten
 ):
-    sim_delta_ff, exp_delta_ff, sim_delta_rates, exp_delta_rates = calculate_baseline_and_delta(
-        time_axis_ff, simulated_ff, exp_time_ff, exp_ff,
-        time_axis_rates, simulated_rates, exp_time_rates, exp_rates
-    )
-
     simulated_ff = np.array(simulated_ff)
     simulated_rates = np.array(simulated_rates)
     exp_ff = np.array(exp_ff)
     exp_rates = np.array(exp_rates)
-    fig, axs = plt.subplots(3, 2, figsize=(16, 12), sharex=True, gridspec_kw={'height_ratios': [1, 1, 0.5]})
+    fig, axs = plt.subplots(2, 2, figsize=(16, 12), sharex=True)
 
     # Plot Fano Factors
     axs[0, 0].plot(time_axis_ff, simulated_ff, label='Simulated Fano Factors', color='blue')
@@ -455,6 +370,15 @@ def plot_simulated_and_experimental_data(
     axs[0, 1].grid(True)
 
     if plot_delta:
+        # Baseline-Berechnung für Fano Factors
+        sim_ff_baseline_idx = np.where((time_axis_ff >= -700) & (time_axis_ff <= -300))[0]
+        exp_ff_baseline_idx = np.where((exp_time_ff >= -200) & (exp_time_ff <= 0))[0]
+        sim_ff_baseline = np.mean(simulated_ff[sim_ff_baseline_idx])
+        exp_ff_baseline = np.mean(exp_ff[exp_ff_baseline_idx])
+
+        # Delta-Berechnung für Fano Factors
+        sim_delta_ff = simulated_ff - sim_ff_baseline
+        exp_delta_ff = exp_ff - exp_ff_baseline
 
         # Plot Delta Fano Factors
         axs[1, 0].plot(time_axis_ff, sim_delta_ff, label='Delta Simulated Fano Factors', color='blue')
@@ -465,6 +389,15 @@ def plot_simulated_and_experimental_data(
         axs[1, 0].legend()
         axs[1, 0].grid(True)
 
+        # Baseline-Berechnung für Firing Rates
+        sim_rates_baseline_idx = np.where((time_axis_rates >= -750) & (time_axis_rates <= -300))[0]
+        exp_rates_baseline_idx = np.where((exp_time_rates >= -750) & (exp_time_rates <= -300))[0]
+        sim_rates_baseline = np.mean(simulated_rates[sim_rates_baseline_idx])
+        exp_rates_baseline = np.mean(exp_rates[exp_rates_baseline_idx])
+
+        # Delta-Berechnung für Firing Rates
+        sim_delta_rates = simulated_rates - sim_rates_baseline
+        exp_delta_rates = exp_rates - exp_rates_baseline
 
         # Plot Delta Firing Rates
         axs[1, 1].plot(time_axis_rates, sim_delta_rates, label='Delta Simulated Firing Rates', color='green')
@@ -474,30 +407,6 @@ def plot_simulated_and_experimental_data(
         axs[1, 1].set_title('Delta of Firing Rates')
         axs[1, 1].legend()
         axs[1, 1].grid(True)
-
-    # Plot Stimulus Kernel
-    stim_time_points = np.arange(0, len(stim_kernel) * kernel_step, kernel_step)
-    aligned_stim_curve = np.zeros_like(time_axis_rates)
-    for i, stim in enumerate(stim_kernel):
-        stim_start_idx = np.searchsorted(time_axis_rates, stim_time_points[i])
-        stim_end_idx = np.searchsorted(time_axis_rates, stim_time_points[i] + kernel_step)
-        aligned_stim_curve[stim_start_idx:stim_end_idx] = stim
-
-    #Stimulus Fano Factors
-    axs[2, 0].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
-    axs[2, 0].set_xlabel('Time (ms)')
-    axs[2, 0].set_ylabel('Stimulus Amplitude')
-    axs[2, 0].set_title('Stimulus Kernel Amplitudes Over Time')
-    axs[2, 0].legend()
-    axs[2, 0].grid(True)
-
-    # Stimulus Firing Rates
-    axs[2, 1].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
-    axs[2, 1].set_xlabel('Time (ms)')
-    axs[2, 1].set_ylabel('Stimulus Amplitude')
-    axs[2, 1].set_title('Stimulus Kernel Amplitudes Over Time')
-    axs[2, 1].legend()
-    axs[2, 1].grid(True)
 
     # Adjust layout
     plt.tight_layout()
@@ -520,7 +429,6 @@ if __name__ == "__main__":
         direction_range=[0, 1, 2, 3, 4, 5],
         stim_kernel=stim_kernel,
         kernel_step=kernel_step,
-        use_delta=True,
         plot=False,
     )
 
@@ -538,7 +446,7 @@ if __name__ == "__main__":
     )
 
 
-#stim_kernel = 0.25 * np.array([0.17312816364086267, 0.8259290941384977, 0.44182977675232843,  0.3558826809260373,
+# stim_kernel = 0.25 * np.array([0.17312816364086267, 0.8259290941384977, 0.44182977675232843,  0.3558826809260373,
 #                             0.2856217738814025,  0.3040297739070603,  0.2366001890107655,  0.2472914682618193,
 #                             0.3150498635199546, 0.3790337694745662, 0.36722502142689295, 0.39463791746376475,
 #                             0.2633404217765265,  0.32753879091207094,  0.12843437450070974,  0.0,  0.0,  0.0,

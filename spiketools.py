@@ -392,8 +392,6 @@ def kernel_fano(spiketimes,window,dt = 1.,tlim = None,components = False):
         return np.array([counts.var()/counts.mean()]),np.array(time.mean())
     counts,time = sliding_counts(spiketimes,window,dt,tlim)
 
-
-    
     vars = counts.var(axis = 0)
     means = counts.mean(axis = 0)
     fano = np.zeros_like(vars)*np.nan

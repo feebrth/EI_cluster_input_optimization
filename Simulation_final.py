@@ -209,7 +209,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
 
     # Create and run the EI clustered network
     ei_network = network.ClusteredNetwork(sim_dict, net_dict, stim_dict)
-    result = ei_network.get_simulation() #get_simulation calculates spike-tiemes and neuron IDs
+    result = ei_network.get_simulation() #get_simulation calculates spike-times and neuron IDs
 
     # Calculate firing rates per trial
     spiketimes = result["spiketimes"].T
@@ -241,6 +241,7 @@ def simulate_model(experimental_trials, direction_range, stim_kernel, kernel_ste
                 ("darkred", net_dict["N_E"], net_dict["N_E"] + net_dict["N_I"]),
             ],
         )
+        plt.show()
         plt.figure()
         plt.plot(aligned_time1, aligned_firing_rate1, color='blue', label='Simulated Firing Rate')
         plt.plot(aligned_time1, aligned_firing_rate2, color='red', label='Experimental Firing Rate')

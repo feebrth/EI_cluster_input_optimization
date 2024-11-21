@@ -57,9 +57,9 @@ net_dict = {
     # synaptic delay [ms]
     "delay": 0.1,
     # Feed forward excitatory input [rheobase current]
-    "I_th_E": 2.05,
+    "I_th_E": 1.25,
     # Feed forward inhibitory input [rheobase current]
-    "I_th_I": 0.80,
+    "I_th_I": 0.78,
     # distribution of feed forward input,
     # I_th*[1-delta_I_../2, 1+delta_I_../2]
     "delta_I_xE": 0.0,  # excitatory
