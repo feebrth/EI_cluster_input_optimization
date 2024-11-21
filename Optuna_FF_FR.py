@@ -13,7 +13,7 @@ def objective(trial):
     kernel_step = round(2000 / len(stimuli))
 
     # Simuliere das Modell mit den vorgeschlagenen Stimuli
-    penalty_ff, penalty_rates = simulate_model(
+    _, _, _, _, _, _, _, _, penalty_ff, penalty_rates = simulate_model(
         experimental_trials=60,  # Anzahl der Trials
         direction_range=[0, 1, 2],  # Richtungsbereich
         stim_kernel=stimuli,  # Stimuli-Kernel
