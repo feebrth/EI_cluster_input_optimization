@@ -1,6 +1,6 @@
 import os
 import optuna
-from FF_FR import simulate_model
+from FF_Sim import simulate_model
 
 num_stimuli = 24
 def objective(trial):

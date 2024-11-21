@@ -286,7 +286,7 @@ def plot_raster_for_neuron_by_direction(spiketimes, neuron_id, timepoints, direc
     total_trials = max([len([t for i, t in enumerate(timepoints) if directions[i] == dir]) for dir in direction_range])
     plt.xlim(0, total_trials * 2500)
 
-    plt.show()
+
 
 
 
@@ -419,7 +419,7 @@ def plot_fano_factors(simulated_ff, time_axis, exp_time, exp_ff):
     plt.title("Comparison of Simulated and Experimental Fano Factors")
     plt.legend()
     plt.grid(True)
-    plt.show()
+
 
 
 def plot_simulated_and_experimental_data(
@@ -501,7 +501,7 @@ def plot_simulated_and_experimental_data(
 
     # Adjust layout
     plt.tight_layout()
-    plt.show()
+    plt.savefig("Sim_vs_Exp_FR_FF.png")
 
 
 # Hauptprogramm
