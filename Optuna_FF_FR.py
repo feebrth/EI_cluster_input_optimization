@@ -27,6 +27,8 @@ def objective(trial):
 
 
 if __name__ == '__main__':
+    # read env variable DEBUG
+    debug = int(os.environ.get('DEBUG', 0))
 
     print(f"Process ID: {os.getpid()}")
     Simulation_per_worker = 50
@@ -34,7 +36,12 @@ if __name__ == '__main__':
 
     storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
     sampler = optuna.samplers.TPESampler()
-    study = optuna.create_study(study_name= f"{num_stimuli}_FR_FF", storage= storage_url, load_if_exists = True,
+    if debug==1:
+        print("DEBUG MODE")
+        study = optuna.create_study(study_name= f"{num_stimuli}_FR_FF", load_if_exists = True,
+                                directions = ['minimize', 'minimize'], sampler = sampler)
+    else:
+        study = optuna.create_study(study_name= f"{num_stimuli}_FR_FF", storage= storage_url, load_if_exists = True,
                                 directions = ['minimize', 'minimize'], sampler = sampler)
 
 
