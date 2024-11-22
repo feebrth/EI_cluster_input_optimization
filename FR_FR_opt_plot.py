@@ -10,7 +10,7 @@ kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
 
 # Optuna Study laden
 storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
-study = optuna.load_study(study_name="GP_24_FR_FF", storage=storage_url)
+study = optuna.load_study(study_name="24_FR_FF", storage=storage_url)
 
 # Pareto-Front visualisieren
 optuna.visualization.plot_pareto_front(study, target_names=["Penalty FF", "Penalty Rates"])
