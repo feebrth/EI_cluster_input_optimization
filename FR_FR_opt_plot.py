@@ -32,6 +32,7 @@ print(f"Selected Trial Penalties: {selected_trial.values}")
 
 # Retrieve the optimal stimulus values
 stimuli = [best_params[f'stimulus{i + 1}'] for i in range(num_stimuli)]
+kernel_step = 2000 // num_stimuli
 
 # Run the simulation with the optimal stimuli
 penalty_ff, penalty_rates, fano_factors, firing_rates, time_axis_ff, time_axis_rates, exp_time_ff, exp_ff, exp_time_rates, exp_rates = simulate_model(

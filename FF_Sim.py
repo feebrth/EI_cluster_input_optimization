@@ -424,7 +424,7 @@ def plot_fano_factors(simulated_ff, time_axis, exp_time, exp_ff):
 
 def plot_simulated_and_experimental_data(
     simulated_ff, simulated_rates, time_axis_ff, time_axis_rates,
-    exp_time_ff, exp_ff, exp_time_rates, exp_rates,
+    exp_time_ff, exp_ff, exp_time_rates, exp_rates, stim_kernel=None, kernel_step=None,
     plot_delta=True  # Delta der Fano-Faktoren und Feuerraten plotten
 ):
     sim_delta_ff, exp_delta_ff, sim_delta_rates, exp_delta_rates = calculate_baseline_and_delta(
@@ -476,12 +476,13 @@ def plot_simulated_and_experimental_data(
         axs[1, 1].grid(True)
 
     # Plot Stimulus Kernel
-    stim_time_points = np.arange(0, len(stim_kernel) * kernel_step, kernel_step)
-    aligned_stim_curve = np.zeros_like(time_axis_rates)
-    for i, stim in enumerate(stim_kernel):
-        stim_start_idx = np.searchsorted(time_axis_rates, stim_time_points[i])
-        stim_end_idx = np.searchsorted(time_axis_rates, stim_time_points[i] + kernel_step)
-        aligned_stim_curve[stim_start_idx:stim_end_idx] = stim
+    if stim_kernel is not None and kernel_step is not None:
+        stim_time_points = np.arange(0, len(stim_kernel) * kernel_step, kernel_step)
+        aligned_stim_curve = np.zeros_like(time_axis_rates)
+        for i, stim in enumerate(stim_kernel):
+            stim_start_idx = np.searchsorted(time_axis_rates, stim_time_points[i])
+            stim_end_idx = np.searchsorted(time_axis_rates, stim_time_points[i] + kernel_step)
+            aligned_stim_curve[stim_start_idx:stim_end_idx] = stim
 
     #Stimulus Fano Factors
     axs[2, 0].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
@@ -535,6 +536,8 @@ if __name__ == "__main__":
         exp_ff=exp_ff,
         exp_time_rates=exp_time_rates,
         exp_rates=exp_rates,
+        stim_kernel=stim_kernel,
+        kernel_step=kernel_step,
         plot_delta=True  # Delta der Feuerraten plotten
     )
 
