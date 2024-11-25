@@ -3,7 +3,7 @@ from FF_Sim import simulate_model, plot_simulated_and_experimental_data
 import matplotlib.pyplot as plt
 
 # Parameters for the Optuna study and simulation
-trials = 200
+trials = 60
 direction_range = [0, 1, 2]
 num_stimuli = 24
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus

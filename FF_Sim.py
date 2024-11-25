@@ -425,57 +425,21 @@ def plot_fano_factors(simulated_ff, time_axis, exp_time, exp_ff):
 def plot_simulated_and_experimental_data(
     simulated_ff, simulated_rates, time_axis_ff, time_axis_rates,
     exp_time_ff, exp_ff, exp_time_rates, exp_rates, stim_kernel=None, kernel_step=None,
-    plot_delta=True  # Delta der Fano-Faktoren und Feuerraten plotten
+    plot_delta=True
 ):
+    plt.rcParams['lines.linewidth'] = 1.5
+
     sim_delta_ff, exp_delta_ff, sim_delta_rates, exp_delta_rates = calculate_baseline_and_delta(
         time_axis_ff, simulated_ff, exp_time_ff, exp_ff,
         time_axis_rates, simulated_rates, exp_time_rates, exp_rates
     )
 
-    simulated_ff = np.array(simulated_ff)
-    simulated_rates = np.array(simulated_rates)
-    exp_ff = np.array(exp_ff)
-    exp_rates = np.array(exp_rates)
-    fig, axs = plt.subplots(3, 2, figsize=(16, 12), sharex=True, gridspec_kw={'height_ratios': [1, 1, 0.5]})
+    fig, axs = plt.subplots(3, 2, figsize=(16, 12), sharex='col', gridspec_kw={'height_ratios': [0.5, 1, 1]})
+    labels = ['(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
+    positions = [(0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)]
+    tick_fontsize = 12
 
-    # Plot Fano Factors
-    axs[0, 0].plot(time_axis_ff, simulated_ff, label='Simulated Fano Factors', color='blue')
-    axs[0, 0].plot(exp_time_ff, exp_ff, label='Experimental Fano Factors', linestyle='--', color='red')
-    axs[0, 0].set_ylabel('Fano Factor')
-    axs[0, 0].set_title('Comparison of Fano Factors')
-    axs[0, 0].legend()
-    axs[0, 0].grid(True)
-
-    # Plot Firing Rates
-    axs[0, 1].plot(time_axis_rates, simulated_rates, label='Simulated Firing Rates', color='green')
-    axs[0, 1].plot(exp_time_rates, exp_rates, label='Experimental Firing Rates', linestyle='--', color='orange')
-    axs[0, 1].set_ylabel('Firing Rate (spikes/s)')
-    axs[0, 1].set_title('Comparison of Firing Rates')
-    axs[0, 1].legend()
-    axs[0, 1].grid(True)
-
-    if plot_delta:
-
-        # Plot Delta Fano Factors
-        axs[1, 0].plot(time_axis_ff, sim_delta_ff, label='Delta Simulated Fano Factors', color='blue')
-        axs[1, 0].plot(exp_time_ff, exp_delta_ff, label='Delta Experimental Fano Factors', linestyle='--', color='red')
-        axs[1, 0].set_xlabel('Time (ms)')
-        axs[1, 0].set_ylabel('Delta Fano Factor')
-        axs[1, 0].set_title('Delta of Fano Factors')
-        axs[1, 0].legend()
-        axs[1, 0].grid(True)
-
-
-        # Plot Delta Firing Rates
-        axs[1, 1].plot(time_axis_rates, sim_delta_rates, label='Delta Simulated Firing Rates', color='green')
-        axs[1, 1].plot(exp_time_rates, exp_delta_rates, label='Delta Experimental Firing Rates', linestyle='--', color='orange')
-        axs[1, 1].set_xlabel('Time (ms)')
-        axs[1, 1].set_ylabel('Delta Firing Rate (spikes/s)')
-        axs[1, 1].set_title('Delta of Firing Rates')
-        axs[1, 1].legend()
-        axs[1, 1].grid(True)
-
-    # Plot Stimulus Kernel
+    # Stimulus Kernel (first row, left and right)
     if stim_kernel is not None and kernel_step is not None:
         stim_time_points = np.arange(0, len(stim_kernel) * kernel_step, kernel_step)
         aligned_stim_curve = np.zeros_like(time_axis_rates)
@@ -484,38 +448,82 @@ def plot_simulated_and_experimental_data(
             stim_end_idx = np.searchsorted(time_axis_rates, stim_time_points[i] + kernel_step)
             aligned_stim_curve[stim_start_idx:stim_end_idx] = stim
 
-    #Stimulus Fano Factors
-    axs[2, 0].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
-    axs[2, 0].set_xlabel('Time (ms)')
-    axs[2, 0].set_ylabel('Stimulus Amplitude')
-    axs[2, 0].set_title('Stimulus Kernel Amplitudes Over Time')
-    axs[2, 0].legend()
-    axs[2, 0].grid(True)
+        axs[0, 0].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
+        #axs[0, 0].set_title('Stimulus Kernel', fontsize=16)
+        axs[0, 0].set_ylabel('Amplitude', fontsize=16)
+        axs[0, 0].legend(fontsize=16)
+        axs[0, 0].grid(True)
+        axs[0, 0].tick_params(axis='both', labelsize=tick_fontsize)
 
-    # Stimulus Firing Rates
-    axs[2, 1].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
-    axs[2, 1].set_xlabel('Time (ms)')
-    axs[2, 1].set_ylabel('Stimulus Amplitude')
-    axs[2, 1].set_title('Stimulus Kernel Amplitudes Over Time')
-    axs[2, 1].legend()
-    axs[2, 1].grid(True)
+        axs[0, 1].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
+        #axs[0, 1].set_title('Stimulus Kernel', fontsize=16)
+        axs[0, 1].legend(fontsize=16)
+        axs[0, 1].grid(True)
+        axs[0, 1].tick_params(axis='both', labelsize=tick_fontsize)
+
+    # Firing Rates (second row, left)
+    axs[1, 0].plot(time_axis_rates, simulated_rates, label='Simulated Firing Rates', color='green')
+    axs[1, 0].plot(exp_time_rates, exp_rates, label='Experimental Firing Rates', linestyle='--', color='orange')
+    axs[1, 0].set_ylabel('Firing Rate (spikes/s)', fontsize=16)
+    #axs[1, 0].set_title('Comparison of Firing Rates', fontsize=16)
+    axs[1, 0].legend(fontsize=16)
+    axs[1, 0].grid(True)
+    axs[1, 0].tick_params(axis='both', labelsize=tick_fontsize)
+
+    # Fano Factors (second row, right)
+    axs[1, 1].plot(time_axis_ff, simulated_ff, label='Simulated Fano Factors', color='blue')
+    axs[1, 1].plot(exp_time_ff, exp_ff, label='Experimental Fano Factors', linestyle='--', color='red')
+    #axs[1, 1].set_title('Comparison of Fano Factors', fontsize=16)
+    axs[1, 1].legend(fontsize=16)
+    axs[1, 1].grid(True)
+    axs[1, 1].tick_params(axis='both', labelsize=tick_fontsize)
+
+    if plot_delta:
+        # Delta Firing Rates (third row, left)
+        axs[2, 0].plot(time_axis_rates, sim_delta_rates, label='Delta Simulated Firing Rates', color='green')
+        axs[2, 0].plot(exp_time_rates, exp_delta_rates, label='Delta Experimental Firing Rates', linestyle='--', color='orange')
+        axs[2, 0].set_xlabel('Time (ms)', fontsize=16)
+        axs[2, 0].set_ylabel('Delta Firing Rate (spikes/s)', fontsize=16)
+        #axs[2, 0].set_title('Delta of Firing Rates', fontsize=16)
+        axs[2, 0].legend(fontsize=16)
+        axs[2, 0].grid(True)
+        axs[2, 0].tick_params(axis='both', labelsize=tick_fontsize)
+
+        # Delta Fano Factors (third row, right)
+        axs[2, 1].plot(time_axis_ff, sim_delta_ff, label='Delta Simulated Fano Factors', color='blue')
+        axs[2, 1].plot(exp_time_ff, exp_delta_ff, label='Delta Experimental Fano Factors', linestyle='--', color='red')
+        axs[2, 1].set_xlabel('Time (ms)', fontsize=16)
+        #axs[2, 1].set_title('Delta of Fano Factors', fontsize=16)
+        axs[2, 1].legend(fontsize=16)
+        axs[2, 1].grid(True)
+        axs[2, 1].tick_params(axis='both', labelsize=tick_fontsize)
+
+    for i, (row, col) in enumerate(positions):
+        axs[row, col].text(
+            -0.1, 1.1, labels[i], transform=axs[row, col].transAxes,
+            fontsize=14, fontweight='bold', va='top', ha='left'
+        )
 
     # Adjust layout
     plt.tight_layout()
-    plt.savefig("Sim_vs_Exp_FR_FF.png")
+    plt.savefig("Optimal_FR_corr.FF.png")
+    plt.show()
 
 
 # Hauptprogramm
 if __name__ == "__main__":
 
-    stim_kernel = 0.25 * np.array([0.48491825131034916, 0.32473703078742916, 0.3213764508701387, 0.3559706343482832,
-                                   0.1600546571600051, 0.10332896768233334,  0.033182727643445285, 0.018301728702906486,
-                                   0.473729003865031, 0.7842154568014152, 0.3061051722976537, 0.5379486363859469,
-                                   0.7357127303237456, 0.045103931882521264, 0.4286873051771577, 0.4209310585423314,
-                                   0.04671725381969315, 0.030049245579308215, 0.015167354140789166, 0.4882844499110816,
-                                   0.9415020162495253, 0.4519384264379514, 0.7956600093375796, 0.1970416608701149])
+    stim_kernel = np.array([0.17312816364086267, 0.8259290941384977, 0.44182977675232843,  0.3558826809260373,
+                                 0.2856217738814025,  0.3040297739070603,  0.2366001890107655,  0.2472914682618193,
+                                0.3150498635199546, 0.3790337694745662, 0.36722502142689295, 0.39463791746376475,
+                                 0.2633404217765265,  0.32753879091207094,  0.12843437450070974,  0.0,  0.0,  0.0,
+                                 0.3216556491748419,  0.49706313013206366,  1.0,  1.0,  1.0,  1.0])
+
+
     kernel_step = 2000 // len(stim_kernel)
-    # Simuliere Modell und extrahiere Ergebnisse
+
+        # Simuliere Modell und extrahiere Ergebnisse
+
     (sim_fano_factors, sim_firing_rates, time_axis_ff,
      time_axis_rates, exp_time_ff, exp_ff, exp_time_rates, exp_rates, penalty_ff, penalty_rates) = simulate_model(
         experimental_trials=60,
@@ -548,3 +556,9 @@ if __name__ == "__main__":
 #                             0.2633404217765265,  0.32753879091207094,  0.12843437450070974,  0.0,  0.0,  0.0,
 #                             0.3216556491748419,  0.49706313013206366,  1.0,  1.0,  1.0,  1.0])
 
+ # stim_kernel = 0.25 * np.array([0.48491825131034916, 0.32473703078742916, 0.3213764508701387, 0.3559706343482832,
+    #                                0.1600546571600051, 0.10332896768233334,  0.033182727643445285, 0.018301728702906486,
+    #                                0.473729003865031, 0.7842154568014152, 0.3061051722976537, 0.5379486363859469,
+    #                                0.7357127303237456, 0.045103931882521264, 0.4286873051771577, 0.4209310585423314,
+    #                                0.04671725381969315, 0.030049245579308215, 0.015167354140789166, 0.4882844499110816,
+    #                                0.9415020162495253, 0.4519384264379514, 0.7956600093375796, 0.1970416608701149])
