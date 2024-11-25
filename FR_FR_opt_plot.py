@@ -36,7 +36,8 @@ stimuli = [best_params[f'stimulus{i + 1}'] for i in range(num_stimuli)]
 kernel_step = 2000 // num_stimuli
 
 # Run the simulation with the optimal stimuli
-sim_fano_factors, sim_firing_rates, time_axis_ff, time_axis_rates, exp_time_ff, exp_ff, exp_time_rates, exp_rates, penalty_ff, penalty_rates = simulate_model(
+(sim_fano_factors, sim_firing_rates, time_axis_ff, time_axis_rates,
+ exp_time_ff, exp_ff, exp_time_rates, exp_rates, penalty_ff, penalty_rates) = simulate_model(
     experimental_trials=trials,
     direction_range=direction_range,
     stim_kernel=stimuli,
@@ -59,4 +60,7 @@ plot_simulated_and_experimental_data(
     kernel_step=kernel_step,
     plot_delta=True  # Zeigt auch die Delta-Werte
 )
-plt.savefig("Optimal_Simulation.png")
+
+trial_id = selected_trial.number #Optuna Trial ID
+
+plt.savefig(f"Optimal_Simulation_{trial_id}.png")
