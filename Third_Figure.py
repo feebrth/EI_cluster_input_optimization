@@ -4,8 +4,8 @@ import numpy as np
 from FF_Sim import simulate_model, plot_simulated_and_experimental_data
 
 # Parameters for the Optuna study and simulation
-trials = 5
-direction_range = [0]
+trials = 200
+direction_range = [0, 1, 2]
 num_stimuli = 24
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
 
@@ -31,25 +31,31 @@ loss_ff = [trial.values[0] for trial in study.best_trials]
 loss_rates = [trial.values[1] for trial in study.best_trials]
 
 # Figure mit Subplots erstellen
-fig, axs = plt.subplots(3, 5, figsize=(20, 15), gridspec_kw={"height_ratios": [1, 1, 1]})
+fig = plt.figure(figsize=(20, 18))
 
 # Pareto-Front-Plot
-pareto_ax = fig.add_subplot(3, 1, 1)  # Gesamte Breite für Pareto-Front
+pareto_ax = fig.add_subplot(4, 1, 1)
 pareto_ax.scatter(loss_ff, loss_rates, color="blue", label="Trials", alpha=0.6)
 pareto_ax.set_xlabel("Loss FF", fontsize=14)
 pareto_ax.set_ylabel("Loss Rates", fontsize=14)
 pareto_ax.set_title("Pareto-Front Plot", fontsize=16)
 pareto_ax.grid(alpha=0.3)
 
-# Markiere die ausgewählten Trials in der Pareto-Front
+# Markiere die ausgewählten Trials und nummeriere sie
+labels = ['a', 'b', 'c', 'd', 'e']
 selected_ff = [trial.values[0] for trial in selected_trials]
 selected_rates = [trial.values[1] for trial in selected_trials]
-pareto_ax.scatter(selected_ff, selected_rates, color="red", label="Selected Trials", s=100)
+
+for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
+    pareto_ax.scatter(ff, rate, color="red", s=100)
+    pareto_ax.text(ff, rate, labels[i], fontsize=12, fontweight="bold", color="black")
+
 pareto_ax.legend(fontsize=12)
 
-# Simulation und Subplots für Delta-Firing-Rates und Delta-Fano-Factors
-for col, trial in enumerate(selected_trials):
-    # Stimuli aus den Trial-Parametern extrahieren
+# Simulation und Subplots für Delta-Werte
+time_axes_aligned = None
+
+for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     stimuli = [trial.params[f"stimulus{i + 1}"] for i in range(num_stimuli)]
 
     # Simulation ausführen
@@ -63,20 +69,51 @@ for col, trial in enumerate(selected_trials):
         use_delta=True
     )
 
-    # Plot Delta-Firing-Rates
-    axs[1, col].plot(time_axis_rates, sim_firing_rates, label="Simulated Delta Rates", color="blue")
-    axs[1, col].plot(exp_time_rates, exp_rates, label="Experimental Delta Rates", linestyle="--", color="orange")
-    axs[1, col].set_title(f"Delta Firing Rates (Trial {col+1})", fontsize=12)
-    axs[1, col].legend(fontsize=10)
-    axs[1, col].grid(alpha=0.3)
+    # Delta-Werte berechnen
+    sim_delta_ff, exp_delta_ff, sim_delta_rates, exp_delta_rates = plot_simulated_and_experimental_data(
+        simulated_ff=sim_fano_factors,
+        simulated_rates=sim_firing_rates,
+        time_axis_ff=time_axis_ff,
+        time_axis_rates=time_axis_rates,
+        exp_time_ff=exp_time_ff,
+        exp_ff=exp_ff,
+        exp_time_rates=exp_time_rates,
+        exp_rates=exp_rates,
+        plot_delta=False  # Nur Delta-Werte berechnen, keine Plots erstellen
+    )
 
-    # Plot Delta-Fano-Factors
-    axs[2, col].plot(time_axis_ff, sim_fano_factors, label="Simulated Delta Fano", color="blue")
-    axs[2, col].plot(exp_time_ff, exp_ff, label="Experimental Delta Fano", linestyle="--", color="red")
-    axs[2, col].set_title(f"Delta Fano Factors (Trial {col+1})", fontsize=12)
-    axs[2, col].legend(fontsize=10)
-    axs[2, col].grid(alpha=0.3)
+    # Stimulus-Amplituden plotten (erste Zeile)
+    axs_stim = fig.add_subplot(4, 5, col + 1)
+    stim_time_points = np.arange(0, len(stimuli) * kernel_step, kernel_step)
+    axs_stim.plot(stim_time_points, stimuli, label=f"Stimulus {label}", color="black")
+    axs_stim.set_ylim(0, 1.1)
+    axs_stim.set_xticks([])  # Keine X-Ticks
+    axs_stim.set_yticks([])  # Keine Y-Ticks
+    axs_stim.set_title(f"({label})", fontsize=12, loc="left")
+    axs_stim.grid(alpha=0.3)
 
-# Layout anpassen
-plt.tight_layout()
-plt.savefig("Third_Figure.png")
+    # Delta-Firing-Rates plotten (zweite Zeile)
+    axs_fr = fig.add_subplot(4, 5, col + 6)
+    axs_fr.plot(time_axis_rates, sim_delta_rates, label="Simulated Delta Rates", color="blue")
+    axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="orange")
+    axs_fr.grid(alpha=0.3)
+    if col == 0:
+        axs_fr.set_ylabel("Delta Firing Rate", fontsize=12)
+
+    # Delta-Fano-Factors plotten (dritte Zeile)
+    axs_ff = fig.add_subplot(4, 5, col + 11)
+    axs_ff.plot(time_axis_ff, sim_delta_ff, label="Simulated Delta Fano", color="blue")
+    axs_ff.plot(exp_time_ff, exp_delta_ff, label="Experimental Delta Fano", linestyle="--", color="red")
+    axs_ff.grid(alpha=0.3)
+    if col == 0:
+        axs_ff.set_ylabel("Delta Fano Factors", fontsize=12)
+    axs_ff.set_xlabel("Time (ms)", fontsize=12)
+
+# Gemeinsame Legende unten hinzufügen
+handles, labels = axs_ff.get_legend_handles_labels()
+fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=12, frameon=False)
+
+# Layout anpassen und speichern
+plt.tight_layout(rect=[0, 0.05, 1, 0.95])
+plt.savefig("Final_Figure.png")
+
