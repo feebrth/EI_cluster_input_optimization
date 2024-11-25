@@ -27,7 +27,7 @@ for i, trial in enumerate(study.best_trials):
     print("  Stimulus Parameters:", trial.params)
 
 # Wähle einen spezifischen Trial aus der Pareto-Front (z. B. den ersten)
-selected_trial = study.best_trials[0]  # Alternativ: Lass den Benutzer einen Trial auswählen
+selected_trial = study.best_trials[1]  # Alternativ: Lass den Benutzer einen Trial auswählen
 best_params = selected_trial.params
 print(f"Selected Trial Penalties: {selected_trial.values}")
 
