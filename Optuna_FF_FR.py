@@ -2,7 +2,7 @@ import os
 import optuna
 from FF_Sim import simulate_model
 
-num_stimuli = 24
+num_stimuli = 8
 def objective(trial):
 
     # Dynamische Definition der Stimuli über eine Schleife
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     debug = int(os.environ.get('DEBUG', 0))
 
     print(f"Process ID: {os.getpid()}")
-    Simulation_per_worker = 50
+    Simulation_per_worker = 200
 
 
     storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
