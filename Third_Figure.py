@@ -1,7 +1,7 @@
 import optuna
 import matplotlib.pyplot as plt
 import numpy as np
-from FF_Sim import simulate_model, plot_simulated_and_experimental_data
+from FF_Sim import simulate_model, calculate_baseline_and_delta
 
 # Parameters for the Optuna study and simulation
 trials = 5
@@ -70,7 +70,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     )
 
     # Delta-Werte berechnen
-    sim_delta_ff, exp_delta_ff, sim_delta_rates, exp_delta_rates = plot_simulated_and_experimental_data(
+    sim_delta_ff, exp_delta_ff, sim_delta_rates, exp_delta_rates = calculate_baseline_and_delta(
         simulated_ff=sim_fano_factors,
         simulated_rates=sim_firing_rates,
         time_axis_ff=time_axis_ff,
@@ -79,8 +79,8 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         exp_ff=exp_ff,
         exp_time_rates=exp_time_rates,
         exp_rates=exp_rates,
-        plot_delta=False  # Nur Delta-Werte berechnen, keine Plots erstellen
     )
+
 
     # Stimulus-Amplituden plotten (erste Zeile)
     axs_stim = fig.add_subplot(4, 5, col + 1)
