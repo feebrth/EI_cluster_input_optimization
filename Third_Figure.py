@@ -133,7 +133,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         if col == 0:
             axs_fr.set_ylabel("Delta Firing Rate", fontsize=12)
         else:
-            axs_fr.yaxis.set_visible(False)  # Y-Ticks nur links
+            axs_fr.yaxis.set_visible(True)  # Y-Ticks nur links
 
     # Delta-Fano-Factors plotten (dritte Zeile)
     axs_ff_left = None  # Referenz für die erste Spalte
@@ -148,7 +148,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         if col == 0:
             axs_ff.set_ylabel("Delta Fano Factors", fontsize=12)
         else:
-            axs_ff.yaxis.set_visible(False)  # Y-Ticks nur links
+            axs_ff.yaxis.set_visible(True)  # Y-Ticks nur links
         axs_ff.set_xlabel("Time (ms)", fontsize=12)
 
 # Gemeinsame Legende unten hinzufügen
