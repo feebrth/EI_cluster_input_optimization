@@ -41,7 +41,7 @@ loss_rates = [trial.values[1] for trial in study.best_trials]
 
 # Figure mit Subplots erstellen
 fig = plt.figure(figsize=(20, 18))
-grid = fig.add_gridspec(4, 5, height_ratios=[1.5, 1, 3, 3])
+grid = fig.add_gridspec(4, 5, height_ratios=[1.5, 1, 3, 3], hspace= 0.4)
 
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
@@ -56,9 +56,9 @@ labels = ['a', 'b', 'c', 'd', 'e']
 selected_ff = [trial.values[0] for trial in selected_trials]
 selected_rates = [trial.values[1] for trial in selected_trials]
 
-dx, dy = 0.01, 0.01  # Anpassung für die Position der Labels
+dx, dy = 0.005, 0.005  # Anpassung für die Position der Labels
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
-    pareto_ax.scatter(ff, rate, color="red", s=100)
+    pareto_ax.scatter(ff, rate, color="red", s=60)
     pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=10, fontweight="bold", color="black")
 
 
