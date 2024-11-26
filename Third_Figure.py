@@ -49,7 +49,7 @@ selected_rates = [trial.values[1] for trial in selected_trials]
 
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
     pareto_ax.scatter(ff, rate, color="red", s=100)
-    pareto_ax.text(ff, rate, labels[i], fontsize=12, fontweight="bold", color="black")
+    pareto_ax.text(ff - 0.005, rate + 0.15, labels[i], fontsize=12, fontweight="bold", color="black")
 
 pareto_ax.legend(fontsize=12)
 
@@ -83,7 +83,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     # Stimulus-Amplituden plotten (erste Zeile)
     axs_stim = fig.add_subplot(grid[1, col])
     stim_time_points = np.arange(0, len(stimuli) * kernel_step, kernel_step)
-    axs_stim.bar(stim_time_points, stimuli, width=kernel_step, color="black", edgecolor="black")
+    axs_stim.bar(stim_time_points, stimuli, width=kernel_step, color="white", edgecolor="black", align="edge")
     axs_stim.set_ylim(0, 1.1)
     axs_stim.set_xticks([])
     axs_stim.set_yticks([])
@@ -109,12 +109,16 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
 
 # Gemeinsame Legende unten hinzufügen
 handles, labels = axs_ff.get_legend_handles_labels()
-fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=12, frameon=False)
+# Ergänze Stimulus-Legende
+handles.append(plt.Line2D([0], [0], color="black", linestyle=":", label="Stimulus Outline"))
+fig.legend(handles, labels, loc="lower center", ncol=5, fontsize=12, frameon=False)
 
 # Layout anpassen und speichern
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-plt.savefig("Final_Figure_with_Bar_Stimulus.png")
-plt.show()
+plt.savefig("Final_Figure_with_Stimulus_Outline_and_Full_Legend.png")
+
+
+
 
 
 
