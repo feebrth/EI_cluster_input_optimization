@@ -95,13 +95,18 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
     axs_stim.set_xlim(time_axis_ff[0], time_axis_ff[-1])  # Gleiche Zeitachse wie die anderen Plots
     axs_stim.set_ylim(0, 1.1)
-    axs_stim.set_xticks([])
-    axs_stim.set_yticks([])
-    if col == 0:
-        axs_stim.set_ylabel("Amplitude", fontsize=12)
+    axs_stim.set_yticks([0, 0.5, 1.0])  # Y-Ticks anzeigen
     axs_stim.set_title(f"({label})", fontsize=12, loc="left")
+
+    # Grid hinzufügen
     axs_stim.grid(alpha=0.3)
 
+    # X- und Y-Achsenbeschriftungen
+    if col == 0:
+        axs_stim.set_ylabel("Amplitude", fontsize=12)  # Y-Achse mit Label
+    axs_stim.set_xlabel("Time (ms)", fontsize=12)  # X-Achsenbeschriftung für Zeit
+    axs_stim.tick_params(axis="x", labelsize=10)  # X-Achsenticks anzeigen
+    axs_stim.tick_params(axis="y", labelsize=10)  # Y-Achsenticks anzeigen
 
     # Delta-Firing-Rates plotten (zweite Zeile)
     axs_fr = fig.add_subplot(grid[2, col])
