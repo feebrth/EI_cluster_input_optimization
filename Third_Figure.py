@@ -59,7 +59,7 @@ selected_rates = [trial.values[1] for trial in selected_trials]
 dx, dy = 0.005, 0.005  # Anpassung für die Position der Labels
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
     pareto_ax.scatter(ff, rate, color="red", s=60)
-    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=10, fontweight="bold", color="black")
+    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=14, fontweight="bold", color="black")
 
 pareto_ax.legend(fontsize=12)
 
@@ -116,7 +116,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     # Delta-Firing-Rates plotten (zweite Zeile)
     axs_fr = fig.add_subplot(grid[2, col], sharey=axs_fr if axs_fr else None)  # Gemeinsame y-Achse
     axs_fr.plot(time_axis_rates, sim_delta_rates, label="Simulated Delta Rates", color="green")
-    axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="yellow")
+    axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="orange")
     axs_fr.grid(alpha=0.3)
 
     if col == 0:
