@@ -108,14 +108,20 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_ff.set_xlabel("Time (ms)", fontsize=12)
 
 # Gemeinsame Legende unten hinzufügen
-handles, labels = axs_ff.get_legend_handles_labels()
-# Ergänze Stimulus-Legende
-handles.append(plt.Line2D([0], [0], color="black", linestyle=":", label="Stimulus Outline"))
-fig.legend(handles, labels, loc="lower center", ncol=5, fontsize=12, frameon=False)
+handles_stim, labels_stim = axs_stim.get_legend_handles_labels()  # Stimulus-Legende
+handles_fr, labels_fr = axs_fr.get_legend_handles_labels()  # Firing-Rate-Legende
+handles_ff, labels_ff = axs_ff.get_legend_handles_labels()  # Fano-Factor-Legende
+
+# Kombinierte Legenden-Handles und -Labels
+combined_handles = handles_stim + handles_fr + handles_ff
+combined_labels = labels_stim + labels_fr + labels_ff
+
+fig.legend(combined_handles, combined_labels, loc="lower center", ncol=4, fontsize=12, frameon=False)
 
 # Layout anpassen und speichern
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
 plt.savefig("Final_Figure_with_Stimulus_Outline_and_Full_Legend.png")
+
 
 
 
