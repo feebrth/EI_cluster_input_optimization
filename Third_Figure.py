@@ -41,6 +41,7 @@ loss_rates = [trial.values[1] for trial in study.best_trials]
 
 # Figure mit Subplots erstellen
 fig = plt.figure(figsize=(20, 18))
+
 grid = fig.add_gridspec(4, 5, height_ratios=[1.5, 1, 3, 3], hspace= 0.6)
 
 # Pareto-Front-Plot
@@ -120,21 +121,27 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.tick_params(axis="y", labelsize=10)  # Y-Achsenticks anzeigen
 
     # Delta-Firing-Rates plotten (zweite Zeile)
-    axs_fr = fig.add_subplot(grid[2, col])
-    axs_fr.plot(time_axis_rates, sim_delta_rates, label="Simulated Delta Rates", color="green")
-    axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="orange")
-    axs_fr.grid(alpha=0.3)
-    if col == 0:
-        axs_fr.set_ylabel("Delta Firing Rate", fontsize=12)
+    for col, (trial, label) in enumerate(zip(selected_trials, labels)):
+        axs_fr = fig.add_subplot(grid[2, col], sharey=True if col > 0 else None)  # Gleiche y-Achse
+        axs_fr.plot(time_axis_rates, sim_delta_rates, label="Simulated Delta Rates", color="green")
+        axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="yellow")
+        axs_fr.grid(alpha=0.3)
+        if col == 0:
+            axs_fr.set_ylabel("Delta Firing Rate", fontsize=12)
+        else:
+            axs_fr.yaxis.set_visible(False)  # Y-Ticks nur links
 
     # Delta-Fano-Factors plotten (dritte Zeile)
-    axs_ff = fig.add_subplot(grid[3, col])
-    axs_ff.plot(time_axis_ff, sim_delta_ff, label="Simulated Delta Fano", color="blue")
-    axs_ff.plot(exp_time_ff, exp_delta_ff, label="Experimental Delta Fano", linestyle="--", color="red")
-    axs_ff.grid(alpha=0.3)
-    if col == 0:
-        axs_ff.set_ylabel("Delta Fano Factors", fontsize=12)
-    axs_ff.set_xlabel("Time (ms)", fontsize=12)
+    for col, (trial, label) in enumerate(zip(selected_trials, labels)):
+        axs_ff = fig.add_subplot(grid[3, col], sharey=True if col > 0 else None)  # Gleiche y-Achse
+        axs_ff.plot(time_axis_ff, sim_delta_ff, label="Simulated Delta Fano", color="blue")
+        axs_ff.plot(exp_time_ff, exp_delta_ff, label="Experimental Delta Fano", linestyle="--", color="red")
+        axs_ff.grid(alpha=0.3)
+        if col == 0:
+            axs_ff.set_ylabel("Delta Fano Factors", fontsize=12)
+        else:
+            axs_ff.yaxis.set_visible(False)  # Y-Ticks nur links
+        axs_ff.set_xlabel("Time (ms)", fontsize=12)
 
 # Gemeinsame Legende unten hinzufügen
 handles_stim, labels_stim = axs_stim.get_legend_handles_labels()  # Stimulus-Legende
