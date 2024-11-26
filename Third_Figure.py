@@ -32,10 +32,9 @@ loss_rates = [trial.values[1] for trial in study.best_trials]
 
 # Figure mit Subplots erstellen
 fig = plt.figure(figsize=(20, 18))
-grid = fig.add_gridspec(4, 5, height_ratios=[1.5, 1, 3, 3])
 
 # Pareto-Front-Plot
-pareto_ax = fig.add_subplot(grid[0, :])
+pareto_ax = fig.add_subplot(4, 1, 1)
 pareto_ax.scatter(loss_ff, loss_rates, color="blue", label="Trials", alpha=0.6)
 pareto_ax.set_xlabel("Loss FF", fontsize=14)
 pareto_ax.set_ylabel("Loss Rates", fontsize=14)
@@ -49,11 +48,13 @@ selected_rates = [trial.values[1] for trial in selected_trials]
 
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
     pareto_ax.scatter(ff, rate, color="red", s=100)
-    pareto_ax.text(ff, rate, labels[i], fontsize=12, fontweight="bold", color="black")
+    pareto_ax.text(ff - 0.01, rate + 0.1, labels[i], fontsize=12, fontweight="bold", color="black")  # Buchstaben leicht versetzt anzeigen
 
 pareto_ax.legend(fontsize=12)
 
-# Simulation und Subplots
+# Simulation und Subplots für Delta-Werte
+time_axes_aligned = None
+
 for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     stimuli = [trial.params[f"stimulus{i + 1}"] for i in range(num_stimuli)]
 
@@ -81,25 +82,25 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     )
 
     # Stimulus-Amplituden plotten (erste Zeile)
-    axs_stim = fig.add_subplot(grid[1, col])
+    axs_stim = fig.add_subplot(4, 5, col + 1)
     stim_time_points = np.arange(0, len(stimuli) * kernel_step, kernel_step)
-    axs_stim.bar(stim_time_points, stimuli, width=kernel_step, color="black", edgecolor="black")
+    axs_stim.bar(stim_time_points, stimuli, width=kernel_step, color="black", align="edge")
     axs_stim.set_ylim(0, 1.1)
-    axs_stim.set_xticks([])
-    axs_stim.set_yticks([])
+    axs_stim.set_xticks([])  # Keine X-Ticks
+    axs_stim.set_yticks([])  # Keine Y-Ticks
     axs_stim.set_title(f"({label})", fontsize=12, loc="left")
     axs_stim.grid(alpha=0.3)
 
     # Delta-Firing-Rates plotten (zweite Zeile)
-    axs_fr = fig.add_subplot(grid[2, col])
+    axs_fr = fig.add_subplot(4, 5, col + 6)
     axs_fr.plot(time_axis_rates, sim_delta_rates, label="Simulated Delta Rates", color="green")
-    axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="yellow")
+    axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="orange")
     axs_fr.grid(alpha=0.3)
     if col == 0:
         axs_fr.set_ylabel("Delta Firing Rate", fontsize=12)
 
     # Delta-Fano-Factors plotten (dritte Zeile)
-    axs_ff = fig.add_subplot(grid[3, col])
+    axs_ff = fig.add_subplot(4, 5, col + 11)
     axs_ff.plot(time_axis_ff, sim_delta_ff, label="Simulated Delta Fano", color="blue")
     axs_ff.plot(exp_time_ff, exp_delta_ff, label="Experimental Delta Fano", linestyle="--", color="red")
     axs_ff.grid(alpha=0.3)
@@ -113,6 +114,8 @@ fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=12, frameon=Fal
 
 # Layout anpassen und speichern
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-plt.savefig("Final_Figure_with_Bar_Stimulus.png")
+plt.savefig("Final_Figure_Updated.png")
+
+
 
 
