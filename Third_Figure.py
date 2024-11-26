@@ -4,7 +4,7 @@ import numpy as np
 from FF_Sim import simulate_model, calculate_baseline_and_delta
 
 # Parameters for the Optuna study and simulation
-trials = 5
+trials = 6
 direction_range = [0]
 num_stimuli = 24
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
