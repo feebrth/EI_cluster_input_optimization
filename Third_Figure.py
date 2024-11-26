@@ -56,9 +56,11 @@ labels = ['a', 'b', 'c', 'd', 'e']
 selected_ff = [trial.values[0] for trial in selected_trials]
 selected_rates = [trial.values[1] for trial in selected_trials]
 
+dx, dy = 0.01, 0.01  # Anpassung für die Position der Labels
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
     pareto_ax.scatter(ff, rate, color="red", s=100)
-    pareto_ax.text(ff - 0.005, rate + 0.15, labels[i], fontsize=12, fontweight="bold", color="black")
+    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=10, fontweight="bold", color="black")
+
 
 pareto_ax.legend(fontsize=12)
 

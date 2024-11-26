@@ -31,10 +31,10 @@ if __name__ == '__main__':
     debug = int(os.environ.get('DEBUG', 0))
 
     print(f"Process ID: {os.getpid()}")
-    Simulation_per_worker = 200
+    Simulation_per_worker = 50
 
 
-    storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
+    storage_url = "mysql+pymysql://optuna:optuna@192.168.1.10:3307/optuna_Fee"
     sampler = optuna.samplers.TPESampler()
     if debug==1:
         print("DEBUG MODE")
