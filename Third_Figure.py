@@ -107,7 +107,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.set_xlim(time_axis_ff[0], time_axis_ff[-1])  # Gleiche Zeitachse wie die anderen Plots
     axs_stim.set_ylim(0, 1.1)
     axs_stim.set_yticks([0, 0.5, 1.0])  # Y-Ticks anzeigen
-    axs_stim.set_title(f"({label})", fontsize=12, loc="left")
+    axs_stim.set_title(f"{label}", fontsize=10, fontweight="bold", loc="left")
 
     # Grid hinzufügen
     axs_stim.grid(alpha=0.3)
