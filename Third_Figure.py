@@ -82,18 +82,21 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
 
     # Stimulus-Amplituden plotten (erste Zeile)
     axs_stim = fig.add_subplot(grid[1, col])
-    stim_time_points = np.arange(0, len(stimuli) * kernel_step, kernel_step)
+    stim_time_points = np.arange(time_axis_ff[0], time_axis_ff[0] + len(stimuli) * kernel_step, kernel_step)
     axs_stim.bar(stim_time_points, stimuli, width=kernel_step, color="white", edgecolor="black", align="edge")
+    axs_stim.set_xlim(time_axis_ff[0], time_axis_ff[-1])  # Zeitachse wie in anderen Plots
     axs_stim.set_ylim(0, 1.1)
+    if col == 0:
+        axs_stim.set_ylabel("Amplitude", fontsize=12)
     axs_stim.set_xticks([])
-    axs_stim.set_yticks([])
     axs_stim.set_title(f"({label})", fontsize=12, loc="left")
     axs_stim.grid(alpha=0.3)
+
 
     # Delta-Firing-Rates plotten (zweite Zeile)
     axs_fr = fig.add_subplot(grid[2, col])
     axs_fr.plot(time_axis_rates, sim_delta_rates, label="Simulated Delta Rates", color="green")
-    axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="yellow")
+    axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="orange")
     axs_fr.grid(alpha=0.3)
     if col == 0:
         axs_fr.set_ylabel("Delta Firing Rate", fontsize=12)
@@ -120,7 +123,7 @@ fig.legend(combined_handles, combined_labels, loc="lower center", ncol=4, fontsi
 
 # Layout anpassen und speichern
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-plt.savefig("Final_Figure_with_Stimulus_Outline_and_Full_Legend.png")
+plt.savefig("Final_Figure.png")
 
 
 
