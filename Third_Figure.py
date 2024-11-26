@@ -121,8 +121,12 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.tick_params(axis="y", labelsize=10)  # Y-Achsenticks anzeigen
 
     # Delta-Firing-Rates plotten (zweite Zeile)
+    axs_fr_left = None  # Referenz für die erste Spalte
     for col, (trial, label) in enumerate(zip(selected_trials, labels)):
-        axs_fr = fig.add_subplot(grid[2, col], sharey=True if col > 0 else None)  # Gleiche y-Achse
+        axs_fr = fig.add_subplot(grid[2, col], sharey=axs_fr_left)  # Gleiche y-Achse wie die erste Spalte
+        if axs_fr_left is None:
+            axs_fr_left = axs_fr  # Speichere die Referenz zur linken Spalte
+
         axs_fr.plot(time_axis_rates, sim_delta_rates, label="Simulated Delta Rates", color="green")
         axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="yellow")
         axs_fr.grid(alpha=0.3)
@@ -132,8 +136,12 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
             axs_fr.yaxis.set_visible(False)  # Y-Ticks nur links
 
     # Delta-Fano-Factors plotten (dritte Zeile)
+    axs_ff_left = None  # Referenz für die erste Spalte
     for col, (trial, label) in enumerate(zip(selected_trials, labels)):
-        axs_ff = fig.add_subplot(grid[3, col], sharey=True if col > 0 else None)  # Gleiche y-Achse
+        axs_ff = fig.add_subplot(grid[3, col], sharey=axs_ff_left)  # Gleiche y-Achse wie die erste Spalte
+        if axs_ff_left is None:
+            axs_ff_left = axs_ff  # Speichere die Referenz zur linken Spalte
+
         axs_ff.plot(time_axis_ff, sim_delta_ff, label="Simulated Delta Fano", color="blue")
         axs_ff.plot(exp_time_ff, exp_delta_ff, label="Experimental Delta Fano", linestyle="--", color="red")
         axs_ff.grid(alpha=0.3)
