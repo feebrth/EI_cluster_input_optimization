@@ -41,7 +41,7 @@ loss_rates = [trial.values[1] for trial in study.best_trials]
 
 # Figure mit Subplots erstellen
 fig = plt.figure(figsize=(20, 18))
-grid = fig.add_gridspec(4, 5, height_ratios=[1.5, 1, 3, 3], hspace= 0.4)
+grid = fig.add_gridspec(4, 5, height_ratios=[1.5, 1, 3, 3], hspace= 0.6)
 
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
