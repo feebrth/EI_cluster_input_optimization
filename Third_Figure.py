@@ -6,9 +6,9 @@ from FF_Sim import simulate_model, calculate_baseline_and_delta
 plt.rc('font', size=14)  # Standardtextgröße
 plt.rc('axes', titlesize=16)  # Titelgröße der Achsen
 plt.rc('axes', labelsize=14)  # Beschriftung der Achsen
-plt.rc('xtick', labelsize=12)  # X-Tick-Beschriftungen
-plt.rc('ytick', labelsize=12)  # Y-Tick-Beschriftungen
-plt.rc('legend', fontsize=12)  # Legendentextgröße
+plt.rc('xtick', labelsize=16)  # X-Tick-Beschriftungen
+plt.rc('ytick', labelsize=16)  # Y-Tick-Beschriftungen
+plt.rc('legend', fontsize=16)  # Legendentextgröße
 plt.rc('figure', titlesize=18)  # Figurentitelgröße
 
 
@@ -105,15 +105,15 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.set_xlim(time_axis_ff[0], time_axis_ff[-1])  # Gleiche Zeitachse wie die anderen Plots
     axs_stim.set_ylim(0, 1.1)
     axs_stim.set_yticks([0, 0.5, 1.0])  # Y-Ticks anzeigen
-    #axs_stim.set_title(f"({label})", fontsize=12, loc="left")
+    axs_stim.set_title(f"({label})", fontsize=12, loc="left")
 
     # Grid hinzufügen
     axs_stim.grid(alpha=0.3)
 
     # X- und Y-Achsenbeschriftungen
     if col == 0:
-        axs_stim.set_ylabel("Amplitude", fontsize=12)  # Y-Achse mit Label
-    axs_stim.set_xlabel("Time (ms)", fontsize=12)  # X-Achsenbeschriftung für Zeit
+        axs_stim.set_ylabel("Stimulus Amplitude", fontsize=12)  # Y-Achse mit Label
+    #axs_stim.set_xlabel("Time (ms)", fontsize=12)  # X-Achsenbeschriftung für Zeit
     axs_stim.tick_params(axis="x", labelsize=10)  # X-Achsenticks anzeigen
     axs_stim.tick_params(axis="y", labelsize=10)  # Y-Achsenticks anzeigen
 
