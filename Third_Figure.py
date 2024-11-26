@@ -82,13 +82,23 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
 
     # Stimulus-Amplituden plotten (erste Zeile)
     axs_stim = fig.add_subplot(grid[1, col])
-    stim_time_points = np.arange(time_axis_ff[0], time_axis_ff[0] + len(stimuli) * kernel_step, kernel_step)
-    axs_stim.bar(stim_time_points, stimuli, width=kernel_step, color="white", edgecolor="black", align="edge")
-    axs_stim.set_xlim(time_axis_ff[0], time_axis_ff[-1])  # Zeitachse wie in anderen Plots
+
+    # Stimulus-Zeitpunkte anpassen
+    stim_time_points = np.arange(0, len(stimuli) * kernel_step, kernel_step)
+    aligned_stim_curve = np.zeros_like(time_axis_rates)
+    for i, stim in enumerate(stimuli):
+        stim_start_idx = np.searchsorted(time_axis_rates, stim_time_points[i])
+        stim_end_idx = np.searchsorted(time_axis_rates, stim_time_points[i] + kernel_step)
+        aligned_stim_curve[stim_start_idx:stim_end_idx] = stim
+
+    # Plot Stimulus auf derselben Zeitachse
+    axs_stim.plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
+    axs_stim.set_xlim(time_axis_ff[0], time_axis_ff[-1])  # Gleiche Zeitachse wie die anderen Plots
     axs_stim.set_ylim(0, 1.1)
+    axs_stim.set_xticks([])
+    axs_stim.set_yticks([])
     if col == 0:
         axs_stim.set_ylabel("Amplitude", fontsize=12)
-    axs_stim.set_xticks([])
     axs_stim.set_title(f"({label})", fontsize=12, loc="left")
     axs_stim.grid(alpha=0.3)
 
