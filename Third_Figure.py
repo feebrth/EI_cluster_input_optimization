@@ -46,9 +46,9 @@ grid = fig.add_gridspec(4, 5, height_ratios=[2, 0.8, 2.5, 2.5], hspace=0.4)
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
 pareto_ax.scatter(loss_ff, loss_rates, color="blue", label="Trials", alpha=0.6)
-pareto_ax.set_xlabel("Loss FF", fontsize=14)
-pareto_ax.set_ylabel("Loss Rates", fontsize=14)
-pareto_ax.set_title("Pareto-Front Plot", fontsize=16)
+pareto_ax.set_xlabel("Loss FF", fontsize=16)
+pareto_ax.set_ylabel("Loss Rates", fontsize=16)
+pareto_ax.set_title("Pareto-Front", fontsize=16)
 pareto_ax.grid(alpha=0.3)
 
 # Markiere die ausgewählten Trials und nummeriere sie
@@ -61,7 +61,7 @@ for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
     pareto_ax.scatter(ff, rate, color="red", s=60)
     pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=14, fontweight="bold", color="black")
 
-pareto_ax.legend(fontsize=12)
+pareto_ax.legend(fontsize=14)
 
 # Initialisiere Achsen-Referenzen für gemeinsames Scaling
 axs_fr = None
@@ -103,38 +103,44 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         stim_end_idx = np.searchsorted(time_axis_rates, stim_time_points[i] + kernel_step)
         aligned_stim_curve[stim_start_idx:stim_end_idx] = stim
 
-    axs_stim.plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
-    axs_stim.set_xlim(time_axis_ff[0], time_axis_ff[-1])
+    axs_stim.plot(time_axis_rates, aligned_stim_curve, label="Stimulus Amplitude", color="black")
+    axs_fr.set_xlim([-500, 2100])
+    #axs_stim.set_xlim(time_axis_ff[0], time_axis_ff[-1])
     axs_stim.set_ylim(0, 1.1)
-    axs_stim.set_yticks([0, 0.5, 1.0])
-    axs_stim.set_title(f"{label}", fontsize=10, fontweight="bold", loc="left")
+    axs_stim.set_yticks([0.5, 1.0])
+    axs_stim.set_title(f"{label}", fontsize=14, fontweight="bold", loc="left")
     axs_stim.grid(alpha=0.3)
 
     if col == 0:
-        axs_stim.set_ylabel("Stimulus Amplitude", fontsize=12)
+        axs_stim.set_ylabel("Stimulus Amplitude [pA]", fontsize=16)
+
+    else:
+        axs_stim.yaxis.set_tick_params(labelleft=False)
 
     # Delta-Firing-Rates plotten (zweite Zeile)
     axs_fr = fig.add_subplot(grid[2, col], sharey=axs_fr if axs_fr else None)  # Gemeinsame y-Achse
-    axs_fr.plot(time_axis_rates, sim_delta_rates, label="Simulated Delta Rates", color="green")
-    axs_fr.plot(exp_time_rates, exp_delta_rates, label="Experimental Delta Rates", linestyle="--", color="orange")
+    axs_fr.plot(time_axis_rates, sim_delta_rates, label= r'Simulated $\Delta$ $\Lambda$ [spike/s]', color="green")
+    axs_fr.plot(exp_time_rates, exp_delta_rates, label=r'Experimental $\Delta$  $\Lambda$ [spike/s]', linestyle="--", color="orange")
+    axs_fr.set_xlim([-500, 2100])
     axs_fr.grid(alpha=0.3)
 
     if col == 0:
-        axs_fr.set_ylabel("Delta Firing Rate", fontsize=12)
+        axs_fr.set_ylabel(r'$\Delta$ $\Lambda$ [spikes/s]', fontsize=16)
     else:
         axs_fr.yaxis.set_tick_params(labelleft=False)
 
     # Delta-Fano-Factors plotten (dritte Zeile)
     axs_ff = fig.add_subplot(grid[3, col], sharey=axs_ff if axs_ff else None)  # Gemeinsame y-Achse
-    axs_ff.plot(time_axis_ff, sim_delta_ff, label="Simulated Delta Fano", color="blue")
-    axs_ff.plot(exp_time_ff, exp_delta_ff, label="Experimental Delta Fano", linestyle="--", color="red")
+    axs_ff.plot(time_axis_ff, sim_delta_ff, label= r'Simulated $\Delta$ FF', color="blue")
+    axs_ff.plot(exp_time_ff, exp_delta_ff, label= r'Experimental $\Delta$ FF', linestyle="--", color="red")
+    axs_fr.set_xlim([-500, 2100])
     axs_ff.grid(alpha=0.3)
 
     if col == 0:
-        axs_ff.set_ylabel("Delta Fano Factors", fontsize=12)
+        axs_ff.set_ylabel(r' $\Delta$ FF', fontsize=16)
     else:
         axs_ff.yaxis.set_tick_params(labelleft=False)
-    axs_ff.set_xlabel("Time (ms)", fontsize=12)
+    axs_ff.set_xlabel("Time (ms)", fontsize=16)
 
 # Gemeinsame Legende unten hinzufügen
 handles_stim, labels_stim = axs_stim.get_legend_handles_labels()
@@ -144,7 +150,7 @@ handles_ff, labels_ff = axs_ff.get_legend_handles_labels()
 combined_handles = handles_stim + handles_fr + handles_ff
 combined_labels = labels_stim + labels_fr + labels_ff
 
-fig.legend(combined_handles, combined_labels, loc="lower center", ncol=4, fontsize=12, frameon=False)
+fig.legend(combined_handles, combined_labels, loc="lower center", ncol=4, fontsize=14, frameon=False)
 
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
 plt.savefig("Final_Figure.png")
