@@ -5,17 +5,17 @@ import matplotlib.pyplot as plt
 # Parameters for the Optuna study and simulation
 trials = 60
 direction_range = [0, 1, 2]
-num_stimuli = 24
+num_stimuli = 8
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
 
 # Optuna Study laden
 storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
-study = optuna.load_study(study_name="24_FR_FF", storage=storage_url)
+study = optuna.load_study(study_name="8_FR_FF", storage=storage_url)
 
 # Pareto-Front visualisieren
 fig = optuna.visualization.plot_pareto_front(study, target_names=["Loss FF", "Loss Rates"])
 
-fig.write_image("Pareto_Front.png")
+fig.write_image("8_Pareto_Front.png")
 
 
 # Best Trials nach Fano-Faktor sortieren
@@ -59,5 +59,5 @@ for idx, trial in enumerate(sorted_trials):
     )
 
     # Speichere den Plot mit der zugehörigen Trial-Nummer
-    plt.savefig(f"Trial_{idx}_LossFF_{trial.values[0]:.3f}_Simulation.png")
+    plt.savefig(f"{num_stimuli}Stimuli_Trial_{idx}_LossFF_{trial.values[0]:.3f}.png")
     plt.close()  # Schließe die aktuelle Figure, um Speicher freizugeben
