@@ -5,6 +5,7 @@
 #SBATCH --array=0-9
 #SBATCH --partition=all
 #SBATCH --nodes=1
+#SBATCH --nodelist= agmn-srv-4
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=4G
