@@ -9,23 +9,15 @@ from optuna.samplers import GPSampler
 from optuna_dashboard import run_server
 
 from Simulation_final import simulate_model
+num_stimuli = 8
 
 def objective(trial):
 
-    #definition of random-search range for stimuli
-    stim1 = trial.suggest_uniform('stimulus1', 0,1)
-    stim2 = trial.suggest_uniform('stimulus2', 0,1)
-    stim3 = trial.suggest_uniform('stimulus3', 0,1)
-    stim4 = trial.suggest_uniform('stimulus4', 0,1)
-    stim5 = trial.suggest_uniform('stimulus5', 0,1)
-    stim6 = trial.suggest_uniform('stimulus6', 0,1)
-    stim7 = trial.suggest_uniform('stimulus7', 0,1)
-    stim8 = trial.suggest_uniform('stimulus8', 0,1)
-
-    stimuli = [stim1, stim2, stim3, stim4,stim5,stim6,stim7,stim8]
+    #definition of range for stimuli
+    stimuli = [trial.suggest_uniform(f'stimulus{i + 1}', 0, 1) for i in range(num_stimuli)]
 
     penalty = simulate_model(experimental_trials= 60, direction_range = [0, 1, 2], stim_kernel = stimuli, kernel_step= 2000/(len(stimuli)))
-    #hier Anzahl experimental trials ändern
+
 
     return penalty #optuna minimizes this value
 
@@ -38,10 +30,7 @@ if __name__ == '__main__':
 
     Simulation_per_worker = 50
 
-    # iterations = 5
-    #results, stimuli, best_stimulus = random_search_parallel(iterations = iterations, trials = trials, direction_range = direction_range, kernel_step = kernel_step)
 
-    #simulate_model(trials, direction_range, best_stimulus, kernel_step, plot=True)
     storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
     study = optuna.create_study(study_name= "GP_8", storage= storage_url, load_if_exists = True,
                                 direction = 'minimize', sampler = optuna.samplers.GPSampler())
