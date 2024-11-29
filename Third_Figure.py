@@ -119,13 +119,13 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
 
     # Delta-Firing-Rates plotten (zweite Zeile)
     axs_fr = fig.add_subplot(grid[2, col], sharey=axs_fr if axs_fr else None)  # Gemeinsame y-Achse
-    axs_fr.plot(time_axis_rates, sim_delta_rates, label= r'Simulated $\Delta$ $\Lambda$ [spike/s]', color="green")
-    axs_fr.plot(exp_time_rates, exp_delta_rates, label=r'Experimental $\Delta$  $\Lambda$ [spike/s]', linestyle="--", color="orange")
+    axs_fr.plot(time_axis_rates, sim_delta_rates, label= r'Simulated $\Delta$ FR [spike/s]', color="green")
+    axs_fr.plot(exp_time_rates, exp_delta_rates, label=r'Experimental $\Delta$  FR [spike/s]', linestyle="--", color="#FF8C00")
     axs_fr.set_xlim([-500, 2100])
     axs_fr.grid(alpha=0.3)
 
     if col == 0:
-        axs_fr.set_ylabel(r'$\Delta$ $\Lambda$ [spikes/s]', fontsize=16)
+        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]', fontsize=16)
     else:
         axs_fr.yaxis.set_tick_params(labelleft=False)
 
