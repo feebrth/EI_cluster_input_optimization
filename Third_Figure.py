@@ -104,7 +104,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         aligned_stim_curve[stim_start_idx:stim_end_idx] = stim
 
     axs_stim.plot(time_axis_rates, aligned_stim_curve, label="Stimulus Amplitude", color="black")
-    axs_fr.set_xlim([-500, 2100])
+    axs_stim.set_xlim([-500, 2100])
     #axs_stim.set_xlim(time_axis_ff[0], time_axis_ff[-1])
     axs_stim.set_ylim(0, 1.1)
     axs_stim.set_yticks([0.5, 1.0])
@@ -133,7 +133,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_ff = fig.add_subplot(grid[3, col], sharey=axs_ff if axs_ff else None)  # Gemeinsame y-Achse
     axs_ff.plot(time_axis_ff, sim_delta_ff, label= r'Simulated $\Delta$ FF', color="blue")
     axs_ff.plot(exp_time_ff, exp_delta_ff, label= r'Experimental $\Delta$ FF', linestyle="--", color="red")
-    axs_fr.set_xlim([-500, 2100])
+    axs_ff.set_xlim([-500, 2100])
     axs_ff.grid(alpha=0.3)
 
     if col == 0:
