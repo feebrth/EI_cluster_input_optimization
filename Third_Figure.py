@@ -13,14 +13,14 @@ plt.rc('legend', fontsize=16)  # Legendentextgröße
 plt.rc('figure', titlesize=18)  # Figurentitelgröße
 
 # Parameters for the Optuna study and simulation
-trials = 5
+trials = 50
 direction_range = [0]
-num_stimuli = 24
+num_stimuli = 8
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
 
 # Optuna Study laden
 storage_url = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
-study = optuna.load_study(study_name="24_FR_FF", storage=storage_url)
+study = optuna.load_study(study_name="8_FR_FF", storage=storage_url)
 
 # Extrahiere die Best Trials
 sorted_trials_ff = sorted(study.best_trials, key=lambda trial: trial.values[0])  # Nach "Loss FF" sortieren
