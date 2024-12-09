@@ -103,7 +103,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         stim_end_idx = np.searchsorted(time_axis_rates, stim_time_points[i] + kernel_step)
         aligned_stim_curve[stim_start_idx:stim_end_idx] = stim
 
-    axs_stim.plot(time_axis_rates, aligned_stim_curve, label="Stimulus Amplitude", color="black")
+    axs_stim.plot(time_axis_rates, aligned_stim_curve, label="Stim. Amp.", color="black")
     axs_stim.set_xlim([-500, 2100])
     axs_stim.set_ylim(0, 1.1)
     axs_stim.set_title(f"({label})", fontsize=14, fontweight="bold", loc="left")
@@ -152,27 +152,5 @@ fig.legend(combined_handles, combined_labels, loc="lower center", ncol=4, fontsi
 # Subplot-Nummerierung hinzufügen
 pareto_ax.text(-0.1, 1.1, "(a)", transform=pareto_ax.transAxes, fontsize=16, fontweight="bold")
 
-# Nummerierung der Stimulus-Amplituden, Delta-Firing-Rates und Delta-Fano-Factors
-# Manuelle Referenzierung der Subplots
-stimulus_axes = [fig.add_subplot(grid[1, col]) for col in range(5)]
-firing_rate_axes = [fig.add_subplot(grid[2, col]) for col in range(5)]
-fano_factor_axes = [fig.add_subplot(grid[3, col]) for col in range(5)]
-
-# Nummerierung für Stimulus-Amplituden
-for i, ax in enumerate(stimulus_axes):
-    if i == 0:
-        ax.text(-0.1, 1.1, "(b)", transform=ax.transAxes, fontsize=16, fontweight="bold")
-
-# Nummerierung für Delta-Firing-Rates
-for i, ax in enumerate(firing_rate_axes):
-    if i == 0:
-        ax.text(-0.1, 1.1, "(c)", transform=ax.transAxes, fontsize=16, fontweight="bold")
-
-# Nummerierung für Delta-Fano-Factors
-for i, ax in enumerate(fano_factor_axes):
-    if i == 0:
-        ax.text(-0.1, 1.1, "(d)", transform=ax.transAxes, fontsize=16, fontweight="bold")
-
-
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-plt.savefig("Improved_Figure_Annotated.png")
+plt.savefig("Improved_Figure.png")
