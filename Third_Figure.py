@@ -140,16 +140,19 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_ff.set_xlabel("Time (ms)", fontsize=16)
 
 # Legende mit Gruppierung
-legend_labels = [
-    ("Trials", "blue"),
-    ("Sim. $\Delta$ FR", "green"),
-    ("Exp. $\Delta$ FR", "red"),
-    ("Stim. Amp.", "black"),
-    ("Sim. $\Delta$ FF", "orange"),
-    ("Exp. $\Delta$ FF", "blue"),
+# Gruppenbasierte Legende für Simulated und Experimental
+handles = [
+    plt.Line2D([0], [0], color="blue", lw=2, label=r"Sim. $\Delta$ FF"),
+    plt.Line2D([0], [0], color="orange", lw=2, label=r"Exp. $\Delta$ FF"),
+    plt.Line2D([0], [0], color="green", lw=2, label=r"Sim. $\Delta$ FR"),
+    plt.Line2D([0], [0], color="red", lw=2, label=r"Exp. $\Delta$ FR"),
+    plt.Line2D([0], [0], color="black", lw=2, label="Stim. Amp."),
+    plt.Line2D([0], [0], color="blue", lw=0, marker="o", label="Trials"),
 ]
-handles = [plt.Line2D([0], [0], color=color, lw=2, label=label) for label, color in legend_labels]
-fig.legend(handles, loc="lower center", ncol=3, fontsize=14, frameon=False)
+
+# Legende mit Gruppierung hinzufügen
+fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=14, frameon=False)
+
 
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
 plt.savefig("Final_Updated.png")
