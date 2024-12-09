@@ -2,10 +2,9 @@
 #SBATCH --job-name=study
 #SBATCH --output=logs/study%A_%a.out
 #SBATCH --error=logs/study_job_%A_%a.err
-#SBATCH --array=0
 #SBATCH --partition=all
 #SBATCH --nodes=1
-#SBATCH --nodelist= agmn-srv-4
+#SBATCH --nodelist=agmn-srv-4
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=4G
