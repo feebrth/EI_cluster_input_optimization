@@ -153,6 +153,18 @@ handles = [
 # Legende mit Gruppierung hinzufügen
 fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=14, frameon=False)
 
+# Nummerierung der Subplot-Reihen hinzufügen
+pareto_ax.text(-0.1, 1.1, "(a)", transform=pareto_ax.transAxes, fontsize=16, fontweight="bold")
+
+# Position für Stim. Amp.
+fig.text(0.02, 0.71, "(b)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
+
+# Position für Delta FR
+fig.text(0.02, 0.50, "(c)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
+
+# Position für Delta FF
+fig.text(0.02, 0.28, "(d)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
+
 
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
 plt.savefig("Final_Updated.png")
