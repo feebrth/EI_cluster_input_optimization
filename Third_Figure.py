@@ -116,25 +116,25 @@ fig.text(0.03, 0.5, "(c)", fontsize=18, fontweight="bold", transform=fig.transFi
 fig.text(0.03, 0.3, "(d)", fontsize=18, fontweight="bold", transform=fig.transFigure)
 
 # Delta-Firing-Rates plotten
-    axs_fr = fig.add_subplot(grid[2, col], sharey=axs_fr if axs_fr else None)
-    axs_fr.plot(time_axis_rates, sim_delta_rates, label=r'Simulated $\Delta$ FR', color="green")
-    axs_fr.plot(exp_time_rates, exp_delta_rates, label=r'Experimental $\Delta$ FR', linestyle="--", color="orange")
-    axs_fr.set_xlim([-500, 2100])
-    axs_fr.grid(alpha=0.3)
+axs_fr = fig.add_subplot(grid[2, col], sharey=axs_fr if axs_fr else None)
+axs_fr.plot(time_axis_rates, sim_delta_rates, label=r'Simulated $\Delta$ FR', color="green")
+axs_fr.plot(exp_time_rates, exp_delta_rates, label=r'Experimental $\Delta$ FR', linestyle="--", color="orange")
+axs_fr.set_xlim([-500, 2100])
+axs_fr.grid(alpha=0.3)
 
-    if col == 0:
-        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]')
+if col == 0:
+    axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]')
 
 # Delta-Fano-Factors plotten
-    axs_ff = fig.add_subplot(grid[3, col], sharey=axs_ff if axs_ff else None)
-    axs_ff.plot(time_axis_ff, sim_delta_ff, label=r'Simulated $\Delta$ FF', color="blue")
-    axs_ff.plot(exp_time_ff, exp_delta_ff, label=r'Experimental $\Delta$ FF', linestyle="--", color="#CC6600")
-    axs_ff.set_xlim([-500, 2100])
-    axs_ff.grid(alpha=0.3)
+axs_ff = fig.add_subplot(grid[3, col], sharey=axs_ff if axs_ff else None)
+axs_ff.plot(time_axis_ff, sim_delta_ff, label=r'Simulated $\Delta$ FF', color="blue")
+axs_ff.plot(exp_time_ff, exp_delta_ff, label=r'Experimental $\Delta$ FF', linestyle="--", color="#CC6600")
+axs_ff.set_xlim([-500, 2100])
+axs_ff.grid(alpha=0.3)
 
-    if col == 0:
-        axs_ff.set_ylabel(r'$\Delta$ FF')
-    axs_ff.set_xlabel("Time (ms)")
+if col == 0:
+    axs_ff.set_ylabel(r'$\Delta$ FF')
+axs_ff.set_xlabel("Time (ms)")
 
 # Gemeinsame Legende
 handles, labels = axs_ff.get_legend_handles_labels()
