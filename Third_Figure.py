@@ -13,7 +13,7 @@ plt.rc('legend', fontsize=16)  # Legendentextgröße
 plt.rc('figure', titlesize=18)  # Figurentitelgröße
 
 # Parameters for the Optuna study and simulation
-trials = 50
+trials = 5
 direction_range = [0]
 num_stimuli = 8
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
@@ -153,4 +153,4 @@ combined_labels = labels_stim + labels_fr + labels_ff
 fig.legend(combined_handles, combined_labels, loc="lower center", ncol=4, fontsize=14, frameon=False)
 
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-plt.savefig("Final_Figure.png")
+plt.savefig("Third_Figure.png")
