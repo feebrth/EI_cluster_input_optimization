@@ -41,7 +41,7 @@ loss_rates = [trial.values[1] for trial in study.best_trials]
 
 # Figure mit Subplots erstellen
 fig = plt.figure(figsize=(20, 20))
-grid = fig.add_gridspec(4, 5, height_ratios=[2.2, 1, 2.5, 2.5], hspace=0.3)
+grid = fig.add_gridspec(4, 5, height_ratios=[2, 0.8, 2.5, 2.5], hspace=0.4)
 
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
@@ -61,7 +61,6 @@ for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
     pareto_ax.scatter(ff, rate, color="red", s=60)
     pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=14, fontweight="bold", color="black")
 
-pareto_ax.text(-0.1, 1.1, "(a)", transform=pareto_ax.transAxes, fontsize=16, fontweight="bold")
 pareto_ax.legend(fontsize=14)
 
 # Initialisiere Achsen-Referenzen für gemeinsames Scaling
@@ -111,7 +110,6 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.grid(alpha=0.3)
 
     if col == 0:
-        axs_stim.text(-0.1, 1.1, "(b)", transform=axs_stim.transAxes, fontsize=16, fontweight="bold")
         axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=16)
     else:
         axs_stim.yaxis.set_tick_params(labelleft=False)
@@ -124,7 +122,6 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_fr.grid(alpha=0.3)
 
     if col == 0:
-        axs_fr.text(-0.1, 1.1, "(c)", transform=axs_fr.transAxes, fontsize=16, fontweight="bold")
         axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]', fontsize=16)
     else:
         axs_fr.yaxis.set_tick_params(labelleft=False)
@@ -137,15 +134,24 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_ff.grid(alpha=0.3)
 
     if col == 0:
-        axs_ff.text(-0.1, 1.1, "(d)", transform=axs_ff.transAxes, fontsize=16, fontweight="bold")
         axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=16)
     else:
         axs_ff.yaxis.set_tick_params(labelleft=False)
     axs_ff.set_xlabel("Time (ms)", fontsize=16)
 
-# Gemeinsame Legende hinzufügen
-fig.legend(loc="lower center", ncol=3, fontsize=14, frameon=False)
+# Legende mit Gruppierung
+legend_labels = [
+    ("Trials", "blue"),
+    ("Sim. $\Delta$ FR", "green"),
+    ("Exp. $\Delta$ FR", "red"),
+    ("Stim. Amp.", "black"),
+    ("Sim. $\Delta$ FF", "orange"),
+    ("Exp. $\Delta$ FF", "blue"),
+]
+handles = [plt.Line2D([0], [0], color=color, lw=2, label=label) for label, color in legend_labels]
+fig.legend(handles, loc="lower center", ncol=3, fontsize=14, frameon=False)
 
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-plt.savefig("Improved_Figure_Final.png")
+plt.savefig("Final_Updated.png")
+
 
