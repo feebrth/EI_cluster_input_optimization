@@ -4,11 +4,11 @@ import numpy as np
 from FF_Sim import simulate_model, calculate_baseline_and_delta
 
 # Globale Schriftgrößen-Einstellungen
-plt.rc('font', size=14)  # Standardtextgröße
-plt.rc('axes', titlesize=16)  # Titelgröße der Achsen
+plt.rc('font', size=16)  # Standardtextgröße
+plt.rc('axes', titlesize=18)  # Titelgröße der Achsen
 plt.rc('axes', labelsize=14)  # Beschriftung der Achsen
 plt.rc('xtick', labelsize=16)  # X-Tick-Beschriftungen
-plt.rc('ytick', labelsize=16)  # Y-Tick-Beschriftungen
+plt.rc('ytick', labelsize=18)  # Y-Tick-Beschriftungen
 plt.rc('legend', fontsize=16)  # Legendentextgröße
 plt.rc('figure', titlesize=18)  # Figurentitelgröße
 
@@ -106,7 +106,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.plot(time_axis_rates, aligned_stim_curve, label="Stim. Amp.", color="black")
     axs_stim.set_xlim([-500, 2100])
     axs_stim.set_ylim(0, 1.1)
-    axs_stim.set_title(f"({label})", fontsize=14, fontweight="bold", loc="left")
+    axs_stim.set_title(f"{label}", fontsize=14, fontweight="bold", loc="left")
     axs_stim.grid(alpha=0.3)
 
     if col == 0:
