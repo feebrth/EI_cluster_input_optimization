@@ -151,8 +151,28 @@ fig.legend(combined_handles, combined_labels, loc="lower center", ncol=4, fontsi
 
 # Subplot-Nummerierung hinzufügen
 pareto_ax.text(-0.1, 1.1, "(a)", transform=pareto_ax.transAxes, fontsize=16, fontweight="bold")
-for i, ax in enumerate(grid[1, :]):
-    ax.text(-0.1, 1.1, f"({chr(98 + i)})", transform=ax.transAxes, fontsize=16, fontweight="bold")
+
+# Nummerierung der Stimulus-Amplituden, Delta-Firing-Rates und Delta-Fano-Factors
+# Manuelle Referenzierung der Subplots
+stimulus_axes = [fig.add_subplot(grid[1, col]) for col in range(5)]
+firing_rate_axes = [fig.add_subplot(grid[2, col]) for col in range(5)]
+fano_factor_axes = [fig.add_subplot(grid[3, col]) for col in range(5)]
+
+# Nummerierung für Stimulus-Amplituden
+for i, ax in enumerate(stimulus_axes):
+    if i == 0:
+        ax.text(-0.1, 1.1, "(b)", transform=ax.transAxes, fontsize=16, fontweight="bold")
+
+# Nummerierung für Delta-Firing-Rates
+for i, ax in enumerate(firing_rate_axes):
+    if i == 0:
+        ax.text(-0.1, 1.1, "(c)", transform=ax.transAxes, fontsize=16, fontweight="bold")
+
+# Nummerierung für Delta-Fano-Factors
+for i, ax in enumerate(fano_factor_axes):
+    if i == 0:
+        ax.text(-0.1, 1.1, "(d)", transform=ax.transAxes, fontsize=16, fontweight="bold")
+
 
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
 plt.savefig("Improved_Figure_Annotated.png")
