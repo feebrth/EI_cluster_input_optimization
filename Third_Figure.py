@@ -7,14 +7,14 @@ from FF_Sim import simulate_model, calculate_baseline_and_delta
 plt.rc('font', size=16)  # Standardtextgröße
 plt.rc('axes', titlesize=18)  # Titelgröße der Achsen
 plt.rc('axes', labelsize=14)  # Beschriftung der Achsen
-plt.rc('xtick', labelsize=16)  # X-Tick-Beschriftungen
+plt.rc('xtick', labelsize=18)  # X-Tick-Beschriftungen
 plt.rc('ytick', labelsize=18)  # Y-Tick-Beschriftungen
 plt.rc('legend', fontsize=16)  # Legendentextgröße
 plt.rc('figure', titlesize=18)  # Figurentitelgröße
 
 # Parameters for the Optuna study and simulation
-trials = 5
-direction_range = [0]
+trials = 50
+direction_range = [0,1,2]
 num_stimuli = 8
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
 
