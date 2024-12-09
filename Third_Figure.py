@@ -161,7 +161,7 @@ x_position = 0.02  # Einheitliche x-Position für alle Reihen
 fig.text(x_position, 0.90, "(a)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
 fig.text(x_position, 0.68, "(b)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
 fig.text(x_position, 0.56, "(c)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
-fig.text(x_position, 0.30, "(d)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
+fig.text(x_position, 0.31, "(d)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
 
 
 
