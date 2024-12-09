@@ -13,7 +13,7 @@ plt.rc('legend', fontsize=16)  # Legendentextgröße
 plt.rc('figure', titlesize=18)  # Figurentitelgröße
 
 # Parameters for the Optuna study and simulation
-trials = 50
+trials = 5
 direction_range = [0,1,2]
 num_stimuli = 8
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus

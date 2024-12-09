@@ -9,7 +9,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=4G
-#SBATCH --time=20:00:00
+#SBATCH --time=48:00:00
 
 # Load necessary modules
 module load python3/anaconda3-2024.06-py3.12
@@ -19,6 +19,6 @@ conda activate Nest3
 
 
 # Run the Python script
-python Optuna_FF_FR.py
+python Third_Figure.py
 
 #srun --partition=all --nodes=1 --ntasks=1 --cpus-per-task=2 --mem=3G --time=05:00:00 --nodelist=agmn-srv-4 --pty bash
