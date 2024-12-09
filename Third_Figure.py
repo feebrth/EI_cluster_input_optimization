@@ -154,16 +154,15 @@ handles = [
 fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=14, frameon=False)
 
 # Nummerierung der Subplot-Reihen hinzufügen
-pareto_ax.text(0.02, 1.1, "(a)", transform=pareto_ax.transAxes, fontsize=16, fontweight="bold")
+# Einheitliche x-Position für alle Reihen-Nummerierungen
+x_position = 0.02  # Einheitliche x-Position für alle Reihen
 
-# Position für Stim. Amp.
-fig.text(0.02, 0.71, "(b)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
+# Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
+fig.text(x_position, 0.93, "(a)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
+fig.text(x_position, 0.71, "(b)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
+fig.text(x_position, 0.50, "(c)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
+fig.text(x_position, 0.28, "(d)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
 
-# Position für Delta FR
-fig.text(0.02, 0.50, "(c)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
-
-# Position für Delta FF
-fig.text(0.02, 0.28, "(d)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
 
 
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
