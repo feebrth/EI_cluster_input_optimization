@@ -3,7 +3,7 @@ from FF_Sim import simulate_model, plot_simulated_and_experimental_data
 import matplotlib.pyplot as plt
 
 # Parameters for the Optuna study and simulation
-trials = 60
+trials = 5
 direction_range = [0, 1, 2]
 num_stimuli = 8
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
@@ -60,5 +60,5 @@ for idx, trial in enumerate(sorted_trials):
     )
 
     # Speichere den Plot mit der zugehörigen Trial-Nummer
-    plt.savefig(f"{num_stimuli}Stimuli_Trial_{idx}_LossFF_{trial.values[0]:.3f}.png")
+    plt.savefig(f"{num_stimuli}Stimuli_Trial_{idx}_LossFF_{trial.values[0]:.3f}_test.png")
     plt.close()  # Schließe die aktuelle Figure, um Speicher freizugeben

@@ -434,10 +434,21 @@ def plot_simulated_and_experimental_data(
         time_axis_rates, simulated_rates, exp_time_rates, exp_rates
     )
 
+    plt.rcParams.update({
+        'font.size': 14,
+        'axes.titlesize': 16,
+        'axes.labelsize': 14,
+        'xtick.labelsize': 12,
+        'ytick.labelsize': 12,
+        'legend.fontsize': 12,
+        'lines.linewidth': 2,  # Einheitliche Linienbreite
+        'figure.titlesize': 18
+    })
     fig, axs = plt.subplots(3, 2, figsize=(16, 12), sharex='col', gridspec_kw={'height_ratios': [0.5, 1, 1]})
     labels = ['(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
     positions = [(0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)]
     tick_fontsize = 12
+    plt.subplots_adjust(left=0.08, right=0.95, top=0.92, bottom=0.08, hspace=0.4, wspace=0.4)
 
     # Stimulus Kernel (first row, left and right)
     if stim_kernel is not None and kernel_step is not None:
