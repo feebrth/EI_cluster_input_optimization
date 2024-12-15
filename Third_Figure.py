@@ -4,16 +4,20 @@ import numpy as np
 from FF_Sim import simulate_model, calculate_baseline_and_delta
 
 # Globale Schriftgrößen-Einstellungen
-plt.rc('font', size=16)  # Standardtextgröße
-plt.rc('axes', titlesize=18)  # Titelgröße der Achsen
-plt.rc('axes', labelsize=14)  # Beschriftung der Achsen
-plt.rc('xtick', labelsize=18)  # X-Tick-Beschriftungen
-plt.rc('ytick', labelsize=18)  # Y-Tick-Beschriftungen
-plt.rc('legend', fontsize=16)  # Legendentextgröße
-plt.rc('figure', titlesize=18)  # Figurentitelgröße
+plt.rcParams.update({
+    'font.size': 14,
+    'axes.titlesize': 16,
+    'axes.labelsize': 14,
+    'xtick.labelsize': 12,
+    'ytick.labelsize': 12,
+    'legend.fontsize': 12,
+    'lines.linewidth': 2,  # Linienbreite
+    'figure.titlesize': 18
+})
+
 
 # Parameters for the Optuna study and simulation
-trials = 50
+trials = 5
 direction_range = [0,1,2]
 num_stimuli = 8
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
@@ -41,7 +45,7 @@ loss_rates = [trial.values[1] for trial in study.best_trials]
 
 # Figure mit Subplots erstellen
 fig = plt.figure(figsize=(20, 20))
-grid = fig.add_gridspec(4, 5, height_ratios=[2, 0.8, 2.5, 2.5], hspace=0.4)
+grid = fig.add_gridspec(4, 5, height_ratios=[2, 0.8, 2.5, 2.5], hspace=0.4, wspace=0.4)
 
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
@@ -151,7 +155,8 @@ handles = [
 ]
 
 # Legende mit Gruppierung hinzufügen
-fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=14, frameon=False)
+fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=12, frameon=False)
+
 
 # Nummerierung der Subplot-Reihen hinzufügen
 # Einheitliche x-Position für alle Reihen-Nummerierungen
@@ -166,6 +171,6 @@ fig.text(x_position, 0.31, "(d)", fontsize=16, fontweight="bold", ha="left", va=
 
 
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-plt.savefig("Third_Figure_final.png")
+plt.savefig("Third_Figure_test.png")
 
 
