@@ -23,7 +23,7 @@ fig.write_image("8_Pareto_Front.png")
 sorted_trials = sorted(study.best_trials, key=lambda trial: trial.values[0])  # Nach "Loss FF" sortieren
 
 # Alle Best Trials simulieren und plotten
-for idx, trial in enumerate(sorted_trials):
+for idx, trial in enumerate(sorted_trials[:5]):
     best_params = trial.params
     print(f"Simulating Trial {idx}:")
     print("  Loss FF:", trial.values[0])
