@@ -5,20 +5,20 @@ from FF_Sim import simulate_model, calculate_baseline_and_delta
 
 # Globale Schriftgrößen-Einstellungen
 plt.rcParams.update({
-    'font.size': 14,
-    'axes.titlesize': 16,
-    'axes.labelsize': 14,
+    'font.size': 20,
+    'axes.titlesize': 20,
+    'axes.labelsize': 20,
     'xtick.labelsize': 12,
     'ytick.labelsize': 12,
-    'legend.fontsize': 12,
+    'legend.fontsize': 18,
     'lines.linewidth': 2,  # Linienbreite
-    'figure.titlesize': 18
+    'figure.titlesize': 20
 })
 
 
 # Parameters for the Optuna study and simulation
 trials = 5
-direction_range = [0,1,2]
+direction_range = [0]
 num_stimuli = 8
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
 
@@ -171,6 +171,6 @@ fig.text(x_position, 0.31, "(d)", fontsize=16, fontweight="bold", ha="left", va=
 
 
 plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-plt.savefig("Third_Figure_test.png")
+plt.savefig("Third_Figure_test2.png")
 
 
