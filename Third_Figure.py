@@ -8,8 +8,8 @@ plt.rcParams.update({
     'font.size': 24,
     'axes.titlesize': 24,
     'axes.labelsize': 22,
-    'xtick.labelsize': 18,
-    'ytick.labelsize': 18,
+    'xtick.labelsize': 20,
+    'ytick.labelsize': 20,
     'legend.fontsize': 22,
     'lines.linewidth': 2,  # Linienbreite
     'figure.titlesize': 24
@@ -50,9 +50,9 @@ grid = fig.add_gridspec(4, 5, height_ratios=[2, 0.7, 2.3, 2.3], hspace=0.3, wspa
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
 pareto_ax.scatter(loss_ff, loss_rates, color="blue", label="Trials", alpha=0.6)
-# pareto_ax.set_xlabel("Loss FF", fontsize=16)
-# pareto_ax.set_ylabel("Loss Rates", fontsize=16)
-# pareto_ax.set_title("Pareto-Front", fontsize=16)
+pareto_ax.set_xlabel("Loss FF")
+pareto_ax.set_ylabel("Loss Rates")
+pareto_ax.set_title("Pareto-Front")
 pareto_ax.grid(alpha=0.3)
 
 # Markiere die ausgewählten Trials und nummeriere sie
@@ -63,7 +63,7 @@ selected_rates = [trial.values[1] for trial in selected_trials]
 dx, dy = 0.005, 0.005  # Anpassung für die Position der Labels
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
     pareto_ax.scatter(ff, rate, color="red", s=60)
-    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=14, fontweight="bold", color="black")
+    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=18, fontweight="bold", color="black")
 
 pareto_ax.legend(fontsize=14)
 
@@ -163,14 +163,14 @@ fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=20, frameon=Fal
 x_position = 0.02  # Einheitliche x-Position für alle Reihen
 
 # Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
-fig.text(x_position, 0.90, "(a)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
-fig.text(x_position, 0.68, "(b)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
-fig.text(x_position, 0.56, "(c)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
-fig.text(x_position, 0.31, "(d)", fontsize=16, fontweight="bold", ha="left", va="center", rotation=0)
+fig.text(x_position, 0.90, "(a)", fontsize=20, fontweight="bold", ha="left", va="center", rotation=0)
+fig.text(x_position, 0.68, "(b)", fontsize=20, fontweight="bold", ha="left", va="center", rotation=0)
+fig.text(x_position, 0.56, "(c)", fontsize=20, fontweight="bold", ha="left", va="center", rotation=0)
+fig.text(x_position, 0.31, "(d)", fontsize=20, fontweight="bold", ha="left", va="center", rotation=0)
 
 
 
 plt.tight_layout(rect=[0.02, 0.05, 1, 0.95])
-plt.savefig("Third_Figure_test4.png")
+plt.savefig("Third_Figure_test4.png", dpi=300)
 
 
