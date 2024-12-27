@@ -5,14 +5,14 @@ from FF_Sim import simulate_model, calculate_baseline_and_delta
 
 # Globale Schriftgrößen-Einstellungen
 plt.rcParams.update({
-    'font.size': 26,
-    'axes.titlesize': 26,
-    'axes.labelsize': 24,
+    'font.size': 24,
+    'axes.titlesize': 24,
+    'axes.labelsize': 22,
     'xtick.labelsize': 18,
     'ytick.labelsize': 18,
-    'legend.fontsize': 24,
+    'legend.fontsize': 22,
     'lines.linewidth': 2,  # Linienbreite
-    'figure.titlesize': 26
+    'figure.titlesize': 24
 })
 
 
@@ -50,9 +50,9 @@ grid = fig.add_gridspec(4, 5, height_ratios=[2, 0.7, 2.3, 2.3], hspace=0.3, wspa
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
 pareto_ax.scatter(loss_ff, loss_rates, color="blue", label="Trials", alpha=0.6)
-pareto_ax.set_xlabel("Loss FF", fontsize=16)
-pareto_ax.set_ylabel("Loss Rates", fontsize=16)
-pareto_ax.set_title("Pareto-Front", fontsize=16)
+# pareto_ax.set_xlabel("Loss FF", fontsize=16)
+# pareto_ax.set_ylabel("Loss Rates", fontsize=16)
+# pareto_ax.set_title("Pareto-Front", fontsize=16)
 pareto_ax.grid(alpha=0.3)
 
 # Markiere die ausgewählten Trials und nummeriere sie
@@ -110,11 +110,11 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.plot(time_axis_rates, aligned_stim_curve, label="Stim. Amp.", color="black")
     axs_stim.set_xlim([-500, 2100])
     axs_stim.set_ylim(0, 1.1)
-    axs_stim.set_title(f"{label}", fontsize=14, fontweight="bold", loc="left")
+    axs_stim.set_title(f"{label}", fontweight="bold", loc="left")
     axs_stim.grid(alpha=0.3)
 
     if col == 0:
-        axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=16)
+        axs_stim.set_ylabel("Stim. Amp. [pA]")
     else:
         axs_stim.yaxis.set_tick_params(labelleft=False)
 
@@ -126,7 +126,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_fr.grid(alpha=0.3)
 
     if col == 0:
-        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]', fontsize=16)
+        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]')
     else:
         axs_fr.yaxis.set_tick_params(labelleft=False)
 
@@ -138,7 +138,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_ff.grid(alpha=0.3)
 
     if col == 0:
-        axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=16)
+        axs_ff.set_ylabel(r'$\Delta$ FF',)
     else:
         axs_ff.yaxis.set_tick_params(labelleft=False)
     axs_ff.set_xlabel("Time (ms)", fontsize=16)
@@ -171,6 +171,6 @@ fig.text(x_position, 0.31, "(d)", fontsize=16, fontweight="bold", ha="left", va=
 
 
 plt.tight_layout(rect=[0.02, 0.05, 1, 0.95])
-plt.savefig("Third_Figure_test3.png")
+plt.savefig("Third_Figure_test4.png")
 
 
