@@ -5,14 +5,14 @@ from FF_Sim import simulate_model, calculate_baseline_and_delta
 
 # Globale Schriftgrößen-Einstellungen
 plt.rcParams.update({
-    'font.size': 20,
-    'axes.titlesize': 20,
-    'axes.labelsize': 20,
-    'xtick.labelsize': 12,
-    'ytick.labelsize': 12,
-    'legend.fontsize': 18,
+    'font.size': 26,
+    'axes.titlesize': 26,
+    'axes.labelsize': 24,
+    'xtick.labelsize': 18,
+    'ytick.labelsize': 18,
+    'legend.fontsize': 24,
     'lines.linewidth': 2,  # Linienbreite
-    'figure.titlesize': 20
+    'figure.titlesize': 26
 })
 
 
@@ -44,8 +44,8 @@ loss_ff = [trial.values[0] for trial in study.best_trials]
 loss_rates = [trial.values[1] for trial in study.best_trials]
 
 # Figure mit Subplots erstellen
-fig = plt.figure(figsize=(20, 20))
-grid = fig.add_gridspec(4, 5, height_ratios=[2, 0.8, 2.5, 2.5], hspace=0.4, wspace=0.4)
+fig = plt.figure(figsize=(22, 18))
+grid = fig.add_gridspec(4, 5, height_ratios=[2, 0.7, 2.3, 2.3], hspace=0.3, wspace=0.3)
 
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
@@ -155,7 +155,7 @@ handles = [
 ]
 
 # Legende mit Gruppierung hinzufügen
-fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=12, frameon=False)
+fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=20, frameon=False)
 
 
 # Nummerierung der Subplot-Reihen hinzufügen
@@ -170,7 +170,7 @@ fig.text(x_position, 0.31, "(d)", fontsize=16, fontweight="bold", ha="left", va=
 
 
 
-plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-plt.savefig("Third_Figure_test2.png")
+plt.tight_layout(rect=[0.02, 0.05, 1, 0.95])
+plt.savefig("Third_Figure_test3.png")
 
 
