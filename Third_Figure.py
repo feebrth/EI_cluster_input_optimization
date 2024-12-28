@@ -45,7 +45,7 @@ loss_rates = [trial.values[1] for trial in study.best_trials]
 
 # Figure mit Subplots erstellen
 fig = plt.figure(figsize=(22, 18))
-grid = fig.add_gridspec(4, 5, height_ratios=[2.5, 0.5, 2.3, 2.3], hspace=0.3, wspace=0.3)
+grid = fig.add_gridspec(5, 5, height_ratios=[2.5, 0.3, 0.8, 2.3, 2.3], hspace=0.3, wspace=0.3)
 
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
@@ -99,7 +99,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     )
 
     # Stimulus-Amplituden plotten (erste Zeile)
-    axs_stim = fig.add_subplot(grid[1, col])
+    axs_stim = fig.add_subplot(grid[2, col])
     stim_time_points = np.arange(0, len(stimuli) * kernel_step, kernel_step)
     aligned_stim_curve = np.zeros_like(time_axis_rates)
     for i, stim in enumerate(stimuli):
@@ -164,7 +164,7 @@ x_position = 0.02  # Einheitliche x-Position für alle Reihen
 
 # Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
 fig.text(x_position, 0.90, "(a)", fontsize=20, fontweight="bold", ha="left", va="center", rotation=0)
-fig.text(x_position, 0.68, "(b)", fontsize=20, fontweight="bold", ha="left", va="center", rotation=0)
+fig.text(x_position, 0.73, "(b)", fontsize=20, fontweight="bold", ha="left", va="center", rotation=0)
 fig.text(x_position, 0.56, "(c)", fontsize=20, fontweight="bold", ha="left", va="center", rotation=0)
 fig.text(x_position, 0.31, "(d)", fontsize=20, fontweight="bold", ha="left", va="center", rotation=0)
 
