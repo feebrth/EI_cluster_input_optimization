@@ -155,7 +155,7 @@ handles = [
 ]
 
 # Legende mit Gruppierung hinzufügen
-fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=20, frameon=False, bbox_to_anchor=(0.5, -0.05))
+fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=20, frameon=False, bbox_to_anchor=(0.5, -0.02))
 
 
 # Nummerierung der Subplot-Reihen hinzufügen
