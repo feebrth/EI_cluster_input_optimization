@@ -119,7 +119,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         axs_stim.yaxis.set_tick_params(labelleft=False)
 
     # Delta-Firing-Rates plotten (zweite Zeile)
-    axs_fr = fig.add_subplot(grid[2, col], sharey=axs_fr if axs_fr else None)  # Gemeinsame y-Achse
+    axs_fr = fig.add_subplot(grid[3, col], sharey=axs_fr if axs_fr else None)  # Gemeinsame y-Achse
     axs_fr.plot(time_axis_rates, sim_delta_rates, label=r'Sim. $\Delta$ FR [spike/s]', color="green")
     axs_fr.plot(exp_time_rates, exp_delta_rates, label=r'Exp. $\Delta$ FR [spike/s]', linestyle="--", color="red")
     axs_fr.set_xlim([-500, 2100])
@@ -131,7 +131,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         axs_fr.yaxis.set_tick_params(labelleft=False)
 
     # Delta-Fano-Factors plotten (dritte Zeile)
-    axs_ff = fig.add_subplot(grid[3, col], sharey=axs_ff if axs_ff else None)  # Gemeinsame y-Achse
+    axs_ff = fig.add_subplot(grid[4, col], sharey=axs_ff if axs_ff else None)  # Gemeinsame y-Achse
     axs_ff.plot(time_axis_ff, sim_delta_ff, label=r'Sim. $\Delta$ FF', color="blue")
     axs_ff.plot(exp_time_ff, exp_delta_ff, label=r'Exp. $\Delta$ FF', linestyle="--", color="orange")
     axs_ff.set_xlim([-500, 2100])
