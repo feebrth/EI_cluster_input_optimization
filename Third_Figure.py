@@ -11,7 +11,7 @@ plt.rcParams.update({
     'xtick.labelsize': 22,
     'ytick.labelsize': 22,
     'legend.fontsize': 24,
-    'lines.linewidth': 4,  # Linienbreite
+    'lines.linewidth': 2,  # Linienbreite
     'figure.titlesize': 26
 })
 
@@ -163,14 +163,14 @@ fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=20, frameon=Fal
 x_position = 0.06  # Einheitliche x-Position für alle Reihen
 
 # Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
-fig.text(x_position, 0.90, "(a)", fontsize=20, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.63, "(b)", fontsize=20, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.48, "(c)", fontsize=20, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.28, "(d)", fontsize=20, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.90, "(a)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.63, "(b)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.48, "(c)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.28, "(d)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
 
 
 
 plt.tight_layout(rect=[0.02, 0.05, 1, 0.95])
-plt.savefig("Third_Figure_test4.png", dpi=300)
+plt.savefig("Third_Figure_test5.png", dpi=300)
 
 
