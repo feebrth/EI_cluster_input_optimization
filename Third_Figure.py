@@ -5,14 +5,14 @@ from FF_Sim import simulate_model, calculate_baseline_and_delta
 
 # Globale Schriftgrößen-Einstellungen
 plt.rcParams.update({
-    'font.size': 24,
-    'axes.titlesize': 24,
-    'axes.labelsize': 22,
-    'xtick.labelsize': 20,
-    'ytick.labelsize': 20,
-    'legend.fontsize': 22,
-    'lines.linewidth': 2,  # Linienbreite
-    'figure.titlesize': 24
+    'font.size': 26,
+    'axes.titlesize': 26,
+    'axes.labelsize': 24,
+    'xtick.labelsize': 22,
+    'ytick.labelsize': 22,
+    'legend.fontsize': 24,
+    'lines.linewidth': 4,  # Linienbreite
+    'figure.titlesize': 26
 })
 
 
@@ -63,9 +63,9 @@ selected_rates = [trial.values[1] for trial in selected_trials]
 dx, dy = 0.005, 0.005  # Anpassung für die Position der Labels
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
     pareto_ax.scatter(ff, rate, color="red", s=60)
-    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=14, fontweight="bold", color="black")
+    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=18, fontweight="bold", color="black")
 
-pareto_ax.legend(fontsize=14)
+pareto_ax.legend(fontsize=18)
 
 # Initialisiere Achsen-Referenzen für gemeinsames Scaling
 axs_fr = None
