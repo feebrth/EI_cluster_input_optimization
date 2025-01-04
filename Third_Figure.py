@@ -170,7 +170,7 @@ fig.text(x_position, 0.25, "(d)", fontsize=24, fontweight="bold", ha="right", va
 
 
 
-plt.tight_layout(rect=[0.10, 0.02, 0.98, 0.98])
-plt.savefig("Third_Figure_test8.png", dpi=300)
+plt.tight_layout(rect=[0.20, 0.02, 0.98, 0.98])
+plt.savefig("Third_Figure_test9.png", dpi=300)
 
 
