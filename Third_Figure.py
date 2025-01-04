@@ -164,9 +164,9 @@ x_position = 0.015  # Einheitliche x-Position für alle Reihen
 
 # Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
 fig.text(x_position, 0.90, "(a)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.59, "(b)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.42, "(c)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.24, "(d)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.58, "(b)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.43, "(c)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.25, "(d)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
 
 
 
