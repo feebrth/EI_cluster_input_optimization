@@ -444,13 +444,13 @@ def plot_simulated_and_experimental_data(
         'lines.linewidth': 2,  # Einheitliche Linienbreite
         'figure.titlesize': 18
     })
-    fig, axs = plt.subplots(3, 2, figsize=(16, 12), sharex='col', gridspec_kw={'height_ratios': [0.5, 1, 1]})
-    labels = ['(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
-    positions = [(0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)]
-    tick_fontsize = 12
-    plt.subplots_adjust(left=0.08, right=0.95, top=0.92, bottom=0.08, hspace=0.4, wspace=0.4)
 
-    # Stimulus Kernel (first row, left and right)
+    # Figure erstellen
+    fig, axs = plt.subplots(3, 2, figsize=(16, 12), sharex='col', gridspec_kw={'height_ratios': [0.5, 1, 1]})
+    tick_fontsize = 12
+    plt.subplots_adjust(left=0.15, right=0.95, top=0.92, bottom=0.12, hspace=0.4, wspace=0.1)  # Weniger Abstand horizontal
+
+    # Stimulus Kernel (erste Zeile, links und rechts)
     if stim_kernel is not None and kernel_step is not None:
         stim_time_points = np.arange(0, len(stim_kernel) * kernel_step, kernel_step)
         aligned_stim_curve = np.zeros_like(time_axis_rates)
@@ -460,64 +460,77 @@ def plot_simulated_and_experimental_data(
             aligned_stim_curve[stim_start_idx:stim_end_idx] = stim
 
         axs[0, 0].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
-        #axs[0, 0].set_title('Stimulus Kernel', fontsize=16)
         axs[0, 0].set_ylabel('Amplitude', fontsize=16)
-        axs[0, 0].legend(fontsize=16)
+
         axs[0, 0].grid(True)
         axs[0, 0].tick_params(axis='both', labelsize=tick_fontsize)
 
         axs[0, 1].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
-        #axs[0, 1].set_title('Stimulus Kernel', fontsize=16)
-        axs[0, 1].legend(fontsize=16)
+
         axs[0, 1].grid(True)
         axs[0, 1].tick_params(axis='both', labelsize=tick_fontsize)
 
-    # Firing Rates (second row, left)
+    # Firing Rates (zweite Zeile, links)
     axs[1, 0].plot(time_axis_rates, simulated_rates, label='Simulated Firing Rates', color='green')
     axs[1, 0].plot(exp_time_rates, exp_rates, label='Experimental Firing Rates', linestyle='--', color='orange')
     axs[1, 0].set_ylabel('Firing Rate (spikes/s)', fontsize=16)
-    #axs[1, 0].set_title('Comparison of Firing Rates', fontsize=16)
-    axs[1, 0].legend(fontsize=16)
+
     axs[1, 0].grid(True)
     axs[1, 0].tick_params(axis='both', labelsize=tick_fontsize)
 
-    # Fano Factors (second row, right)
+    # Fano Factors (zweite Zeile, rechts)
     axs[1, 1].plot(time_axis_ff, simulated_ff, label='Simulated Fano Factors', color='blue')
     axs[1, 1].plot(exp_time_ff, exp_ff, label='Experimental Fano Factors', linestyle='--', color='red')
-    #axs[1, 1].set_title('Comparison of Fano Factors', fontsize=16)
-    axs[1, 1].legend(fontsize=16)
+
     axs[1, 1].grid(True)
     axs[1, 1].tick_params(axis='both', labelsize=tick_fontsize)
 
     if plot_delta:
-        # Delta Firing Rates (third row, left)
+        # Delta Firing Rates (dritte Zeile, links)
         axs[2, 0].plot(time_axis_rates, sim_delta_rates, label='Delta Simulated Firing Rates', color='green')
         axs[2, 0].plot(exp_time_rates, exp_delta_rates, label='Delta Experimental Firing Rates', linestyle='--', color='orange')
         axs[2, 0].set_xlabel('Time (ms)', fontsize=16)
         axs[2, 0].set_ylabel('Delta Firing Rate (spikes/s)', fontsize=16)
-        #axs[2, 0].set_title('Delta of Firing Rates', fontsize=16)
-        axs[2, 0].legend(fontsize=16)
+
         axs[2, 0].grid(True)
         axs[2, 0].tick_params(axis='both', labelsize=tick_fontsize)
 
-        # Delta Fano Factors (third row, right)
+        # Delta Fano Factors (dritte Zeile, rechts)
         axs[2, 1].plot(time_axis_ff, sim_delta_ff, label='Delta Simulated Fano Factors', color='blue')
         axs[2, 1].plot(exp_time_ff, exp_delta_ff, label='Delta Experimental Fano Factors', linestyle='--', color='red')
         axs[2, 1].set_xlabel('Time (ms)', fontsize=16)
-        #axs[2, 1].set_title('Delta of Fano Factors', fontsize=16)
-        axs[2, 1].legend(fontsize=16)
+
         axs[2, 1].grid(True)
         axs[2, 1].tick_params(axis='both', labelsize=tick_fontsize)
 
-    for i, (row, col) in enumerate(positions):
-        axs[row, col].text(
-            -0.1, 1.1, labels[i], transform=axs[row, col].transAxes,
-            fontsize=14, fontweight='bold', va='top', ha='left'
-        )
+    # Nummerierung der Subplots
+    labels = ['(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
+    for i, ax in enumerate(axs.flat):
+        bbox = ax.get_position()
+        x = bbox.x0 - 0.07 if i % 2 == 0 else bbox.x0 - 0.04  # Links von linker oder rechter Spalte
+        y = bbox.y1  # Oben an jedem Subplot
+        fig.text(x, y, labels[i], fontsize=14, fontweight="bold", ha="right", va="center")
 
-    # Adjust layout
-    plt.tight_layout()
-    plt.savefig("Optimal_FR_corr.FF.png")
+    # Legende zentriert unterhalb der Figure
+    handles = [
+        plt.Line2D([0], [0], color="blue", lw=2, label="Simulated Fano Factors"),
+        plt.Line2D([0], [0], color="red", linestyle="--", lw=2, label="Experimental Fano Factors"),
+        plt.Line2D([0], [0], color="green", lw=2, label="Simulated Firing Rates"),
+        plt.Line2D([0], [0], color="orange", linestyle="--", lw=2, label="Experimental Firing Rates"),
+    ]
+    fig.legend(
+        handles=handles,
+        loc="lower center",
+        bbox_to_anchor=(0.5, -0.01),  # Vertikale Position (-0.01 ist näher an der Figure)
+        ncol=2,
+        fontsize=14
+    )
+
+    # Layout anpassen
+    plt.subplots_adjust(left=0.15, right=0.95, top=0.92, bottom=0.20, hspace=0.4, wspace=0.2)
+
+    # Figure speichern
+    plt.savefig("Optimal_FR_corr.FF.png", dpi=300)
     plt.show()
 
 
@@ -537,8 +550,8 @@ if __name__ == "__main__":
 
     (sim_fano_factors, sim_firing_rates, time_axis_ff,
      time_axis_rates, exp_time_ff, exp_ff, exp_time_rates, exp_rates, penalty_ff, penalty_rates) = simulate_model(
-        experimental_trials=60,
-        direction_range=[0, 1, 2, 3, 4, 5],
+        experimental_trials=5,
+        direction_range=[0, 1, 2],
         stim_kernel=stim_kernel,
         kernel_step=kernel_step,
         use_delta=True,
