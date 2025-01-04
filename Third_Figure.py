@@ -160,7 +160,7 @@ fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=20, frameon=Fal
 
 # Nummerierung der Subplot-Reihen hinzufügen
 # Einheitliche x-Position für alle Reihen-Nummerierungen
-x_position = 0.30  # Einheitliche x-Position für alle Reihen
+x_position = 0.15  # Einheitliche x-Position für alle Reihen
 
 # Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
 fig.text(x_position, 0.90, "(a)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
