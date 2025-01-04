@@ -141,7 +141,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         axs_ff.set_ylabel(r'$\Delta$ FF',)
     else:
         axs_ff.yaxis.set_tick_params(labelleft=False)
-    axs_ff.set_xlabel("Time (ms)", fontsize=20, labelpad=15)
+    axs_ff.set_xlabel("Time (ms)", fontsize=24, labelpad=15)
 
 # Legende mit Gruppierung
 # Gruppenbasierte Legende für Simulated und Experimental
@@ -155,7 +155,7 @@ handles = [
 ]
 
 # Legende mit Gruppierung hinzufügen
-fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=20, frameon=False, bbox_to_anchor=(0.5, -0.01))
+fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=24, frameon=False, bbox_to_anchor=(0.5, -0.01))
 
 
 # Nummerierung der Subplot-Reihen hinzufügen
