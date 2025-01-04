@@ -160,7 +160,7 @@ fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=20, frameon=Fal
 
 # Nummerierung der Subplot-Reihen hinzufügen
 # Einheitliche x-Position für alle Reihen-Nummerierungen
-x_position = 0.025  # Einheitliche x-Position für alle Reihen
+x_position = 0.03  # Einheitliche x-Position für alle Reihen
 
 # Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
 fig.text(x_position, 0.90, "(a)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
@@ -171,6 +171,6 @@ fig.text(x_position, 0.25, "(d)", fontsize=24, fontweight="bold", ha="right", va
 
 
 plt.tight_layout(rect=[0.10, 0.02, 0.98, 0.98])
-plt.savefig("Third_Figure_test9.png", dpi=300)
+plt.savefig("Third_Figure_test91.png", dpi=300)
 
 
