@@ -2,7 +2,7 @@ import optuna
 from optuna.visualization import plot_pareto_front
 
 # Lade die Studie
-study = optuna.load_study(study_name="4_RS", storage="mysql://optuna:password@127.0.0.1:3306/optuna_db")
+study = optuna.load_study(study_name="GP_24", storage="mysql://optuna:password@127.0.0.1:3306/optuna_db")
 
 # Pareto-Front-Plot generieren
 fig = plot_pareto_front(study)
