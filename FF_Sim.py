@@ -504,12 +504,18 @@ def plot_simulated_and_experimental_data(
         axs[2, 1].tick_params(axis='both', labelsize=tick_fontsize)
 
     # Nummerierung der Subplots
+    # Nummerierung der Subplots
     labels = ['(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
+    row_offsets = [1.05, 1.05, 1.05]  # Vertikale Höhe für jede Zeile relativ zum Plot
+    horizontal_offset = -0.15  # Horizontaler Abstand für die Nummerierung (mehr nach links)
+
     for i, ax in enumerate(axs.flat):
-        bbox = ax.get_position()
-        x = bbox.x0 - 0.07 if i % 2 == 0 else bbox.x0 - 0.04  # Links von linker oder rechter Spalte
-        y = bbox.y1  # Oben an jedem Subplot
-        fig.text(x, y, labels[i], fontsize=14, fontweight="bold", ha="right", va="center")
+        row_index = i // 2  # Zeilenindex bestimmen
+        ax.text(
+            horizontal_offset, row_offsets[row_index], labels[i],
+            transform=ax.transAxes, fontsize=16, fontweight='bold',
+            va='center', ha='left'
+        )
 
     # Legende zentriert unterhalb der Figure
     handles = [
@@ -521,16 +527,16 @@ def plot_simulated_and_experimental_data(
     fig.legend(
         handles=handles,
         loc="lower center",
-        bbox_to_anchor=(0.5, -0.01),  # Vertikale Position (-0.01 ist näher an der Figure)
+        bbox_to_anchor=(0.5, 0.0),  # Vertikale Position (-0.01 ist näher an der Figure)
         ncol=2,
         fontsize=14
     )
 
     # Layout anpassen
-    plt.subplots_adjust(left=0.15, right=0.95, top=0.92, bottom=0.20, hspace=0.4, wspace=0.2)
+    plt.subplots_adjust(left=0.10, right=0.95, top=0.92, bottom=0.12, hspace=0.1, wspace=0.2)
 
     # Figure speichern
-    plt.savefig("Optimal_FR_corr.FF.png", dpi=300)
+    plt.savefig("Optimal_FR_corr.FF4.png", dpi=300)
     plt.show()
 
 
