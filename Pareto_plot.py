@@ -21,15 +21,16 @@ from optuna.visualization import plot_pareto_front
 import optuna
 
 # Verbindung zur Datenbank herstellen
-storage = optuna.storages.RDBStorage("mysql://optuna:password@127.0.0.1:3306/optuna_db")
+storage = "mysql://optuna:password@127.0.0.1:3306/optuna_db"
 
-# Alle Studien auflisten
-study_summaries = storage.get_all_study_summaries()
-
-# Studiennamen ausgeben
-if study_summaries:
-    print("Studien in der Datenbank:")
-    for summary in study_summaries:
-        print(f"- Study ID: {summary.study_id}, Name: {summary.study_name}")
-else:
-    print("Keine Studien in der Datenbank gefunden.")
+# Studien aus der Datenbank abrufen
+try:
+    summaries = optuna.get_all_study_summaries(storage=storage)
+    if summaries:
+        print("Studien in der Datenbank:")
+        for summary in summaries:
+            print(f"- Study ID: {summary.study_id}, Name: {summary.study_name}")
+    else:
+        print("Keine Studien in der Datenbank gefunden.")
+except Exception as e:
+    print(f"Fehler beim Abrufen der Studien: {e}")
