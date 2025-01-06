@@ -156,6 +156,7 @@ handles = [
 
 # Legende mit Gruppierung hinzufügen
 fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=24, frameon=True, framealpha=1, edgecolor='black', bbox_to_anchor=(0.5, 0.0))
+leg.set_bbox_to_anchor((0.5, -0.02))
 
 
 # Nummerierung der Subplot-Reihen hinzufügen
@@ -163,10 +164,10 @@ fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=24, frameon=Tru
 x_position = 0.06  # Einheitliche x-Position für alle Reihen
 
 # Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
-fig.text(x_position, 0.90, "(a)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.58, "(b)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.43, "(c)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.25, "(d)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.94, "(a)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.62, "(b)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.47, "(c)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.29, "(d)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
 
 
 
