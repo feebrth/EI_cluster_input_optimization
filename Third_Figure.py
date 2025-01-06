@@ -69,8 +69,8 @@ for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
         pareto_ax.scatter(ff, rate, color="red", s=60, label='Selected Trials')
     else:
         pareto_ax.scatter(ff, rate, color="red", s=60)  # Kein Label für weitere Punkte
-    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=18, fontweight="bold", color="black")
-pareto_ax.legend(fontsize=18)
+    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=20, fontweight="bold", color="black")
+pareto_ax.legend(fontsize=20)
 
 # Initialisiere Achsen-Referenzen für gemeinsames Scaling
 axs_fr = None
@@ -177,6 +177,6 @@ fig.text(x_position, 0.30, "(d)", fontsize=24, fontweight="bold", ha="right", va
 
 
 plt.tight_layout(rect=[0.10, 0.07, 0.98, 0.98])
-plt.savefig("Third_Figure_test95.png", dpi=300)
+plt.savefig("Third_Figure_test96.png", dpi=300)
 
 
