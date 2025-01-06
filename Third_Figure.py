@@ -54,6 +54,9 @@ pareto_ax.set_xlabel("Loss FF")
 pareto_ax.set_ylabel("Loss Rates")
 #pareto_ax.set_title("Pareto-Front")
 pareto_ax.grid(alpha=0.3)
+# Erstelle die Legende
+pareto_ax.legend(fontsize=20)  # Passe die Schriftgröße hier an
+
 
 # Markiere die ausgewählten Trials und nummeriere sie
 labels = ['a', 'b', 'c', 'd', 'e']
