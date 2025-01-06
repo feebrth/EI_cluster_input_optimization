@@ -49,7 +49,7 @@ grid = fig.add_gridspec(5, 5, left=0.10, right= 0.95, top=0.98, bottom=0.15, hei
 
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
-pareto_ax.scatter(loss_ff, loss_rates, color="blue", label="Trials", alpha=0.8)
+pareto_ax.scatter(loss_ff, loss_rates, color="blue", label='Trials', alpha=0.8)
 pareto_ax.set_xlabel("Loss FF")
 pareto_ax.set_ylabel("Loss Rates")
 #pareto_ax.set_title("Pareto-Front")
@@ -62,7 +62,7 @@ selected_rates = [trial.values[1] for trial in selected_trials]
 
 dx, dy = 0.005, 0.005  # Anpassung für die Position der Labels
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
-    pareto_ax.scatter(ff, rate, color="red", s=60)
+    pareto_ax.scatter(ff, rate, color="red", label= 'Selected Trials' s=60)
     pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=20, fontweight="bold", color="black")
 
 pareto_ax.legend(fontsize=18)
@@ -151,7 +151,7 @@ handles = [
     plt.Line2D([0], [0], color="green", lw=2, label=r"Sim. $\Delta$ FR"),
     plt.Line2D([0], [0], color="red", lw=2, label=r"Exp. $\Delta$ FR"),
     plt.Line2D([0], [0], color="black", lw=2, label="Stim. Amp."),
-    plt.Line2D([0], [0], color="blue", lw=0, marker="o", label="Trials"),
+    #plt.Line2D([0], [0], color="blue", lw=0, marker="o", label="Trials"),
 ]
 
 # Legende mit Gruppierung hinzufügen

@@ -519,10 +519,11 @@ def plot_simulated_and_experimental_data(
 
     # Legende zentriert unterhalb der Figure
     handles = [
-        plt.Line2D([0], [0], color="blue", lw=2, label="Simulated Fano Factors"),
-        plt.Line2D([0], [0], color="red", linestyle="--", lw=2, label="Experimental Fano Factors"),
-        plt.Line2D([0], [0], color="green", lw=2, label="Simulated Firing Rates"),
-        plt.Line2D([0], [0], color="orange", linestyle="--", lw=2, label="Experimental Firing Rates"),
+        plt.Line2D([0], [0], color="green", lw=2, label="Sim. Firing Rates"),
+        plt.Line2D([0], [0], color="orange", linestyle="--", lw=2, label="Exp. Firing Rates"),
+        plt.Line2D([0], [0], color="blue", lw=2, label="Sim. Fano Factors"),
+        plt.Line2D([0], [0], color="red", linestyle="--", lw=2, label="Exp. Fano Factors"),
+
     ]
     fig.legend(
         handles=handles,
