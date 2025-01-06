@@ -63,7 +63,7 @@ selected_rates = [trial.values[1] for trial in selected_trials]
 dx, dy = 0.005, 0.005  # Anpassung für die Position der Labels
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
     pareto_ax.scatter(ff, rate, color="red", s=60)
-    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=19, fontweight="bold", color="black")
+    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=20, fontweight="bold", color="black")
 
 pareto_ax.legend(fontsize=18)
 
@@ -155,7 +155,7 @@ handles = [
 ]
 
 # Legende mit Gruppierung hinzufügen
-fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=24, frameon=True, framealpha=1, edgecolor='black', bbox_to_anchor=(0.5, -0.02))
+fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=24, frameon=True, framealpha=1, edgecolor='black', bbox_to_anchor=(0.5, 0.01))
 
 
 # Nummerierung der Subplot-Reihen hinzufügen
