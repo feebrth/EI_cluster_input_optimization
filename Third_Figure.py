@@ -62,9 +62,11 @@ selected_rates = [trial.values[1] for trial in selected_trials]
 
 dx, dy = 0.005, 0.005  # Anpassung für die Position der Labels
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
-    pareto_ax.scatter(ff, rate, color="red", label= 'Selected Trials', s=60)
-    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=20, fontweight="bold", color="black")
-
+    if i == 0:  # Label nur für den ersten Punkt setzen
+        pareto_ax.scatter(ff, rate, color="red", s=60, label='Selected Trials')
+    else:
+        pareto_ax.scatter(ff, rate, color="red", s=60)  # Kein Label für weitere Punkte
+    pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=18, fontweight="bold", color="black")
 pareto_ax.legend(fontsize=18)
 
 # Initialisiere Achsen-Referenzen für gemeinsames Scaling
