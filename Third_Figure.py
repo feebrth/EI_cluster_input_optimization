@@ -8,8 +8,8 @@ plt.rcParams.update({
     'font.size': 26,
     'axes.titlesize': 26,
     'axes.labelsize': 24,
-    'xtick.labelsize': 22,
-    'ytick.labelsize': 22,
+    'xtick.labelsize': 23,
+    'ytick.labelsize': 23,
     'legend.fontsize': 24,
     'lines.linewidth': 2,  # Linienbreite
     'figure.titlesize': 26
@@ -49,7 +49,7 @@ grid = fig.add_gridspec(5, 5, left=0.10, right= 0.95, top=0.98, bottom=0.15, hei
 
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
-pareto_ax.scatter(loss_ff, loss_rates, color="blue", label='Trials', alpha=0.9)
+pareto_ax.scatter(loss_ff, loss_rates, color="blue", label='Trials', alpha=0.9, s= 70)
 pareto_ax.set_xlabel("Loss FF")
 pareto_ax.set_ylabel("Loss Rates")
 #pareto_ax.set_title("Pareto-Front")
@@ -66,9 +66,9 @@ selected_rates = [trial.values[1] for trial in selected_trials]
 dx, dy = 0.005, 0.005  # Anpassung für die Position der Labels
 for i, (ff, rate) in enumerate(zip(selected_ff, selected_rates)):
     if i == 0:  # Label nur für den ersten Punkt setzen
-        pareto_ax.scatter(ff, rate, color="red", s=60, label='Selected Trials')
+        pareto_ax.scatter(ff, rate, color="red", s=70, label='Selected Trials')
     else:
-        pareto_ax.scatter(ff, rate, color="red", s=60)  # Kein Label für weitere Punkte
+        pareto_ax.scatter(ff, rate, color="red", s=70)  # Kein Label für weitere Punkte
     pareto_ax.text(ff + dx, rate + dy, labels[i], fontsize=24, fontweight="bold", color="black")
 pareto_ax.legend(fontsize=24)
 
