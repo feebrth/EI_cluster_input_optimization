@@ -563,7 +563,7 @@ if __name__ == "__main__":
 
     (sim_fano_factors, sim_firing_rates, time_axis_ff,
      time_axis_rates, exp_time_ff, exp_ff, exp_time_rates, exp_rates, penalty_ff, penalty_rates) = simulate_model(
-        experimental_trials=5,
+        experimental_trials=60,
         direction_range=[0, 1, 2],
         stim_kernel=stim_kernel,
         kernel_step=kernel_step,
