@@ -18,6 +18,6 @@ conda activate Nest3
 
 
 # Run the Python script
-python Third_Figure.py
+python FF_Sim.py
 
 #srun --partition=all --nodes=1 --ntasks=1 --cpus-per-task=2 --mem=3G --time=05:00:00 --nodelist=agmn-srv-4 --pty bash

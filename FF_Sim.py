@@ -435,20 +435,20 @@ def plot_simulated_and_experimental_data(
     )
 
     plt.rcParams.update({
-        'font.size': 14,
+        'font.size': 18,
         'axes.titlesize': 16,
-        'axes.labelsize': 14,
-        'xtick.labelsize': 12,
-        'ytick.labelsize': 12,
-        'legend.fontsize': 12,
+        'axes.labelsize': 18,
+        'xtick.labelsize': 18,
+        'ytick.labelsize': 18,
+        'legend.fontsize': 18,
         'lines.linewidth': 2,  # Einheitliche Linienbreite
         'figure.titlesize': 18
     })
 
     # Figure erstellen
     fig, axs = plt.subplots(3, 2, figsize=(16, 12), sharex='col', gridspec_kw={'height_ratios': [0.5, 1, 1]})
-    tick_fontsize = 12
-    plt.subplots_adjust(left=0.15, right=0.95, top=0.92, bottom=0.12, hspace=0.4, wspace=0.1)  # Weniger Abstand horizontal
+    tick_fontsize = 15
+    plt.subplots_adjust(left=0.15, right=0.95, top=0.98, bottom=0.12, hspace=0.5, wspace=0.1)  # Weniger Abstand horizontal
 
     # Stimulus Kernel (erste Zeile, links und rechts)
     if stim_kernel is not None and kernel_step is not None:
@@ -460,20 +460,22 @@ def plot_simulated_and_experimental_data(
             aligned_stim_curve[stim_start_idx:stim_end_idx] = stim
 
         axs[0, 0].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
-        axs[0, 0].set_ylabel('Amplitude', fontsize=16)
+        axs[0, 0].set_ylabel('Stim. Amp. [pA]')
+
 
         axs[0, 0].grid(True)
         axs[0, 0].tick_params(axis='both', labelsize=tick_fontsize)
 
         axs[0, 1].plot(time_axis_rates, aligned_stim_curve, label="Stimulus Kernel", color="black")
+        axs[0, 1].set_ylabel('Stim. Amp. [pA]')
 
         axs[0, 1].grid(True)
         axs[0, 1].tick_params(axis='both', labelsize=tick_fontsize)
 
     # Firing Rates (zweite Zeile, links)
-    axs[1, 0].plot(time_axis_rates, simulated_rates, label='Simulated Firing Rates', color='green')
-    axs[1, 0].plot(exp_time_rates, exp_rates, label='Experimental Firing Rates', linestyle='--', color='orange')
-    axs[1, 0].set_ylabel('Firing Rate (spikes/s)', fontsize=16)
+    axs[1, 0].plot(time_axis_rates, simulated_rates, color='green')
+    axs[1, 0].plot(exp_time_rates, exp_rates, linestyle='--', color='orange')
+    axs[1, 0].set_ylabel('FR (spikes/s)')
 
     axs[1, 0].grid(True)
     axs[1, 0].tick_params(axis='both', labelsize=tick_fontsize)
@@ -481,6 +483,7 @@ def plot_simulated_and_experimental_data(
     # Fano Factors (zweite Zeile, rechts)
     axs[1, 1].plot(time_axis_ff, simulated_ff, label='Simulated Fano Factors', color='blue')
     axs[1, 1].plot(exp_time_ff, exp_ff, label='Experimental Fano Factors', linestyle='--', color='red')
+    axs[1, 1].set_ylabel('FF ')
 
     axs[1, 1].grid(True)
     axs[1, 1].tick_params(axis='both', labelsize=tick_fontsize)
@@ -489,32 +492,35 @@ def plot_simulated_and_experimental_data(
         # Delta Firing Rates (dritte Zeile, links)
         axs[2, 0].plot(time_axis_rates, sim_delta_rates, label='Delta Simulated Firing Rates', color='green')
         axs[2, 0].plot(exp_time_rates, exp_delta_rates, label='Delta Experimental Firing Rates', linestyle='--', color='orange')
-        axs[2, 0].set_xlabel('Time (ms)', fontsize=16)
-        axs[2, 0].set_ylabel('Delta Firing Rate (spikes/s)', fontsize=16)
+        axs[2, 0].set_xlabel('Time (ms)')
+        axs[2, 0].set_ylabel(r'$\Delta$ FR [spikes/s]')
 
         axs[2, 0].grid(True)
         axs[2, 0].tick_params(axis='both', labelsize=tick_fontsize)
 
         # Delta Fano Factors (dritte Zeile, rechts)
-        axs[2, 1].plot(time_axis_ff, sim_delta_ff, label='Delta Simulated Fano Factors', color='blue')
-        axs[2, 1].plot(exp_time_ff, exp_delta_ff, label='Delta Experimental Fano Factors', linestyle='--', color='red')
-        axs[2, 1].set_xlabel('Time (ms)', fontsize=16)
+        axs[2, 1].plot(time_axis_ff, sim_delta_ff,  color='blue')
+        axs[2, 1].plot(exp_time_ff, exp_delta_ff,  linestyle='--', color='red')
+        axs[2, 1].set_xlabel('Time (ms)')
+        axs[2, 1].set_ylabel(r'$\Delta$ FF')
 
         axs[2, 1].grid(True)
         axs[2, 1].tick_params(axis='both', labelsize=tick_fontsize)
 
     # Nummerierung der Subplots
     # Nummerierung der Subplots
-    labels = ['(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
-    row_offsets = [1.05, 1.05, 1.05]  # Vertikale Höhe für jede Zeile relativ zum Plot
-    horizontal_offset = -0.15  # Horizontaler Abstand für die Nummerierung (mehr nach links)
+    # Nummerierung der Subplots
+    labels = ['(a)', '(d)', '(e)', '(b)', '(c)', '(f)']
+    x_positions = [0.04, 0.51]  # Unterschiedliche x-Positionen für linke und rechte Spalte
+    row_offsets = [0.96, 0.78, 0.45]  # Y-Positionen für die Nummerierungen
 
-    for i, ax in enumerate(axs.flat):
-        row_index = i // 2  # Zeilenindex bestimmen
-        ax.text(
-            horizontal_offset, row_offsets[row_index], labels[i],
-            transform=ax.transAxes, fontsize=16, fontweight='bold',
-            va='center', ha='left'
+    # Schleife durch alle Subplots
+    for i, (label, y_pos) in enumerate(zip(labels, row_offsets * 2)):
+        col_index = i % 2  # Spaltenindex: 0 für linke Spalte, 1 für rechte Spalte
+        fig.text(
+            x_positions[col_index],  # Unterschiedliche x-Positionen je nach Spalte
+            y_pos, label,
+            fontsize=18, fontweight="bold", ha="right", va="center", rotation=0
         )
 
     # Legende zentriert unterhalb der Figure
@@ -530,15 +536,15 @@ def plot_simulated_and_experimental_data(
         loc="lower center",
         bbox_to_anchor=(0.5, 0.0),  # Vertikale Position (-0.01 ist näher an der Figure)
         ncol=2,
-        fontsize=14
+        fontsize=16
     )
 
     # Layout anpassen
-    plt.subplots_adjust(left=0.10, right=0.95, top=0.92, bottom=0.12, hspace=0.1, wspace=0.2)
+    plt.subplots_adjust(left=0.10, right=0.95, top=0.95, bottom=0.15, hspace=0.1, wspace=0.3)
 
     # Figure speichern
-    plt.savefig("Optimal_FR_corr.FF4.png", dpi=300)
-    plt.show()
+    plt.savefig("Optimal_FR_corr.FF6.png", dpi=300)
+
 
 
 # Hauptprogramm
