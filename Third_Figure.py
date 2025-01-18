@@ -119,7 +119,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.grid(alpha=0.3)
 
     if col == 0:
-        axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=25)
+        axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=30)
     else:
         axs_stim.yaxis.set_tick_params(labelleft=False)
 
@@ -146,7 +146,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=25)
     else:
         axs_ff.yaxis.set_tick_params(labelleft=False)
-    axs_ff.set_xlabel("Time (ms)", fontsize=25, labelpad=15)
+    axs_ff.set_xlabel("Time (ms)", fontsize=30, labelpad=15)
 
 # Legende mit Gruppierung
 # Gruppenbasierte Legende für Simulated und Experimental
