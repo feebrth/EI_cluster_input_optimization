@@ -50,8 +50,8 @@ grid = fig.add_gridspec(5, 5, left=0.10, right= 0.95, top=0.98, bottom=0.15, hei
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
 pareto_ax.scatter(loss_ff, loss_rates, color="blue", label='Trials', alpha=0.9, s= 70)
-pareto_ax.set_xlabel("Loss FF")
-pareto_ax.set_ylabel("Loss Rates")
+pareto_ax.set_xlabel("Loss FF", fontsize=25)
+pareto_ax.set_ylabel("Loss Rates", fontsize=25)
 #pareto_ax.set_title("Pareto-Front")
 pareto_ax.grid(alpha=0.3)
 # Erstelle die Legende
@@ -119,7 +119,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.grid(alpha=0.3)
 
     if col == 0:
-        axs_stim.set_ylabel("Stim. Amp. [pA]")
+        axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=25)
     else:
         axs_stim.yaxis.set_tick_params(labelleft=False)
 
@@ -131,7 +131,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_fr.grid(alpha=0.3)
 
     if col == 0:
-        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]')
+        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]', fontsize=25)
     else:
         axs_fr.yaxis.set_tick_params(labelleft=False)
 
@@ -143,10 +143,10 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_ff.grid(alpha=0.3)
 
     if col == 0:
-        axs_ff.set_ylabel(r'$\Delta$ FF',)
+        axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=25)
     else:
         axs_ff.yaxis.set_tick_params(labelleft=False)
-    axs_ff.set_xlabel("Time (ms)", fontsize=24, labelpad=15)
+    axs_ff.set_xlabel("Time (ms)", fontsize=25, labelpad=15)
 
 # Legende mit Gruppierung
 # Gruppenbasierte Legende für Simulated und Experimental
@@ -177,6 +177,6 @@ fig.text(x_position, 0.30, "(d)", fontsize=24, fontweight="bold", ha="right", va
 
 
 plt.tight_layout(rect=[0.10, 0.07, 0.98, 0.98])
-plt.savefig("Third_Figure_test97.png", dpi=300)
+plt.savefig("Third_Figure_test98.png", dpi=300)
 
 
