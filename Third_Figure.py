@@ -17,7 +17,7 @@ plt.rcParams.update({
 
 
 # Parameters for the Optuna study and simulation
-trials = 60
+trials = 5
 direction_range = [0,1,2]
 num_stimuli = 8
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
@@ -55,7 +55,7 @@ pareto_ax.set_ylabel("Loss Rates", fontsize=26)
 #pareto_ax.set_title("Pareto-Front")
 pareto_ax.grid(alpha=0.3)
 # Erstelle die Legende
-pareto_ax.legend(fontsize=24)  # Passe die Schriftgröße hier an
+pareto_ax.legend(fontsize=28)  # Passe die Schriftgröße hier an
 
 
 # Markiere die ausgewählten Trials und nummeriere sie
@@ -119,7 +119,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.grid(alpha=0.3)
 
     if col == 0:
-        axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=26)
+        axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=28)
     else:
         axs_stim.yaxis.set_tick_params(labelleft=False)
 
@@ -131,7 +131,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_fr.grid(alpha=0.3)
 
     if col == 0:
-        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]', fontsize=26)
+        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]', fontsize=28)
     else:
         axs_fr.yaxis.set_tick_params(labelleft=False)
 
@@ -143,7 +143,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_ff.grid(alpha=0.3)
 
     if col == 0:
-        axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=26)
+        axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=28)
     else:
         axs_ff.yaxis.set_tick_params(labelleft=False)
     axs_ff.set_xlabel("Time (ms)", fontsize=26, labelpad=15)
@@ -160,7 +160,7 @@ handles = [
 ]
 
 # Legende mit Gruppierung hinzufügen
-fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=24, frameon=True, framealpha=1, edgecolor='black', bbox_to_anchor=(0.5, 0.0))
+fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=26, frameon=True, framealpha=1, edgecolor='black', bbox_to_anchor=(0.5, 0.0))
 
 
 
