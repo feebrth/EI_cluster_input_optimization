@@ -169,14 +169,14 @@ fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=26, frameon=Tru
 x_position = 0.05  # Einheitliche x-Position für alle Reihen
 
 # Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
-fig.text(x_position, 0.99, "(a)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.64, "(b)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.49, "(c)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.30, "(d)", fontsize=24, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.99, "(a)", fontsize=26, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.64, "(b)", fontsize=26, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.49, "(c)", fontsize=26, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.30, "(d)", fontsize=26, fontweight="bold", ha="right", va="center", rotation=0)
 
 
 
 plt.tight_layout(rect=[0.10, 0.07, 0.98, 0.98])
-plt.savefig("Final_Third_Figure_fin.png", dpi=300)
+plt.savefig("Final_Third_Figure_fin2.png", dpi=300)
 
 
