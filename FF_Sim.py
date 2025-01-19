@@ -437,9 +437,9 @@ def plot_simulated_and_experimental_data(
     plt.rcParams.update({
         'font.size': 18,
         'axes.titlesize': 16,
-        'axes.labelsize': 18,
-        'xtick.labelsize': 18,
-        'ytick.labelsize': 18,
+        'axes.labelsize': 20,
+        'xtick.labelsize': 19,
+        'ytick.labelsize': 19,
         'legend.fontsize': 18,
         'lines.linewidth': 2,  # Einheitliche Linienbreite
         'figure.titlesize': 18
@@ -563,7 +563,7 @@ if __name__ == "__main__":
 
     (sim_fano_factors, sim_firing_rates, time_axis_ff,
      time_axis_rates, exp_time_ff, exp_ff, exp_time_rates, exp_rates, penalty_ff, penalty_rates) = simulate_model(
-        experimental_trials=60,
+        experimental_trials=5,
         direction_range=[0, 1, 2],
         stim_kernel=stim_kernel,
         kernel_step=kernel_step,

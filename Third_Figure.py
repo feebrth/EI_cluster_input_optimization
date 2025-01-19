@@ -17,7 +17,7 @@ plt.rcParams.update({
 
 
 # Parameters for the Optuna study and simulation
-trials = 5
+trials = 60
 direction_range = [0,1,2]
 num_stimuli = 8
 kernel_step = 2000 // num_stimuli  # 167 ms pro Stimulus
@@ -177,6 +177,6 @@ fig.text(x_position, 0.30, "(d)", fontsize=26, fontweight="bold", ha="right", va
 
 
 plt.tight_layout(rect=[0.10, 0.07, 0.98, 0.98])
-plt.savefig("Final_Third_Figure_fin3.png", dpi=300)
+plt.savefig("Final_Third_Figure_fin4.png", dpi=300)
 
 
