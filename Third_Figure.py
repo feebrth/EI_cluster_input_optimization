@@ -146,7 +146,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
         axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=28)
     else:
         axs_ff.yaxis.set_tick_params(labelleft=False)
-    axs_ff.set_xlabel("Time (ms)", fontsize=26, labelpad=15)
+    axs_ff.set_xlabel("Time (ms)", fontsize=28, labelpad=15)
 
 # Legende mit Gruppierung
 # Gruppenbasierte Legende für Simulated und Experimental
