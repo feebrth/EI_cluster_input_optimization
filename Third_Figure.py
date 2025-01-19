@@ -7,7 +7,7 @@ from FF_Sim import simulate_model, calculate_baseline_and_delta
 plt.rcParams.update({
     'font.size': 26,
     'axes.titlesize': 26,
-    'axes.labelsize': 25,
+    'axes.labelsize': 28,
     'xtick.labelsize': 24,
     'ytick.labelsize': 24,
     'legend.fontsize': 24,
