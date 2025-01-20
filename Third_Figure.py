@@ -50,8 +50,8 @@ grid = fig.add_gridspec(5, 5, left=0.10, right= 0.95, top=0.98, bottom=0.15, hei
 # Pareto-Front-Plot
 pareto_ax = fig.add_subplot(grid[0, :])
 pareto_ax.scatter(loss_ff, loss_rates, color="blue", label='Trials', alpha=0.9, s= 70)
-pareto_ax.set_xlabel("Loss FF", fontsize=30)
-pareto_ax.set_ylabel("Loss Rates", fontsize=30)
+pareto_ax.set_xlabel("Loss FF", fontsize=32)
+pareto_ax.set_ylabel("Loss Rates", fontsize=32)
 #pareto_ax.set_title("Pareto-Front")
 pareto_ax.grid(alpha=0.3)
 # Erstelle die Legende
@@ -119,7 +119,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.grid(alpha=0.3)
 
     if col == 0:
-        axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=30)
+        axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=32)
     else:
         axs_stim.yaxis.set_tick_params(labelleft=False)
 
@@ -131,7 +131,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_fr.grid(alpha=0.3)
 
     if col == 0:
-        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]', fontsize=30)
+        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]', fontsize=32)
     else:
         axs_fr.yaxis.set_tick_params(labelleft=False)
 
@@ -143,10 +143,10 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_ff.grid(alpha=0.3)
 
     if col == 0:
-        axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=30)
+        axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=32)
     else:
         axs_ff.yaxis.set_tick_params(labelleft=False)
-    axs_ff.set_xlabel("Time (ms)", fontsize=28, labelpad=15)
+    axs_ff.set_xlabel("Time (ms)", fontsize=30, labelpad=15)
 
 # Legende mit Gruppierung
 # Gruppenbasierte Legende für Simulated und Experimental
@@ -160,7 +160,7 @@ handles = [
 ]
 
 # Legende mit Gruppierung hinzufügen
-fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=26, frameon=True, framealpha=1, edgecolor='black', bbox_to_anchor=(0.5, 0.0))
+fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=28, frameon=True, framealpha=1, edgecolor='black', bbox_to_anchor=(0.5, 0.0))
 
 
 
@@ -169,10 +169,10 @@ fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=26, frameon=Tru
 x_position = 0.05  # Einheitliche x-Position für alle Reihen
 
 # Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
-fig.text(x_position, 0.99, "(a)", fontsize=26, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.64, "(b)", fontsize=26, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.49, "(c)", fontsize=26, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.30, "(d)", fontsize=26, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.99, "(a)", fontsize=28, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.64, "(b)", fontsize=28, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.49, "(c)", fontsize=28, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.30, "(d)", fontsize=28, fontweight="bold", ha="right", va="center", rotation=0)
 
 
 
