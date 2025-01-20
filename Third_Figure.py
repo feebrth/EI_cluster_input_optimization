@@ -8,8 +8,8 @@ plt.rcParams.update({
     'font.size': 26,
     'axes.titlesize': 26,
     'axes.labelsize': 28,
-    'xtick.labelsize': 24,
-    'ytick.labelsize': 24,
+    'xtick.labelsize': 26,
+    'ytick.labelsize': 26,
     'legend.fontsize': 24,
     'lines.linewidth': 2,  # Linienbreite
     'figure.titlesize': 26
@@ -169,10 +169,10 @@ fig.legend(handles=handles, loc="lower center", ncol=3, fontsize=28, frameon=Tru
 x_position = 0.05  # Einheitliche x-Position für alle Reihen
 
 # Nummerierung der Subplot-Reihen mit fig.text() für globale Ausrichtung
-fig.text(x_position, 0.99, "(a)", fontsize=28, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.64, "(b)", fontsize=28, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.49, "(c)", fontsize=28, fontweight="bold", ha="right", va="center", rotation=0)
-fig.text(x_position, 0.30, "(d)", fontsize=28, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.99, "(a)", fontsize=29, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.64, "(b)", fontsize=29, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.49, "(c)", fontsize=29, fontweight="bold", ha="right", va="center", rotation=0)
+fig.text(x_position, 0.30, "(d)", fontsize=29, fontweight="bold", ha="right", va="center", rotation=0)
 
 
 
