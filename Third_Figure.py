@@ -119,7 +119,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_stim.grid(alpha=0.3)
 
     if col == 0:
-        axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=30)
+        axs_stim.set_ylabel("Stim. Amp. [pA]", fontsize=28)
     else:
         axs_stim.yaxis.set_tick_params(labelleft=False)
 
@@ -131,7 +131,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_fr.grid(alpha=0.3)
 
     if col == 0:
-        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]', fontsize=30)
+        axs_fr.set_ylabel(r'$\Delta$ FR [spikes/s]', fontsize=28)
     else:
         axs_fr.yaxis.set_tick_params(labelleft=False)
 
@@ -143,7 +143,7 @@ for col, (trial, label) in enumerate(zip(selected_trials, labels)):
     axs_ff.grid(alpha=0.3)
 
     if col == 0:
-        axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=30)
+        axs_ff.set_ylabel(r'$\Delta$ FF', fontsize=28)
     else:
         axs_ff.yaxis.set_tick_params(labelleft=False)
     axs_ff.set_xlabel("Time (ms)", fontsize=30, labelpad=15)
