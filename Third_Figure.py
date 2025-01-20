@@ -51,7 +51,7 @@ grid = fig.add_gridspec(5, 5, left=0.10, right= 0.95, top=0.98, bottom=0.15, hei
 pareto_ax = fig.add_subplot(grid[0, :])
 pareto_ax.scatter(loss_ff, loss_rates, color="blue", label='Trials', alpha=0.9, s= 70)
 pareto_ax.set_xlabel("Loss FF", fontsize=32)
-pareto_ax.set_ylabel("Loss Rates", fontsize=32)
+pareto_ax.set_ylabel("Loss Rates", fontsize=34)
 #pareto_ax.set_title("Pareto-Front")
 pareto_ax.grid(alpha=0.3)
 # Erstelle die Legende
