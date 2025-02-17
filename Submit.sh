@@ -4,7 +4,7 @@
 #SBATCH --error=logs/study_job_%A_%a.err
 #SBATCH --partition=all
 #SBATCH --nodes=1
-#SBATCH --nodelist=agmn-srv-4
+#SBATCH --nodelist=agmn-srv-1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=4G
