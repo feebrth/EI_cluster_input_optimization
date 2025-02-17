@@ -475,7 +475,7 @@ def plot_simulated_and_experimental_data(
     # Firing Rates (zweite Zeile, links)
     axs[1, 0].plot(time_axis_rates, simulated_rates, color='green')
     axs[1, 0].plot(exp_time_rates, exp_rates, linestyle='--', color='orange')
-    axs[1, 0].set_ylabel('FR (spikes/s)')
+    axs[1, 0].set_ylabel('FR [spikes/s]')
 
     axs[1, 0].grid(True)
     axs[1, 0].tick_params(axis='both', labelsize=tick_fontsize)
@@ -543,7 +543,7 @@ def plot_simulated_and_experimental_data(
     plt.subplots_adjust(left=0.10, right=0.95, top=0.95, bottom=0.15, hspace=0.1, wspace=0.3)
 
     # Figure speichern
-    plt.savefig("Optimal_FR_corr.FF6.png", dpi=300)
+    plt.savefig("Optimal_FR_corr.Fee.png", dpi=300)
 
 
 
