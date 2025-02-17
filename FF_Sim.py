@@ -492,7 +492,7 @@ def plot_simulated_and_experimental_data(
         # Delta Firing Rates (dritte Zeile, links)
         axs[2, 0].plot(time_axis_rates, sim_delta_rates, label='Delta Simulated Firing Rates', color='green')
         axs[2, 0].plot(exp_time_rates, exp_delta_rates, label='Delta Experimental Firing Rates', linestyle='--', color='orange')
-        axs[2, 0].set_xlabel('Time (ms)')
+        axs[2, 0].set_xlabel('Time [ms]')
         axs[2, 0].set_ylabel(r'$\Delta$ FR [spikes/s]')
 
         axs[2, 0].grid(True)
@@ -501,7 +501,7 @@ def plot_simulated_and_experimental_data(
         # Delta Fano Factors (dritte Zeile, rechts)
         axs[2, 1].plot(time_axis_ff, sim_delta_ff,  color='blue')
         axs[2, 1].plot(exp_time_ff, exp_delta_ff,  linestyle='--', color='red')
-        axs[2, 1].set_xlabel('Time (ms)')
+        axs[2, 1].set_xlabel('Time [ms]')
         axs[2, 1].set_ylabel(r'$\Delta$ FF')
 
         axs[2, 1].grid(True)
